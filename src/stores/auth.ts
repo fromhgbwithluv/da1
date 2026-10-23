@@ -875,10 +875,62 @@ export function exportDatabaseJSON() {
 // Cloud Database (Supabase) Synchronization Logic
 // -------------------------------------------------------------
 let isInternalSyncUpdate = false;
+let isCloudInitialized = false;
 let cloudSyncDebounceTimer: any = null;
 let realtimeUnsubscribe: (() => void) | null = null;
 let lastSyncedUsersSnapshot = '';
 let lastSyncedJobsSnapshot = '';
+
+/**
+ * Hợp nhất an toàn dữ liệu giữa LocalStorage và Supabase Cloud (tránh mất dữ liệu của cả 2 bên)
+ */
+function mergeDatabases(localDb: AppDatabase, remoteDb: AppDatabase): AppDatabase {
+  const userMap = new Map<string, UserProfile>();
+  for (const u of (remoteDb.users || [])) {
+    if (u && u.id) userMap.set(u.id, u);
+  }
+  for (const u of (localDb.users || [])) {
+    if (u && u.id) {
+      if (!userMap.has(u.id)) {
+        userMap.set(u.id, u);
+      } else {
+        const existing = userMap.get(u.id)!;
+        const localTime = new Date(u.updatedAt || 0).getTime();
+        const remoteTime = new Date(existing.updatedAt || 0).getTime();
+        if (localTime > remoteTime) {
+          userMap.set(u.id, u);
+        }
+      }
+    }
+  }
+
+  const jobMap = new Map<string, Job>();
+  for (const j of (remoteDb.jobs || [])) {
+    if (j && j.id) jobMap.set(j.id, j);
+  }
+  for (const j of (localDb.jobs || [])) {
+    if (j && j.id) {
+      if (!jobMap.has(j.id)) {
+        jobMap.set(j.id, j);
+      } else {
+        const existing = jobMap.get(j.id)!;
+        const localTime = new Date(j.createdAt || 0).getTime();
+        const remoteTime = new Date(existing.createdAt || 0).getTime();
+        if (localTime > remoteTime) {
+          jobMap.set(j.id, j);
+        }
+      }
+    }
+  }
+
+  return {
+    version: remoteDb.version || localDb.version || '2.0.0',
+    updatedAt: new Date().toISOString(),
+    activeUserId: localActiveUserId.get(),
+    users: Array.from(userMap.values()),
+    jobs: Array.from(jobMap.values()),
+  };
+}
 
 export async function initCloudDatabase() {
   if (typeof window === 'undefined') return;
@@ -886,28 +938,50 @@ export async function initCloudDatabase() {
   const connected = isSupabaseConfigured();
   isCloudConnected.set(connected);
 
-  if (!connected) return;
+  if (!connected) {
+    isCloudInitialized = true;
+    return;
+  }
 
   isCloudSyncing.set(true);
   try {
     const cloudDb = await fetchCloudDatabase();
+    const localDb = databaseStore.get();
+
+    const hasCloudData = cloudDb && ((cloudDb.users && cloudDb.users.length > 0) || (cloudDb.jobs && cloudDb.jobs.length > 0));
+    const hasLocalData = localDb && ((localDb.users && localDb.users.length > 0) || (localDb.jobs && localDb.jobs.length > 0));
+
     if (cloudDb && Array.isArray(cloudDb.users)) {
-      isInternalSyncUpdate = true;
-      // Preserve THIS device's own login session
-      const mySessionId = localActiveUserId.get();
-      databaseStore.set({
-        ...cloudDb,
-        activeUserId: mySessionId,
-      });
-      lastSyncedUsersSnapshot = JSON.stringify(cloudDb.users || []);
-      lastSyncedJobsSnapshot = JSON.stringify(cloudDb.jobs || []);
-      isInternalSyncUpdate = false;
+      if (hasCloudData) {
+        // Cloud đã có dữ liệu: Gộp an toàn với dữ liệu Local
+        const mergedDb = mergeDatabases(localDb, cloudDb);
+        isInternalSyncUpdate = true;
+        databaseStore.set(mergedDb);
+        lastSyncedUsersSnapshot = JSON.stringify(mergedDb.users || []);
+        lastSyncedJobsSnapshot = JSON.stringify(mergedDb.jobs || []);
+        isInternalSyncUpdate = false;
+
+        // Nếu máy local có dữ liệu mới mà Cloud chưa có, cập nhật ngược lên Cloud
+        if (mergedDb.users.length > (cloudDb.users?.length || 0) || mergedDb.jobs.length > (cloudDb.jobs?.length || 0)) {
+          await pushCloudDatabase(mergedDb);
+        }
+      } else if (hasLocalData) {
+        // Cloud rỗng nhưng Local có dữ liệu: Đẩy dữ liệu Local lên Cloud
+        await pushCloudDatabase(localDb);
+        lastSyncedUsersSnapshot = JSON.stringify(localDb.users || []);
+        lastSyncedJobsSnapshot = JSON.stringify(localDb.jobs || []);
+      } else {
+        // Cả 2 đều mới tinh
+        lastSyncedUsersSnapshot = JSON.stringify(localDb.users || []);
+        lastSyncedJobsSnapshot = JSON.stringify(localDb.jobs || []);
+      }
     } else {
-      // First time initialization on Supabase: push local database
-      const current = databaseStore.get();
-      await pushCloudDatabase(current);
-      lastSyncedUsersSnapshot = JSON.stringify(current.users || []);
-      lastSyncedJobsSnapshot = JSON.stringify(current.jobs || []);
+      // Bản ghi trên Supabase chưa tạo: Tạo mới với dữ liệu Local nếu có
+      if (hasLocalData) {
+        await pushCloudDatabase(localDb);
+      }
+      lastSyncedUsersSnapshot = JSON.stringify(localDb.users || []);
+      lastSyncedJobsSnapshot = JSON.stringify(localDb.jobs || []);
     }
 
     if (realtimeUnsubscribe) {
@@ -917,7 +991,6 @@ export async function initCloudDatabase() {
     realtimeUnsubscribe = subscribeToCloudDatabase((remoteDb) => {
       if (remoteDb && Array.isArray(remoteDb.users)) {
         isInternalSyncUpdate = true;
-        // Keep THIS device's own login session!
         const mySessionId = localActiveUserId.get();
         databaseStore.set({
           ...remoteDb,
@@ -926,14 +999,13 @@ export async function initCloudDatabase() {
         lastSyncedUsersSnapshot = JSON.stringify(remoteDb.users || []);
         lastSyncedJobsSnapshot = JSON.stringify(remoteDb.jobs || []);
         isInternalSyncUpdate = false;
-        // Chạy ngầm hoàn toàn trong background, không hiện thông báo
       }
     });
   } catch (err: any) {
     console.error('[Cloud DB] Error initializing cloud database:', err);
-    showToast('Không thể kết nối đến máy chủ Cloud Database. Đang chạy ngoại tuyến.', 'remove');
   } finally {
     isCloudSyncing.set(false);
+    isCloudInitialized = true;
   }
 }
 
@@ -965,7 +1037,10 @@ export async function forceSyncFromCloud() {
         ...cloudDb,
         activeUserId: mySessionId,
       });
+      lastSyncedUsersSnapshot = JSON.stringify(cloudDb.users || []);
+      lastSyncedJobsSnapshot = JSON.stringify(cloudDb.jobs || []);
       isInternalSyncUpdate = false;
+      showToast('Đã tải dữ liệu mới nhất từ máy chủ Cloud!', 'success');
     } else {
       showToast('Không thể kết nối đến máy chủ Cloud Database!', 'remove');
     }
@@ -979,10 +1054,12 @@ export async function forceSyncFromCloud() {
 // Auto-sync subscription
 if (typeof window !== 'undefined') {
   databaseStore.subscribe((currentDb) => {
+    // KHÔNG BAO GIỜ đẩy dữ liệu lên Cloud trước khi hoàn tất fetch từ Cloud lúc mở trang!
+    if (!isCloudInitialized) return;
     if (isInternalSyncUpdate) return;
     if (!isSupabaseConfigured()) return;
 
-    // Chỉ đồng bộ khi users hoặc jobs thay đổi (bỏ qua khi chỉ activeUserId thay đổi khi login/logout)
+    // Chỉ đồng bộ khi users hoặc jobs thực sự thay đổi
     const usersStr = JSON.stringify(currentDb.users || []);
     const jobsStr = JSON.stringify(currentDb.jobs || []);
     if (usersStr === lastSyncedUsersSnapshot && jobsStr === lastSyncedJobsSnapshot) {
@@ -1002,8 +1079,6 @@ if (typeof window !== 'undefined') {
     }, 500);
   });
 
-  // Khởi chạy đồng bộ ngầm khi client mount
-  setTimeout(() => {
-    initCloudDatabase();
-  }, 100);
+  // Khởi chạy đồng bộ ngay khi load trang
+  initCloudDatabase();
 }

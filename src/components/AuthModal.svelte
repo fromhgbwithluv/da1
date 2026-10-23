@@ -266,27 +266,25 @@
               />
             </div>
 
-            <div>
-              <div class="flex items-center justify-between mb-1">
-                <label for="login-pass" class="block font-mono text-[11px] uppercase tracking-wide text-swiss-700">
-                  Mật khẩu *
-                </label>
-                <button
-                  type="button"
-                  onclick={() => { authModalTab.set('forgot'); forgotSubmitted = false; }}
-                  class="font-mono text-[10px] text-swiss-500 hover:text-black uppercase"
-                >
-                  Quên mật khẩu?
-                </button>
-              </div>
+            <div class="grid grid-cols-2 items-center gap-y-1">
+              <label for="login-pass" class="col-start-1 row-start-1 block font-mono text-[11px] uppercase tracking-wide text-swiss-700">
+                Mật khẩu *
+              </label>
               <input
                 type="password"
                 id="login-pass"
                 bind:value={loginPassword}
                 required
                 placeholder="••••••••"
-                class="w-full rounded-swiss-sm border border-swiss-300 px-3.5 py-2 text-xs font-medium text-black focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
+                class="col-span-2 row-start-2 w-full rounded-swiss-sm border border-swiss-300 px-3.5 py-2 text-xs font-medium text-black focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
               />
+              <button
+                type="button"
+                onclick={() => { authModalTab.set('forgot'); forgotSubmitted = false; }}
+                class="col-start-2 row-start-1 justify-self-end font-mono text-[10px] text-swiss-500 hover:text-black uppercase"
+              >
+                Quên mật khẩu?
+              </button>
             </div>
 
             <div class="pt-2 flex items-center justify-between border-t border-swiss-200">
