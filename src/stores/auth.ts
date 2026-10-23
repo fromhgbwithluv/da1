@@ -5,6 +5,12 @@ import type { Job } from '../types/job';
 import initialDb from '../data/database.json';
 import { showToast } from './toast';
 import { detectProvinceFromLocation, detectWardFromLocation, normalizeVietnamese } from '../data/provinces';
+import {
+  isSupabaseConfigured,
+  fetchCloudDatabase,
+  pushCloudDatabase,
+  subscribeToCloudDatabase
+} from '../lib/supabase';
 
 // Persistent JSON Database Atom (Key bumped to v2 for clean state without mock data)
 export const databaseStore = persistentAtom<AppDatabase>('topsivi_json_db_v2', initialDb as AppDatabase, {
@@ -19,6 +25,17 @@ export const isPostJobModalOpen = atom<boolean>(false);
 export const editingJob = atom<Job | null>(null);
 export const isUpgradeModalOpen = atom<boolean>(false);
 export const isApplicationHistoryOpen = atom<boolean>(false);
+export const isCloudConfigModalOpen = atom<boolean>(false);
+export const isCloudSyncing = atom<boolean>(false);
+export const isCloudConnected = atom<boolean>(false);
+
+export function openCloudConfigModal() {
+  isCloudConfigModalOpen.set(true);
+}
+
+export function closeCloudConfigModal() {
+  isCloudConfigModalOpen.set(false);
+}
 
 export function openApplicationHistoryModal() {
   const user = currentUser.get();
@@ -831,4 +848,105 @@ export function exportDatabaseJSON() {
   a.click();
   URL.revokeObjectURL(url);
   showToast('Đã tải file Database JSON về máy!', 'success');
+}
+
+// -------------------------------------------------------------
+// Cloud Database (Supabase) Synchronization Logic
+// -------------------------------------------------------------
+let isInternalSyncUpdate = false;
+let cloudSyncDebounceTimer: any = null;
+let realtimeUnsubscribe: (() => void) | null = null;
+
+export async function initCloudDatabase() {
+  if (typeof window === 'undefined') return;
+
+  const connected = isSupabaseConfigured();
+  isCloudConnected.set(connected);
+
+  if (!connected) return;
+
+  isCloudSyncing.set(true);
+  try {
+    const cloudDb = await fetchCloudDatabase();
+    if (cloudDb && Array.isArray(cloudDb.users)) {
+      isInternalSyncUpdate = true;
+      databaseStore.set(cloudDb);
+      isInternalSyncUpdate = false;
+      console.log('[Cloud DB] Đồng bộ thành công dữ liệu từ Supabase Cloud!');
+    } else {
+      // First time initialization on Supabase: push local database
+      await pushCloudDatabase(databaseStore.get());
+    }
+
+    if (realtimeUnsubscribe) {
+      realtimeUnsubscribe();
+    }
+
+    realtimeUnsubscribe = subscribeToCloudDatabase((remoteDb) => {
+      if (remoteDb && Array.isArray(remoteDb.users)) {
+        console.log('[Cloud DB] Nhận được cập nhật Realtime từ thiết bị khác');
+        isInternalSyncUpdate = true;
+        databaseStore.set(remoteDb);
+        isInternalSyncUpdate = false;
+        showToast('Đã đồng bộ dữ liệu mới nhất từ thiết bị khác!', 'info');
+      }
+    });
+  } catch (err) {
+    console.warn('[Cloud DB] Khởi tạo cloud database:', err);
+  } finally {
+    isCloudSyncing.set(false);
+  }
+}
+
+export async function forceSyncToCloud() {
+  if (!isSupabaseConfigured()) {
+    showToast('Chưa cấu hình Supabase Cloud!', 'remove');
+    return;
+  }
+  isCloudSyncing.set(true);
+  const ok = await pushCloudDatabase(databaseStore.get());
+  isCloudSyncing.set(false);
+  if (ok) {
+    showToast('Đã đẩy toàn bộ dữ liệu lên Cloud thành công!', 'success');
+  } else {
+    showToast('Lỗi khi đẩy dữ liệu lên Cloud!', 'remove');
+  }
+}
+
+export async function forceSyncFromCloud() {
+  if (!isSupabaseConfigured()) {
+    showToast('Chưa cấu hình Supabase Cloud!', 'remove');
+    return;
+  }
+  isCloudSyncing.set(true);
+  const cloudDb = await fetchCloudDatabase();
+  isCloudSyncing.set(false);
+  if (cloudDb && Array.isArray(cloudDb.users)) {
+    isInternalSyncUpdate = true;
+    databaseStore.set(cloudDb);
+    isInternalSyncUpdate = false;
+    showToast('Đã tải và cập nhật dữ liệu mới nhất từ Cloud!', 'success');
+  } else {
+    showToast('Không thể tải dữ liệu từ Cloud hoặc bảng trống!', 'remove');
+  }
+}
+
+// Auto-sync subscription
+if (typeof window !== 'undefined') {
+  databaseStore.subscribe((currentDb) => {
+    if (isInternalSyncUpdate) return;
+    if (!isSupabaseConfigured()) return;
+
+    if (cloudSyncDebounceTimer) clearTimeout(cloudSyncDebounceTimer);
+    cloudSyncDebounceTimer = setTimeout(async () => {
+      isCloudSyncing.set(true);
+      await pushCloudDatabase(currentDb);
+      isCloudSyncing.set(false);
+    }, 500);
+  });
+
+  // Khởi chạy đồng bộ khi client mount
+  setTimeout(() => {
+    initCloudDatabase();
+  }, 100);
 }
