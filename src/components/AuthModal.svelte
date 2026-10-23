@@ -607,7 +607,7 @@
                   <span class="font-mono text-xs font-black text-signal-crimson">[ TẠM THỜI KHÔNG HOẠT ĐỘNG ]</span>
                 </div>
                 <p class="font-mono text-xs text-swiss-800 leading-relaxed">
-                  Tính năng khôi phục mật khẩu tự động qua Email tạm thời chưa hoạt động. Vui lòng liên hệ bộ phận hỗ trợ kỹ thuật qua email <strong>hotro@topsivi.vn</strong> hoặc hotline <strong>1900 6868</strong> để được hỗ trợ cấp lại mật khẩu.
+                  Tính năng khôi phục mật khẩu tự động qua Email tạm thời chưa hoạt động. Vui lòng liên hệ bộ phận hỗ trợ kỹ thuật qua email <strong>admin@wherejourneybegins.web.id</strong> hoặc hotline <strong>1900 6868</strong> để được hỗ trợ cấp lại mật khẩu.
                 </p>
                 <div class="pt-2">
                   <button

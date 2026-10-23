@@ -5,8 +5,8 @@ import tailwind from '@astrojs/tailwind';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://fromhgbwithluv.github.io',
-  base: '/da1',
+  site: 'https://wherejourneybegins.web.id',
+  base: '/',
   integrations: [
     svelte(),
     tailwind({
