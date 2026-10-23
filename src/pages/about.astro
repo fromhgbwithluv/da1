@@ -1,0 +1,371 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// 5 Core Leaders data with initials and placeholder avatars
+const leaders = [
+  {
+    name: 'Hoàng Gia Bảo',
+    role: 'Founder & Chief Executive Officer (CEO)',
+    initials: 'HGB',
+    bg: 'bg-black text-white',
+    accent: 'border-black',
+    bio: 'Khởi xướng tầm nhìn TopSiVi với sứ mệnh bảo vệ quyền lợi sinh viên Việt Nam, định hướng chiến lược phát triển nền tảng và kết nối hệ sinh thái nhà trường - doanh nghiệp.',
+    tags: ['Chiến lược', 'Quản trị', 'Tầm nhìn'],
+  },
+  {
+    name: 'Triệu Sỹ Kha',
+    role: 'Co-Founder & Head of Product (CPO)',
+    initials: 'TSK',
+    bg: 'bg-neutral-900 text-white',
+    accent: 'border-neutral-900',
+    bio: 'Chịu trách nhiệm kiến tạo trải nghiệm người dùng, thiết kế hệ thống phân tầng sinh viên 3 nhóm và chuẩn hóa quy trình xác thực việc làm an toàn.',
+    tags: ['Sản phẩm', 'UI/UX', 'Phân tầng SV'],
+  },
+  {
+    name: 'Phạm Thanh Lộc',
+    role: 'Co-Founder & Head of Engineering (CTO)',
+    initials: 'PTL',
+    bg: 'bg-neutral-800 text-white',
+    accent: 'border-neutral-800',
+    bio: 'Kiến trúc sư hệ thống kỹ thuật, chịu trách nhiệm hạ tầng công nghệ, tối ưu hóa tốc độ tải trang theo chuẩn Swiss Style và an toàn bảo mật dữ liệu ứng viên.',
+    tags: ['Kỹ thuật', 'Hạ tầng', 'Bảo mật'],
+  },
+  {
+    name: 'Nguyễn Khắc Gia Kiên',
+    role: 'Co-Founder & Head of Operations (COO)',
+    initials: 'NGK',
+    bg: 'bg-neutral-950 text-white',
+    accent: 'border-black',
+    bio: 'Điều hành mạng lưới hỗ trợ sinh viên và doanh nghiệp, quản lý quy trình kiểm duyệt tin tuyển dụng nghiêm ngặt và hỗ trợ giải quyết sự cố 24/7.',
+    tags: ['Vận hành', 'Kiểm duyệt', 'CSKH 24/7'],
+  },
+  {
+    name: 'Nguyễn Gia Minh',
+    role: 'Co-Founder & Head of Partnerships (Growth)',
+    initials: 'NGM',
+    bg: 'bg-neutral-900 text-white',
+    accent: 'border-neutral-700',
+    bio: 'Phụ trách phát triển mạng lưới liên kết với hơn 327+ trường Đại học, Cao đẳng trên cả nước và thu hút các đối tác doanh nghiệp uy tín hàng đầu.',
+    tags: ['Hợp tác', 'Mạng lưới 327+ ĐH', 'Mở rộng'],
+  },
+];
+---
+
+<Layout
+  title="Về chúng tôi & Đội ngũ sáng lập | TopSiVi"
+  description="Tìm hiểu sứ mệnh, nguyên tắc hoạt động và đội ngũ 5 leader cốt cán sáng lập nền tảng việc làm phân tầng TopSiVi: Hoàng Gia Bảo, Triệu Sỹ Kha, Phạm Thanh Lộc, Nguyễn Khắc Gia Kiên, Nguyễn Gia Minh."
+  keywords="TopSiVi, về chúng tôi, sứ mệnh topsivi, Hoàng Gia Bảo, Triệu Sỹ Kha, Phạm Thanh Lộc, Nguyễn Khắc Gia Kiên, Nguyễn Gia Minh, việc làm sinh viên"
+>
+  <!-- Hero Banner (Swiss Grid Header) -->
+  <section class="border-b border-swiss-200 bg-white py-14 sm:py-20">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="max-w-3xl">
+            <div class="inline-block border border-black bg-swiss-50 px-3 py-1 mb-3 rounded-swiss-xs shadow-xs">
+              <span class="font-mono text-xs font-bold uppercase tracking-swiss-wide text-black">
+                [ 00 // ABOUT US & MISSION ]
+              </span>
+            </div>
+            <h1 class="text-3xl font-black text-black sm:text-5xl tracking-swiss-tight uppercase leading-tight">
+              Trao niềm tin • Nhận tài lộc
+            </h1>
+            <p class="mt-4 text-sm sm:text-base text-swiss-700 leading-relaxed">
+              TopSiVi được kiến tạo nhằm giải quyết triệt để vấn đề nhức nhối nhất của sinh viên khi tìm việc:
+              <strong>bẫy lừa đảo, đa cấp trá hình và thu tiền cọc bất hợp pháp</strong>.
+              Chúng tôi định hình lại thị trường tuyển dụng sinh viên bằng sự minh bạch tuyệt đối và mô hình phân tầng khoa học.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sứ Mệnh & Giá Trị Cốt Lõi (Mission Section) -->
+      <section class="border-b border-swiss-200 bg-swiss-50 py-16">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="mb-10 max-w-2xl">
+            <span class="font-mono text-xs font-bold uppercase tracking-wider text-swiss-500 block mb-1">
+              [ NGUYÊN TẮC HOẠT ĐỘNG // CORE PRINCIPLES ]
+            </span>
+            <h2 class="text-2xl font-black uppercase tracking-tight text-black sm:text-3xl">
+              Sứ mệnh bảo vệ 100% ứng viên sinh viên
+            </h2>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Box 1 -->
+            <div class="rounded-swiss-md border border-black bg-white p-6 shadow-swiss-card space-y-3">
+              <div class="flex h-10 w-10 items-center justify-center rounded-swiss-sm bg-black text-white font-mono font-bold text-xs">
+                01
+              </div>
+              <h3 class="text-base font-black uppercase tracking-tight text-black">
+                Cam kết 0 đồng cọc
+              </h3>
+              <p class="text-xs text-swiss-600 leading-relaxed font-mono">
+                Tuyệt đối không thu bất kỳ khoản phí nào từ sinh viên dưới mọi hình thức: không phí hồ sơ, không phí đào tạo, không tiền cọc đồng phục.
+              </p>
+            </div>
+
+            <!-- Box 2 -->
+            <div class="rounded-swiss-md border border-black bg-white p-6 shadow-swiss-card space-y-3">
+              <div class="flex h-10 w-10 items-center justify-center rounded-swiss-sm bg-signal-emerald text-white font-mono font-bold text-xs">
+                02
+              </div>
+              <h3 class="text-base font-black uppercase tracking-tight text-black">
+                100% Doanh nghiệp xác thực
+              </h3>
+              <p class="text-xs text-swiss-600 leading-relaxed font-mono">
+                Mọi nhà tuyển dụng trên TopSiVi đều phải cung cấp mã số thuế, địa chỉ trụ sở thực tế và người liên hệ rõ ràng trước khi được phép đăng tin.
+              </p>
+            </div>
+
+            <!-- Box 3 -->
+            <div class="rounded-swiss-md border border-black bg-white p-6 shadow-swiss-card space-y-3">
+              <div class="flex h-10 w-10 items-center justify-center rounded-swiss-sm bg-black text-white font-mono font-bold text-xs">
+                03
+              </div>
+              <h3 class="text-base font-black uppercase tracking-tight text-black">
+                Phân tầng đúng năng lực
+              </h3>
+              <p class="text-xs text-swiss-600 leading-relaxed font-mono">
+                Chia tách công việc khoa học theo 3 lộ trình: Part-time linh hoạt (Năm 1-2), Thực tập sinh có dấu mộc (Năm 3-4), và Fresher chuyên nghiệp (Mới tốt nghiệp).
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5 Leader Cốt Cán (Core Leadership Section) -->
+      <section class="border-b border-swiss-200 bg-white py-16 sm:py-20">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="mb-12 max-w-2xl">
+            <span class="font-mono text-xs font-bold uppercase tracking-wider text-swiss-500 block mb-1">
+              [ BAN LÃNH ĐẠO // LEADERSHIP TEAM ]
+            </span>
+            <h2 class="text-2xl font-black uppercase tracking-tight text-black sm:text-3xl">
+              5 Leader cốt cán sáng lập TopSiVi
+            </h2>
+            <p class="mt-2 text-xs sm:text-sm text-swiss-600 leading-relaxed font-mono">
+              Đội ngũ sáng lập đầy nhiệt huyết, kết hợp giữa tư duy công nghệ tiên tiến và mong muốn tạo dựng giá trị thực cho cộng đồng sinh viên Việt Nam.
+            </p>
+          </div>
+
+          <!-- Leaders Grid (Swiss Design Cards) -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {leaders.map((leader, index) => (
+              <div class="group rounded-swiss-md border border-swiss-300 bg-white p-6 shadow-swiss-card hover:border-black hover:shadow-swiss-hover transition-all flex flex-col justify-between">
+                <div>
+                  <!-- Header: Avatar placeholder & index badge -->
+                  <div class="flex items-start justify-between mb-4">
+                    <!-- Geometric Swiss Avatar Placeholder -->
+                    <div class="relative flex h-16 w-16 items-center justify-center rounded-swiss-md bg-black text-white font-mono font-black text-lg border-2 border-black shadow-swiss-card group-hover:scale-105 transition-transform">
+                      {leader.initials}
+                      <!-- Active indicator dot -->
+                      <span class="absolute -bottom-1 -right-1 h-3.5 w-3.5 rounded-full bg-signal-emerald border-2 border-white"></span>
+                    </div>
+
+                    <span class="font-mono text-xs font-bold text-swiss-400">
+                      0{index + 1} // LEADER
+                    </span>
+                  </div>
+
+                  <!-- Name and Role -->
+                  <h3 class="text-lg font-black uppercase tracking-tight text-black">
+                    {leader.name}
+                  </h3>
+                  <p class="font-mono text-[11px] font-bold text-signal-emerald uppercase tracking-wider mt-0.5">
+                    {leader.role}
+                  </p>
+
+                  <!-- Biography -->
+                  <p class="mt-3 text-xs text-swiss-600 leading-relaxed font-mono">
+                    {leader.bio}
+                  </p>
+                </div>
+
+                <!-- Expertise Tags -->
+                <div class="mt-4 pt-3 border-t border-swiss-100 flex flex-wrap gap-1.5 font-mono text-[10px]">
+                  {leader.tags.map((tag) => (
+                    <span class="bg-swiss-100 text-swiss-700 px-2 py-0.5 rounded-swiss-xs border border-swiss-200">
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+
+            <!-- 6th Special Card: Cộng Đồng & Sứ Mệnh -->
+            <div class="rounded-swiss-md border border-dashed border-black bg-swiss-50 p-6 flex flex-col justify-between">
+              <div>
+                <span class="font-mono text-xs font-black uppercase text-black block mb-2">
+                  [ GIA NHẬP ĐỘI NGŨ // JOIN US ]
+                </span>
+                <h3 class="text-base font-black uppercase tracking-tight text-black">
+                  Đồng hành cùng TopSiVi
+                </h3>
+                <p class="mt-2 text-xs text-swiss-600 leading-relaxed font-mono">
+                  Chúng tôi luôn mở rộng cơ hội cho các tài năng trẻ, giảng viên và đối tác doanh nghiệp cùng chung sứ mệnh phụng sự cộng đồng sinh viên.
+                </p>
+              </div>
+
+              <div class="mt-6">
+                <a
+                  href="#lien-he"
+                  class="inline-flex items-center gap-1.5 rounded-swiss-sm bg-black px-4 py-2 font-mono text-xs font-bold uppercase text-white hover:bg-neutral-800 transition-colors shadow-swiss-card"
+                >
+                  <span>Liên hệ hợp tác</span>
+                  <span>→</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Liên Hệ (Contact & Support Desk Section) -->
+      <section id="lien-he" class="bg-swiss-50 py-16 border-b border-swiss-200">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+            <!-- Left Info Column -->
+            <div class="space-y-6">
+              <div>
+                <span class="font-mono text-xs font-bold uppercase tracking-wider text-swiss-500 block mb-1">
+                  [ KÊNH LIÊN HỆ // CONTACT CHANNELS ]
+                </span>
+                <h2 class="text-2xl font-black uppercase tracking-tight text-black sm:text-3xl">
+                  Thông tin liên hệ & Hỗ trợ sinh viên
+                </h2>
+                <p class="mt-2 text-xs sm:text-sm text-swiss-600 leading-relaxed font-mono">
+                  Nếu bạn cần hỗ trợ về quy trình ứng tuyển, báo cáo tin tuyển dụng vi phạm hoặc thảo luận hợp tác doanh nghiệp, hãy kết nối ngay với chúng tôi.
+                </p>
+              </div>
+
+              <div class="space-y-4 font-mono text-xs">
+                <!-- Hotline -->
+                <div class="rounded-swiss-sm border border-swiss-300 bg-white p-4 shadow-xs">
+                  <span class="text-swiss-400 text-[10px] uppercase font-bold block">HOTLINE SINH VIÊN 24/7 //</span>
+                  <a href="tel:19006868" class="text-base font-black text-black hover:underline mt-0.5 block">
+                    1900 6868 • 024 7300 8888
+                  </a>
+                  <span class="text-[11px] text-swiss-500">Miễn phí cước gọi hỗ trợ sinh viên các trường</span>
+                </div>
+
+                <!-- Email -->
+                <div class="rounded-swiss-sm border border-swiss-300 bg-white p-4 shadow-xs">
+                  <span class="text-swiss-400 text-[10px] uppercase font-bold block">EMAIL HỖ TRỢ & HỢP TÁC //</span>
+                  <div class="mt-1 space-y-1">
+                    <div>
+                      <span class="text-swiss-500">Ứng viên: </span>
+                      <a href="mailto:lienhe@topsivi.vn" class="font-bold text-black hover:underline">lienhe@topsivi.vn</a>
+                    </div>
+                    <div>
+                      <span class="text-swiss-500">Doanh nghiệp: </span>
+                      <a href="mailto:doanhnghiep@topsivi.vn" class="font-bold text-black hover:underline">doanhnghiep@topsivi.vn</a>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Offices -->
+                <div class="rounded-swiss-sm border border-swiss-300 bg-white p-4 shadow-xs space-y-2">
+                  <span class="text-swiss-400 text-[10px] uppercase font-bold block">VĂN PHÒNG ĐIỀU HÀNH //</span>
+                  <div>
+                    <strong class="text-black font-bold block">HÀ NỘI:</strong>
+                    <span class="text-swiss-600">Tầng 8, Tòa nhà TopSiVi Tower, Phố Duy Tân, Phường Dịch Vọng Hậu, Quận Cầu Giấy, Hà Nội.</span>
+                  </div>
+                  <div>
+                    <strong class="text-black font-bold block">TP. HỒ CHÍ MINH:</strong>
+                    <span class="text-swiss-600">Tầng 12, Landmark Plus, Điện Biên Phủ, Phường 22, Quận Bình Thạnh, TP. Hồ Chí Minh.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Interactive Inquiry Box -->
+            <div class="rounded-swiss-md border border-black bg-white p-6 sm:p-8 shadow-swiss-card">
+              <div class="border-b border-black pb-3 mb-5">
+                <span class="font-mono text-xs font-black uppercase tracking-wider text-black block">
+                  [ GỬI YÊU CẦU HỖ TRỢ TRỰC TUYẾN ]
+                </span>
+                <p class="font-mono text-[11px] text-swiss-500 mt-1">
+                  Chúng tôi sẽ phản hồi qua email hoặc số điện thoại trong vòng tối đa 2 giờ làm việc.
+                </p>
+              </div>
+
+              <form class="space-y-4 font-mono text-xs" onsubmit="event.preventDefault(); alert('Cảm ơn bạn! Yêu cầu của bạn đã được gửi đến ban quản trị TopSiVi.');">
+                <div>
+                  <label for="contact-name" class="block text-[11px] uppercase tracking-wide text-swiss-700 mb-1">
+                    Họ và tên của bạn *
+                  </label>
+                  <input
+                    type="text"
+                    id="contact-name"
+                    required
+                    placeholder="Ví dụ: Nguyễn Văn An"
+                    class="w-full rounded-swiss-sm border border-swiss-300 px-3 py-2 text-xs font-sans text-black focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
+                  />
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label for="contact-email" class="block text-[11px] uppercase tracking-wide text-swiss-700 mb-1">
+                      Email liên hệ *
+                    </label>
+                    <input
+                      type="email"
+                      id="contact-email"
+                      required
+                      placeholder="an.nguyen@gmail.com"
+                      class="w-full rounded-swiss-sm border border-swiss-300 px-3 py-2 text-xs font-sans text-black focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
+                    />
+                  </div>
+                  <div>
+                    <label for="contact-phone" class="block text-[11px] uppercase tracking-wide text-swiss-700 mb-1">
+                      Số điện thoại
+                    </label>
+                    <input
+                      type="tel"
+                      id="contact-phone"
+                      placeholder="0912 345 678"
+                      class="w-full rounded-swiss-sm border border-swiss-300 px-3 py-2 text-xs font-sans text-black focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label for="contact-topic" class="block text-[11px] uppercase tracking-wide text-swiss-700 mb-1">
+                    Chủ đề cần hỗ trợ *
+                  </label>
+                  <select
+                    id="contact-topic"
+                    class="w-full rounded-swiss-sm border border-swiss-300 px-3 py-2 text-xs font-sans text-black focus:border-black focus:outline-none focus:ring-1 focus:ring-black bg-white"
+                  >
+                    <option value="student-help">Hỗ trợ ứng tuyển / tìm việc cho sinh viên</option>
+                    <option value="report-job">Báo cáo tin tuyển dụng có dấu hiệu vi phạm</option>
+                    <option value="company-partnership">Hợp tác đăng tin & nâng cấp tài khoản doanh nghiệp</option>
+                    <option value="university-cooperation">Hợp tác liên kết ngày hội việc làm Đại học</option>
+                    <option value="other">Chủ đề khác</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label for="contact-message" class="block text-[11px] uppercase tracking-wide text-swiss-700 mb-1">
+                    Nội dung tin nhắn *
+                  </label>
+                  <textarea
+                    id="contact-message"
+                    rows="4"
+                    required
+                    placeholder="Mô tả chi tiết câu hỏi hoặc vấn đề bạn cần TopSiVi giải đáp..."
+                    class="w-full rounded-swiss-sm border border-swiss-300 px-3 py-2 text-xs font-sans text-black focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
+                  ></textarea>
+                </div>
+
+                <button
+                  type="submit"
+                  class="w-full rounded-swiss-sm bg-black py-2.5 text-xs font-bold uppercase tracking-wider text-white hover:bg-neutral-800 transition-colors shadow-swiss-card"
+                >
+                  Gửi yêu cầu hỗ trợ ngay →
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+</Layout>

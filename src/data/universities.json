@@ -1,0 +1,2291 @@
+[
+  {
+    "id": 273,
+    "name": "ĐẠI HỌC BÁCH KHOA HÀ NỘI",
+    "code": "BKA",
+    "website": "https://www.hust.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=812"
+  },
+  {
+    "id": 128,
+    "name": "ĐẠI HỌC ĐÀ NẴNG",
+    "code": "E",
+    "website": "http://www.udn.vn",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=795"
+  },
+  {
+    "id": 129,
+    "name": "ĐẠI HỌC HUẾ",
+    "code": "D",
+    "website": "https://hueuni.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=699"
+  },
+  {
+    "id": 306,
+    "name": "ĐẠI HỌC KINH TẾ TP. HỒ CHÍ MINH",
+    "code": "KSA",
+    "website": "https://www.ueh.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=820"
+  },
+  {
+    "id": 130,
+    "name": "ĐẠI HỌC QUỐC GIA HÀ NỘI",
+    "code": "A",
+    "website": "https://www.vnu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=722"
+  },
+  {
+    "id": 131,
+    "name": "ĐẠI HỌC QUỐC GIA TP. HỒ CHÍ MINH",
+    "code": "C",
+    "website": "https://vnuhcm.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=731"
+  },
+  {
+    "id": 132,
+    "name": "ĐẠI HỌC THÁI NGUYÊN",
+    "code": "B",
+    "website": "http://www.tnu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=911"
+  },
+  {
+    "id": 279,
+    "name": "ĐẠI HỌC Y DƯỢC TP. HỒ CHÍ MINH",
+    "code": "YDS",
+    "website": "https://ump.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=875"
+  },
+  {
+    "id": 133,
+    "name": "HỌC VIỆN ÂM NHẠC HUẾ",
+    "code": "HVA",
+    "website": "http://hocvienamnhachue.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=685"
+  },
+  {
+    "id": 134,
+    "name": "HỌC VIỆN ÂM NHẠC QUỐC GIA VIỆT NAM",
+    "code": "NVH",
+    "website": "https://www.vnam.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=686"
+  },
+  {
+    "id": 224,
+    "name": "HỌC VIỆN BÁO CHÍ VÀ TUYÊN TRUYỀN",
+    "code": "HBT",
+    "website": "https://ajc.hcma.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=832"
+  },
+  {
+    "id": 135,
+    "name": "HỌC VIỆN CÁN BỘ THÀNH PHỐ HỒ CHÍ MINH",
+    "code": "HVC",
+    "website": "http://www.hocviencanbo.hochiminhcity.gov.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=774"
+  },
+  {
+    "id": 225,
+    "name": "HỌC VIỆN CHÍNH SÁCH VÀ PHÁT TRIỂN",
+    "code": "HCP",
+    "website": "http://apd.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=948"
+  },
+  {
+    "id": 121,
+    "name": "HỌC VIỆN CHÍNH TRỊ KHU VỰC I",
+    "code": "HCC",
+    "website": "https://hcma1.hcma.vn",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=835"
+  },
+  {
+    "id": 122,
+    "name": "HỌC VIỆN CHÍNH TRỊ QUỐC GIA HỒ CHÍ MINH",
+    "code": "HVH",
+    "website": "https://hcma.vn",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=836"
+  },
+  {
+    "id": 209,
+    "name": "HỌC VIỆN CÔNG NGHỆ BƯU CHÍNH VIỄN THÔNG",
+    "code": "BVH",
+    "website": "https://portal.ptit.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=787"
+  },
+  {
+    "id": 123,
+    "name": "HỌC VIỆN DÂN TỘC",
+    "code": "HVD",
+    "website": "https://hvdt.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=837"
+  },
+  {
+    "id": 240,
+    "name": "HỌC VIỆN HÀNG KHÔNG VIỆT NAM",
+    "code": "HHK",
+    "website": "https://vaa.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=975"
+  },
+  {
+    "id": 124,
+    "name": "HỌC VIỆN HÀNH CHÍNH QUỐC GIA",
+    "code": "HCH",
+    "website": "https://www1.napa.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=922"
+  },
+  {
+    "id": 125,
+    "name": "HỌC VIỆN KHOA HỌC VÀ CÔNG NGHỆ",
+    "code": "HKC",
+    "website": "http://gust.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=979"
+  },
+  {
+    "id": 126,
+    "name": "HỌC VIỆN KHOA HỌC XÃ HỘI",
+    "code": "HXH",
+    "website": "https://gass.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=708"
+  },
+  {
+    "id": 127,
+    "name": "HỌC VIỆN KHOA HỌC, CÔNG NGHỆ VÀ ĐỔI MỚI SÁNG TẠO",
+    "code": "V24",
+    "website": "http://visti.gov.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=933"
+  },
+  {
+    "id": 119,
+    "name": "HỌC VIỆN MÚA VIỆT NAM",
+    "code": "CMH",
+    "website": "https://www.vnad.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=687"
+  },
+  {
+    "id": 298,
+    "name": "HỌC VIỆN NGÂN HÀNG",
+    "code": "NHH",
+    "website": "https://www.hvnh.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=811"
+  },
+  {
+    "id": 170,
+    "name": "HỌC VIỆN NGOẠI GIAO",
+    "code": "HQT",
+    "website": "https://dav.edu.vn",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=775"
+  },
+  {
+    "id": 294,
+    "name": "HỌC VIỆN NÔNG NGHIỆP VIỆT NAM",
+    "code": "HVN",
+    "website": "https://vnua.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=879"
+  },
+  {
+    "id": 179,
+    "name": "HỌC VIỆN PHỤ NỮ VIỆT NAM",
+    "code": "HPN",
+    "website": "http://hvpnvn.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=802"
+  },
+  {
+    "id": 214,
+    "name": "HỌC VIỆN QUẢN LÝ GIÁO DỤC",
+    "code": "HVQ",
+    "website": "http://naem.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=964"
+  },
+  {
+    "id": 314,
+    "name": "HỌC VIỆN TÀI CHÍNH",
+    "code": "HTC",
+    "website": "https://hvtc.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=947"
+  },
+  {
+    "id": 107,
+    "name": "HỌC VIỆN THANH THIẾU NIÊN VIỆT NAM",
+    "code": "HTN",
+    "website": "http://vya.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=803"
+  },
+  {
+    "id": 120,
+    "name": "HỌC VIỆN TOÀ ÁN",
+    "code": "HTA",
+    "website": "http://hvta.toaan.gov.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=788"
+  },
+  {
+    "id": 241,
+    "name": "HỌC VIỆN Y DƯỢC HỌC CỔ TRUYỀN VIỆT NAM",
+    "code": "HYD",
+    "website": "http://vutm.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=866"
+  },
+  {
+    "id": 108,
+    "name": "NHẠC VIỆN TP. HỒ CHÍ MINH",
+    "code": "NVS",
+    "website": "http://hcmcons.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=688"
+  },
+  {
+    "id": 109,
+    "name": "Trường Cao đẳng Bắc Kạn",
+    "code": "C11",
+    "website": "http://cdbk.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1027"
+  },
+  {
+    "id": 110,
+    "name": "Trường Cao đẳng Bến Tre",
+    "code": "C56",
+    "website": "http://www.cdbt.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1028"
+  },
+  {
+    "id": 111,
+    "name": "Trường Cao đẳng Bình Định",
+    "code": "C37",
+    "website": "http://www.cdbd.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1029"
+  },
+  {
+    "id": 112,
+    "name": "Trường Cao đẳng Bình Phước",
+    "code": "C43",
+    "website": "https://cdbp.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1030"
+  },
+  {
+    "id": 113,
+    "name": "Trường Cao đẳng Cần Thơ",
+    "code": "C55",
+    "website": "http://cdct.edu.vn",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1031"
+  },
+  {
+    "id": 114,
+    "name": "Trường Cao đẳng Cộng đồng Bình Thuận",
+    "code": "C47",
+    "website": "https://btu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1032"
+  },
+  {
+    "id": 115,
+    "name": "Trường Cao đẳng Cộng đồng Cà Mau",
+    "code": "D61",
+    "website": "https://caodangcongdong.camau.gov.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1033"
+  },
+  {
+    "id": 116,
+    "name": "Trường Cao đẳng Cộng đồng Hà Nội",
+    "code": "CHN",
+    "website": "https://chn.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1034"
+  },
+  {
+    "id": 117,
+    "name": "Trường Cao đẳng Cộng đồng Hậu Giang",
+    "code": "D64",
+    "website": "https://www.hgcc.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1035"
+  },
+  {
+    "id": 118,
+    "name": "Trường Cao đẳng Cộng đồng Hưng Yên",
+    "code": "C22",
+    "website": "https://www.hycc.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1036"
+  },
+  {
+    "id": 103,
+    "name": "Trường Cao đẳng Cộng đồng Kon Tum",
+    "code": "C36",
+    "website": "https://ktcc.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1037"
+  },
+  {
+    "id": 104,
+    "name": "Trường Cao đẳng Cộng đồng Lai Châu",
+    "code": "CLC",
+    "website": "http://cdcdlaichau.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1038"
+  },
+  {
+    "id": 105,
+    "name": "Trường Cao đẳng Cộng đồng Sóc Trăng",
+    "code": "CST",
+    "website": "http://www.stcc.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1039"
+  },
+  {
+    "id": 106,
+    "name": "Trường Cao đẳng Cộng đồng Vĩnh Long",
+    "code": "D57",
+    "website": "https://www.vlcc.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1040"
+  },
+  {
+    "id": 154,
+    "name": "TRƯỜNG CAO ĐẲNG ĐÀ LẠT",
+    "code": "C42",
+    "website": "https://cddl.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=861"
+  },
+  {
+    "id": 94,
+    "name": "Trường Cao đẳng Đại Việt Sài Gòn",
+    "code": "0219",
+    "website": "https://daivietsaigon.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=896"
+  },
+  {
+    "id": 95,
+    "name": "Trường Cao đẳng Hải Dương",
+    "code": "C21",
+    "website": "https://caodanghaiduong.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1041"
+  },
+  {
+    "id": 96,
+    "name": "Trường Cao đẳng Ngô Gia Tự Bắc Giang",
+    "code": "C18",
+    "website": "https://cdngogiatubacgiang.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1042"
+  },
+  {
+    "id": 97,
+    "name": "Trường Cao đẳng Sơn La",
+    "code": "C14",
+    "website": "http://www.cdsonla.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1043"
+  },
+  {
+    "id": 151,
+    "name": "TRƯỜNG CAO ĐẲNG SƯ PHẠM BÀ RỊA-VŨNG TÀU",
+    "code": "C52",
+    "website": "http://www.cdspbrvt.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=890"
+  },
+  {
+    "id": 186,
+    "name": "TRƯỜNG CAO ĐẲNG SƯ PHẠM BẮC NINH",
+    "code": "C19",
+    "website": "http://cdspbacninh.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=771"
+  },
+  {
+    "id": 98,
+    "name": "TRƯỜNG CAO ĐẲNG SƯ PHẠM CAO BẰNG",
+    "code": "C06",
+    "website": "https://www.caodangsuphamcaobang.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=772"
+  },
+  {
+    "id": 99,
+    "name": "TRƯỜNG CAO ĐẲNG SƯ PHẠM ĐẮK LẮK",
+    "code": "C40",
+    "website": "http://www.dlc.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=862"
+  },
+  {
+    "id": 198,
+    "name": "TRƯỜNG CAO ĐẲNG SƯ PHẠM ĐIỆN BIÊN",
+    "code": "C62",
+    "website": "http://cdspdienbien.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=971"
+  },
+  {
+    "id": 100,
+    "name": "TRƯỜNG CAO ĐẲNG SƯ PHẠM GIA LAI",
+    "code": "C38",
+    "website": "http://cdspgialai.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=910"
+  },
+  {
+    "id": 101,
+    "name": "TRƯỜNG CAO ĐẲNG SƯ PHẠM HÀ GIANG",
+    "code": "C05",
+    "website": "https://cdsphagiang.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=972"
+  },
+  {
+    "id": 102,
+    "name": "TRƯỜNG CAO ĐẲNG SƯ PHẠM HÀ TÂY",
+    "code": "C20",
+    "website": "http://www.cdsphthn.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=828"
+  },
+  {
+    "id": 180,
+    "name": "TRƯỜNG CAO ĐẲNG SƯ PHẠM HOÀ BÌNH",
+    "code": "C23",
+    "website": "https://cdsphoabinh.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=773"
+  },
+  {
+    "id": 193,
+    "name": "TRƯỜNG CAO ĐẲNG SƯ PHẠM KIÊN GIANG",
+    "code": "C54",
+    "website": "https://www.cdspkg.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=961"
+  },
+  {
+    "id": 92,
+    "name": "TRƯỜNG CAO ĐẲNG SƯ PHẠM LẠNG SƠN",
+    "code": "C10",
+    "website": "http://lce.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=973"
+  },
+  {
+    "id": 93,
+    "name": "TRƯỜNG CAO ĐẲNG SƯ PHẠM LONG AN",
+    "code": "C49",
+    "website": "http://caodangsuphamlongan.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=962"
+  },
+  {
+    "id": 215,
+    "name": "TRƯỜNG CAO ĐẲNG SƯ PHẠM NAM ĐỊNH",
+    "code": "C25",
+    "website": "http://www.cdspnd.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=829"
+  },
+  {
+    "id": 200,
+    "name": "TRƯỜNG CAO ĐẲNG SƯ PHẠM NGHỆ AN",
+    "code": "C29",
+    "website": "http://www.cdspna.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=863"
+  },
+  {
+    "id": 86,
+    "name": "TRƯỜNG CAO ĐẲNG SƯ PHẠM QUẢNG TRỊ",
+    "code": "C32",
+    "website": "http://www.qtttc.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=864"
+  },
+  {
+    "id": 87,
+    "name": "TRƯỜNG CAO ĐẲNG SƯ PHẠM TÂY NINH",
+    "code": "C46",
+    "website": "http://cdsptayninh.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=830"
+  },
+  {
+    "id": 88,
+    "name": "TRƯỜNG CAO ĐẲNG SƯ PHẠM THÁI BÌNH",
+    "code": "C26",
+    "website": "http://www.cdsptb.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=865"
+  },
+  {
+    "id": 188,
+    "name": "TRƯỜNG CAO ĐẲNG SƯ PHẠM THỪA THIÊN HUẾ",
+    "code": "C33",
+    "website": "https://cdsphue.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=786"
+  },
+  {
+    "id": 291,
+    "name": "TRƯỜNG CAO ĐẲNG SƯ PHẠM TRUNG ƯƠNG",
+    "code": "CM1",
+    "website": "http://cdsptw.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=849"
+  },
+  {
+    "id": 236,
+    "name": "TRƯỜNG CAO ĐẲNG SƯ PHẠM TRUNG ƯƠNG NHA TRANG",
+    "code": "CM2",
+    "website": "http://sptwnt.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=850"
+  },
+  {
+    "id": 89,
+    "name": "TRƯỜNG CAO ĐẲNG SƯ PHẠM TRUNG ƯƠNG TP.HỒ CHÍ MINH",
+    "code": "CM3",
+    "website": "http://www.cdsptw-tphcm.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=851"
+  },
+  {
+    "id": 90,
+    "name": "TRƯỜNG CAO ĐẲNG SƯ PHẠM YÊN BÁI",
+    "code": "C13",
+    "website": "https://suphamyenbai.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=974"
+  },
+  {
+    "id": 91,
+    "name": "Trường Cao đẳng Vĩnh Long",
+    "code": "C57",
+    "website": "http://cdvl.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1044"
+  },
+  {
+    "id": 81,
+    "name": "Trường Cao đẳng Vĩnh Phúc",
+    "code": "C16",
+    "website": "http://caodangvinhphuc.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1045"
+  },
+  {
+    "id": 263,
+    "name": "TRƯỜNG ĐẠI HỌC AN GIANG - ĐẠI HỌC QUỐC GIA TP. HỒ CHÍ MINH",
+    "code": "TAG",
+    "website": "https://www.agu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=732"
+  },
+  {
+    "id": 82,
+    "name": "TRƯỜNG ĐẠI HỌC ANH QUỐC - VIỆT NAM",
+    "code": "BUV",
+    "website": "https://www.buv.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=710"
+  },
+  {
+    "id": 199,
+    "name": "TRƯỜNG ĐẠI HỌC BÀ RỊA - VŨNG TÀU",
+    "code": "BVU",
+    "website": "https://bvu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=776"
+  },
+  {
+    "id": 83,
+    "name": "TRƯỜNG ĐẠI HỌC BẠC LIÊU",
+    "code": "DBL",
+    "website": "https://blu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=852"
+  },
+  {
+    "id": 84,
+    "name": "TRƯỜNG ĐẠI HỌC BÁCH KHOA - ĐẠI HỌC QUỐC GIA TP. HỒ CHÍ MINH",
+    "code": "QSB",
+    "website": "http://www.hcmut.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=733"
+  },
+  {
+    "id": 274,
+    "name": "TRƯỜNG ĐẠI HỌC BÁCH KHOA, ĐẠI HỌC ĐÀ NẴNG",
+    "code": "DDK",
+    "website": "http://dut.udn.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=796"
+  },
+  {
+    "id": 234,
+    "name": "TRƯỜNG ĐẠI HỌC BÌNH DƯƠNG",
+    "code": "DBD",
+    "website": "https://www.bdu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=930"
+  },
+  {
+    "id": 245,
+    "name": "TRƯỜNG ĐẠI HỌC CẦN THƠ",
+    "code": "TCT",
+    "website": "https://www.ctu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=867"
+  },
+  {
+    "id": 75,
+    "name": "TRƯỜNG ĐẠI HỌC CHU VĂN AN",
+    "code": "DCA",
+    "website": "https://cvauni.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=880"
+  },
+  {
+    "id": 85,
+    "name": "TRƯỜNG ĐẠI HỌC CMC",
+    "code": "MCA",
+    "website": "https://cmc-u.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=967"
+  },
+  {
+    "id": 216,
+    "name": "TRƯỜNG ĐẠI HỌC CÔNG ĐOÀN",
+    "code": "LDA",
+    "website": "http://www.dhcd.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=804"
+  },
+  {
+    "id": 153,
+    "name": "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ - ĐẠI HỌC QUỐC GIA HÀ NỘI",
+    "code": "QHI",
+    "website": "https://uet.vnu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=724"
+  },
+  {
+    "id": 139,
+    "name": "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ ĐÔNG Á",
+    "code": "DDA",
+    "website": "https://eaut.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=934"
+  },
+  {
+    "id": 217,
+    "name": "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ ĐỒNG NAI",
+    "code": "DCD",
+    "website": "https://dntu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=935"
+  },
+  {
+    "id": 315,
+    "name": "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ GIAO THÔNG VẬN TẢI",
+    "code": "GTA",
+    "website": "https://utt.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=976"
+  },
+  {
+    "id": 191,
+    "name": "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ MIỀN ĐÔNG",
+    "code": "DMD",
+    "website": "https://www.mut.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=897"
+  },
+  {
+    "id": 246,
+    "name": "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ SÀI GÒN",
+    "code": "DSG",
+    "website": "https://www.stu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=936"
+  },
+  {
+    "id": 276,
+    "name": "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN - ĐẠI HỌC QUỐC GIA TP. HỒ CHÍ MINH",
+    "code": "QSC",
+    "website": "https://www.uit.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=734"
+  },
+  {
+    "id": 77,
+    "name": "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN VÀ TRUYỀN THÔNG VIỆT HÀN, ĐẠI HỌC ĐÀ NẴNG",
+    "code": "VKU",
+    "website": "http://vku.udn.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=801"
+  },
+  {
+    "id": 316,
+    "name": "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN VÀ TRUYỀN THÔNG, ĐẠI HỌC THÁI NGUYÊN",
+    "code": "DTC",
+    "website": "https://ictu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=912"
+  },
+  {
+    "id": 207,
+    "name": "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ TP. HỒ CHÍ MINH",
+    "code": "DKC",
+    "website": "https://www.hutech.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=937"
+  },
+  {
+    "id": 226,
+    "name": "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ VÀ QUẢN LÝ HỮU NGHỊ",
+    "code": "DCQ",
+    "website": "https://utm.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=938"
+  },
+  {
+    "id": 78,
+    "name": "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ VẠN XUÂN",
+    "code": "DVX",
+    "website": "https://www.vxut.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=881"
+  },
+  {
+    "id": 144,
+    "name": "TRƯỜNG ĐẠI HỌC CÔNG NGHIỆP DỆT MAY HÀ NỘI",
+    "code": "CCM",
+    "website": "http://hict.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=751"
+  },
+  {
+    "id": 292,
+    "name": "TRƯỜNG ĐẠI HỌC CÔNG NGHIỆP HÀ NỘI",
+    "code": "DCN",
+    "website": "http://www.haui.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=813"
+  },
+  {
+    "id": 79,
+    "name": "TRƯỜNG ĐẠI HỌC CÔNG NGHIỆP QUẢNG NINH",
+    "code": "DDM",
+    "website": "https://qui.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=805"
+  },
+  {
+    "id": 319,
+    "name": "TRƯỜNG ĐẠI HỌC CÔNG NGHIỆP TP. HỒ CHÍ MINH",
+    "code": "HUI",
+    "website": "http://iuh.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=814"
+  },
+  {
+    "id": 159,
+    "name": "TRƯỜNG ĐẠI HỌC CÔNG NGHIỆP VIỆT - HUNG",
+    "code": "VHD",
+    "website": "http://viu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=893"
+  },
+  {
+    "id": 227,
+    "name": "TRƯỜNG ĐẠI HỌC CÔNG NGHIỆP VIỆT TRÌ",
+    "code": "VUI",
+    "website": "http://www.vui.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=894"
+  },
+  {
+    "id": 80,
+    "name": "TRƯỜNG ĐẠI HỌC CÔNG NGHIỆP VINH",
+    "code": "DCV",
+    "website": "http://www.iuv.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=777"
+  },
+  {
+    "id": 307,
+    "name": "TRƯỜNG ĐẠI HỌC CÔNG THƯƠNG TP. HỒ CHÍ MINH",
+    "code": "DCT",
+    "website": "https://huit.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=939"
+  },
+  {
+    "id": 237,
+    "name": "TRƯỜNG ĐẠI HỌC CỬU LONG",
+    "code": "DCL",
+    "website": "http://mku.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=815"
+  },
+  {
+    "id": 76,
+    "name": "TRƯỜNG ĐẠI HỌC DÂN LẬP PHƯƠNG ĐÔNG",
+    "code": "DPD",
+    "website": "http://phuongdong.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=816"
+  },
+  {
+    "id": 185,
+    "name": "TRƯỜNG ĐẠI HỌC DẦU KHÍ VIỆT NAM",
+    "code": "PVU",
+    "website": "https://www.pvu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=778"
+  },
+  {
+    "id": 317,
+    "name": "TRƯỜNG ĐẠI HỌC DUY TÂN",
+    "code": "DDT",
+    "website": "https://duytan.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=780"
+  },
+  {
+    "id": 247,
+    "name": "TRƯỜNG ĐẠI HỌC DƯỢC HÀ NỘI",
+    "code": "DKH",
+    "website": "http://hup.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=869"
+  },
+  {
+    "id": 202,
+    "name": "TRƯỜNG ĐẠI HỌC ĐÀ LẠT",
+    "code": "TDL",
+    "website": "https://dlu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=980"
+  },
+  {
+    "id": 195,
+    "name": "TRƯỜNG ĐẠI HỌC ĐẠI NAM",
+    "code": "DDN",
+    "website": "http://www.dainam.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=940"
+  },
+  {
+    "id": 218,
+    "name": "TRƯỜNG ĐẠI HỌC ĐIỆN LỰC",
+    "code": "DDL",
+    "website": "https://www.epu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=779"
+  },
+  {
+    "id": 189,
+    "name": "TRƯỜNG ĐẠI HỌC ĐIỀU DƯỠNG NAM ĐỊNH",
+    "code": "YDD",
+    "website": "https://ndun.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=868"
+  },
+  {
+    "id": 210,
+    "name": "TRƯỜNG ĐẠI HỌC ĐÔNG Á",
+    "code": "DAD",
+    "website": "https://donga.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=941"
+  },
+  {
+    "id": 74,
+    "name": "TRƯỜNG ĐẠI HỌC ĐÔNG ĐÔ",
+    "code": "DDD",
+    "website": "http://www.hdiu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=898"
+  },
+  {
+    "id": 73,
+    "name": "TRƯỜNG ĐẠI HỌC ĐỒNG NAI",
+    "code": "DNU",
+    "website": "http://www.dnpu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=842"
+  },
+  {
+    "id": 290,
+    "name": "TRƯỜNG ĐẠI HỌC ĐỒNG THÁP",
+    "code": "SPD",
+    "website": "https://www.dthu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=689"
+  },
+  {
+    "id": 201,
+    "name": "TRƯỜNG ĐẠI HỌC FPT",
+    "code": "FPT",
+    "website": "https://daihoc.fpt.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=942"
+  },
+  {
+    "id": 71,
+    "name": "TRƯỜNG ĐẠI HỌC FULBRIGHT VIỆT NAM",
+    "code": "FUV",
+    "website": "https://fulbright.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=739"
+  },
+  {
+    "id": 163,
+    "name": "TRƯỜNG ĐẠI HỌC GIA ĐỊNH",
+    "code": "DCG",
+    "website": "https://giadinh.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=789"
+  },
+  {
+    "id": 320,
+    "name": "TRƯỜNG ĐẠI HỌC GIÁO DỤC - ĐẠI HỌC QUỐC GIA HÀ NỘI",
+    "code": "QHS",
+    "website": "http://education.vnu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=725"
+  },
+  {
+    "id": 326,
+    "name": "TRƯỜNG ĐẠI HỌC GIAO THÔNG VẬN TẢI",
+    "code": "GHA",
+    "website": "https://www.utc.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=978"
+  },
+  {
+    "id": 308,
+    "name": "TRƯỜNG ĐẠI HỌC GIAO THÔNG VẬN TẢI TP. HỒ CHÍ MINH",
+    "code": "GTS",
+    "website": "https://ut.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=977"
+  },
+  {
+    "id": 72,
+    "name": "TRƯỜNG ĐẠI HỌC HÀ HOA TIÊN",
+    "code": "DHH",
+    "website": "",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=943"
+  },
+  {
+    "id": 165,
+    "name": "TRƯỜNG ĐẠI HỌC HẠ LONG",
+    "code": "HLU",
+    "website": "https://uhl.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=944"
+  },
+  {
+    "id": 270,
+    "name": "TRƯỜNG ĐẠI HỌC HÀ NỘI",
+    "code": "NHF",
+    "website": "https://www.hanu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=870"
+  },
+  {
+    "id": 219,
+    "name": "TRƯỜNG ĐẠI HỌC HÀ TĨNH",
+    "code": "HHT",
+    "website": "http://www.htu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=891"
+  },
+  {
+    "id": 160,
+    "name": "TRƯỜNG ĐẠI HỌC HẢI DƯƠNG",
+    "code": "DKT",
+    "website": "http://uhd.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=949"
+  },
+  {
+    "id": 228,
+    "name": "TRƯỜNG ĐẠI HỌC HẢI PHÒNG",
+    "code": "THP",
+    "website": "https://dhhp.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=806"
+  },
+  {
+    "id": 248,
+    "name": "TRƯỜNG ĐẠI HỌC HÀNG HẢI VIỆT NAM",
+    "code": "HHA",
+    "website": "http://www.vimaru.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=986"
+  },
+  {
+    "id": 249,
+    "name": "TRƯỜNG ĐẠI HỌC HOÀ BÌNH",
+    "code": "ETU",
+    "website": "http://daihochoabinh.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=817"
+  },
+  {
+    "id": 177,
+    "name": "TRƯỜNG ĐẠI HỌC HOA LƯ",
+    "code": "DNB",
+    "website": "http://hluv.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=950"
+  },
+  {
+    "id": 190,
+    "name": "TRƯỜNG ĐẠI HỌC HOA SEN",
+    "code": "HSU",
+    "website": "https://www.hoasen.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=951"
+  },
+  {
+    "id": 295,
+    "name": "TRƯỜNG ĐẠI HỌC HỒNG ĐỨC",
+    "code": "HDT",
+    "website": "http://www.hdu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=740"
+  },
+  {
+    "id": 242,
+    "name": "TRƯỜNG ĐẠI HỌC HÙNG VƯƠNG",
+    "code": "THV",
+    "website": "https://www.hvu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=899"
+  },
+  {
+    "id": 137,
+    "name": "TRƯỜNG ĐẠI HỌC HÙNG VƯƠNG - TP. HỒ CHÍ MINH",
+    "code": "DHV",
+    "website": "https://hvuh.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=853"
+  },
+  {
+    "id": 66,
+    "name": "TRƯỜNG ĐẠI HỌC KHÁNH HOÀ",
+    "code": "UKH",
+    "website": "http://ukh.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=843"
+  },
+  {
+    "id": 312,
+    "name": "TRƯỜNG ĐẠI HỌC KHOA HỌC TỰ NHIÊN - ĐẠI HỌC QUỐC GIA HÀ NỘI",
+    "code": "QHT",
+    "website": "http://hus.vnu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=726"
+  },
+  {
+    "id": 313,
+    "name": "TRƯỜNG ĐẠI HỌC KHOA HỌC TỰ NHIÊN - ĐẠI HỌC QUỐC GIA TP. HỒ CHÍ MINH",
+    "code": "QST",
+    "website": "https://www.hcmus.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=735"
+  },
+  {
+    "id": 67,
+    "name": "TRƯỜNG ĐẠI HỌC KHOA HỌC VÀ CÔNG NGHỆ HÀ NỘI",
+    "code": "KCN",
+    "website": "https://usth.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=882"
+  },
+  {
+    "id": 324,
+    "name": "TRƯỜNG ĐẠI HỌC KHOA HỌC XÃ HỘI VÀ NHÂN VĂN - ĐẠI HỌC QUỐC GIA HÀ NỘI",
+    "code": "QHX",
+    "website": "https://ussh.vnu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=727"
+  },
+  {
+    "id": 303,
+    "name": "TRƯỜNG ĐẠI HỌC KHOA HỌC XÃ HỘI VÀ NHÂN VĂN - ĐẠI HỌC QUỐC GIA TP. HỒ CHÍ MINH",
+    "code": "QSX",
+    "website": "https://hcmussh.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=736"
+  },
+  {
+    "id": 296,
+    "name": "TRƯỜNG ĐẠI HỌC KHOA HỌC, ĐẠI HỌC HUẾ",
+    "code": "DHT",
+    "website": "http://husc.hueuni.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=700"
+  },
+  {
+    "id": 318,
+    "name": "TRƯỜNG ĐẠI HỌC KHOA HỌC, ĐẠI HỌC THÁI NGUYÊN",
+    "code": "DTZ",
+    "website": "https://tnus.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=913"
+  },
+  {
+    "id": 69,
+    "name": "TRƯỜNG ĐẠI HỌC KIỂM SÁT HÀ NỘI",
+    "code": "DKS",
+    "website": "https://tks.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=790"
+  },
+  {
+    "id": 142,
+    "name": "TRƯỜNG ĐẠI HỌC KIÊN GIANG",
+    "code": "TKG",
+    "website": "https://www.vnkgu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=781"
+  },
+  {
+    "id": 243,
+    "name": "TRƯỜNG ĐẠI HỌC KIẾN TRÚC ĐÀ NẴNG",
+    "code": "KTD",
+    "website": "https://dau.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=883"
+  },
+  {
+    "id": 266,
+    "name": "TRƯỜNG ĐẠI HỌC KIẾN TRÚC HÀ NỘI",
+    "code": "KTA",
+    "website": "http://hau.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=884"
+  },
+  {
+    "id": 167,
+    "name": "TRƯỜNG ĐẠI HỌC KIẾN TRÚC TP. HỒ CHÍ MINH",
+    "code": "KTS",
+    "website": "http://www.uah.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=885"
+  },
+  {
+    "id": 70,
+    "name": "TRƯỜNG ĐẠI HỌC KINH BẮC",
+    "code": "UKB",
+    "website": "http://ukb.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=818"
+  },
+  {
+    "id": 145,
+    "name": "TRƯỜNG ĐẠI HỌC KINH DOANH VÀ CÔNG NGHỆ HÀ NỘI",
+    "code": "DQK",
+    "website": "http://hubt.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=791"
+  },
+  {
+    "id": 233,
+    "name": "TRƯỜNG ĐẠI HỌC KINH TẾ - CÔNG NGHỆ THÁI NGUYÊN",
+    "code": "DVB",
+    "website": "http://tuetech.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=860"
+  },
+  {
+    "id": 323,
+    "name": "TRƯỜNG ĐẠI HỌC KINH TẾ - ĐẠI HỌC QUỐC GIA HÀ NỘI",
+    "code": "QHE",
+    "website": "http://ueb.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=728"
+  },
+  {
+    "id": 148,
+    "name": "TRƯỜNG ĐẠI HỌC KINH TẾ - KỸ THUẬT BÌNH DƯƠNG",
+    "code": "DKB",
+    "website": "https://ktkt.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=854"
+  },
+  {
+    "id": 285,
+    "name": "TRƯỜNG ĐẠI HỌC KINH TẾ - LUẬT - ĐẠI HỌC QUỐC GIA TP. HỒ CHÍ MINH",
+    "code": "QSK",
+    "website": "https://www.uel.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=737"
+  },
+  {
+    "id": 205,
+    "name": "TRƯỜNG ĐẠI HỌC KINH TẾ - TÀI CHÍNH TP. HỒ CHÍ MINH",
+    "code": "UEF",
+    "website": "https://www.uef.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=945"
+  },
+  {
+    "id": 192,
+    "name": "TRƯỜNG ĐẠI HỌC KINH TẾ CÔNG NGHIỆP LONG AN",
+    "code": "DLA",
+    "website": "https://daihoclongan.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=807"
+  },
+  {
+    "id": 229,
+    "name": "TRƯỜNG ĐẠI HỌC KINH TẾ KỸ THUẬT CÔNG NGHIỆP",
+    "code": "DKK",
+    "website": "https://uneti.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=782"
+  },
+  {
+    "id": 140,
+    "name": "TRƯỜNG ĐẠI HỌC KINH TẾ NGHỆ AN",
+    "code": "CEA",
+    "website": "http://dhktna.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=952"
+  },
+  {
+    "id": 68,
+    "name": "TRƯỜNG ĐẠI HỌC KINH TẾ QUỐC DÂN",
+    "code": "KHA",
+    "website": "https://www.neu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=819"
+  },
+  {
+    "id": 272,
+    "name": "TRƯỜNG ĐẠI HỌC KINH TẾ VÀ QUẢN TRỊ KINH DOANH, ĐẠI HỌC THÁI NGUYÊN",
+    "code": "DTE",
+    "website": "http://tueba.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=914"
+  },
+  {
+    "id": 321,
+    "name": "TRƯỜNG ĐẠI HỌC KINH TẾ, ĐẠI HỌC ĐÀ NẴNG",
+    "code": "DDQ",
+    "website": "https://due.udn.vn",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=797"
+  },
+  {
+    "id": 250,
+    "name": "TRƯỜNG ĐẠI HỌC KINH TẾ, ĐẠI HỌC HUẾ",
+    "code": "DHK",
+    "website": "https://hce.edu.vn",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=701"
+  },
+  {
+    "id": 169,
+    "name": "TRƯỜNG ĐẠI HỌC KỸ THUẬT - CÔNG NGHỆ CẦN THƠ",
+    "code": "KCC",
+    "website": "https://ctuet.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=783"
+  },
+  {
+    "id": 282,
+    "name": "TRƯỜNG ĐẠI HỌC KỸ THUẬT CÔNG NGHIỆP, ĐẠI HỌC THÁI NGUYÊN",
+    "code": "DTK",
+    "website": "http://www.tnut.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=915"
+  },
+  {
+    "id": 146,
+    "name": "TRƯỜNG ĐẠI HỌC KỸ THUẬT Y - DƯỢC ĐÀ NẴNG",
+    "code": "YDN",
+    "website": "http://dhktyduocdn.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=871"
+  },
+  {
+    "id": 211,
+    "name": "TRƯỜNG ĐẠI HỌC KỸ THUẬT Y TẾ HẢI DƯƠNG",
+    "code": "DKY",
+    "website": "http://www.hmtu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=872"
+  },
+  {
+    "id": 264,
+    "name": "TRƯỜNG ĐẠI HỌC LẠC HỒNG",
+    "code": "DLH",
+    "website": "https://lhu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=889"
+  },
+  {
+    "id": 220,
+    "name": "TRƯỜNG ĐẠI HỌC LAO ĐỘNG - XÃ HỘI",
+    "code": "DLX",
+    "website": "http://ulsa.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=953"
+  },
+  {
+    "id": 251,
+    "name": "TRƯỜNG ĐẠI HỌC LÂM NGHIỆP",
+    "code": "LNH",
+    "website": "https://vnuf.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=855"
+  },
+  {
+    "id": 64,
+    "name": "TRƯỜNG ĐẠI HỌC LUẬT - ĐẠI HỌC QUỐC GIA HÀ NỘI",
+    "code": "QHL",
+    "website": "https://law.vnu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1081"
+  },
+  {
+    "id": 252,
+    "name": "TRƯỜNG ĐẠI HỌC LUẬT HÀ NỘI",
+    "code": "LPH",
+    "website": "https://hlu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=792"
+  },
+  {
+    "id": 309,
+    "name": "TRƯỜNG ĐẠI HỌC LUẬT TP. HỒ CHÍ MINH",
+    "code": "LPS",
+    "website": "https://www.hcmulaw.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=793"
+  },
+  {
+    "id": 221,
+    "name": "TRƯỜNG ĐẠI HỌC LUẬT, ĐẠI HỌC HUẾ",
+    "code": "DHA",
+    "website": "https://www.hul.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=702"
+  },
+  {
+    "id": 65,
+    "name": "TRƯỜNG ĐẠI HỌC LƯƠNG THẾ VINH",
+    "code": "DTV",
+    "website": "http://ltvu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=900"
+  },
+  {
+    "id": 253,
+    "name": "TRƯỜNG ĐẠI HỌC MỎ - ĐỊA CHẤT",
+    "code": "MDA",
+    "website": "https://humg.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=808"
+  },
+  {
+    "id": 254,
+    "name": "TRƯỜNG ĐẠI HỌC MỞ HÀ NỘI",
+    "code": "MHN",
+    "website": "https://hou.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=965"
+  },
+  {
+    "id": 286,
+    "name": "TRƯỜNG ĐẠI HỌC MỞ TP. HỒ CHÍ MINH",
+    "code": "MBS",
+    "website": "http://www.oude.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=966"
+  },
+  {
+    "id": 61,
+    "name": "TRƯỜNG ĐẠI HỌC MỸ TẠI VIỆT NAM",
+    "code": "AUV",
+    "website": "http://auv.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=886"
+  },
+  {
+    "id": 62,
+    "name": "TRƯỜNG ĐẠI HỌC MỸ THUẬT CÔNG NGHIỆP",
+    "code": "MTC",
+    "website": "http://mythuatcongnghiep.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=690"
+  },
+  {
+    "id": 63,
+    "name": "TRƯỜNG ĐẠI HỌC MỸ THUẬT TP. HỒ CHÍ MINH",
+    "code": "MTS",
+    "website": "http://www.hcmufa.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=968"
+  },
+  {
+    "id": 267,
+    "name": "TRƯỜNG ĐẠI HỌC MỸ THUẬT VIỆT NAM",
+    "code": "MTH",
+    "website": "https://mythuatvietnam.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=969"
+  },
+  {
+    "id": 230,
+    "name": "TRƯỜNG ĐẠI HỌC NAM CẦN THƠ",
+    "code": "DNC",
+    "website": "https://nctu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=845"
+  },
+  {
+    "id": 271,
+    "name": "TRƯỜNG ĐẠI HỌC NGÂN HÀNG TP. HỒ CHÍ MINH",
+    "code": "NHS",
+    "website": "https://buh.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=963"
+  },
+  {
+    "id": 60,
+    "name": "TRƯỜNG ĐẠI HỌC NGHỆ THUẬT, ĐẠI HỌC HUẾ",
+    "code": "DHN",
+    "website": "http://hufa.hueuni.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=703"
+  },
+  {
+    "id": 325,
+    "name": "TRƯỜNG ĐẠI HỌC NGOẠI NGỮ - ĐẠI HỌC QUỐC GIA HÀ NỘI",
+    "code": "QHF",
+    "website": "https://ulis.vnu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=729"
+  },
+  {
+    "id": 235,
+    "name": "TRƯỜNG ĐẠI HỌC NGOẠI NGỮ - TIN HỌC TP. HỒ CHÍ MINH",
+    "code": "DNT",
+    "website": "https://huflit.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=901"
+  },
+  {
+    "id": 322,
+    "name": "TRƯỜNG ĐẠI HỌC NGOẠI NGỮ, ĐẠI HỌC ĐÀ NẴNG",
+    "code": "DDF",
+    "website": "http://ufl.udn.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=798"
+  },
+  {
+    "id": 255,
+    "name": "TRƯỜNG ĐẠI HỌC NGOẠI NGỮ, ĐẠI HỌC HUẾ",
+    "code": "DHF",
+    "website": "https://hucfl.edu.vn/vi/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=704"
+  },
+  {
+    "id": 293,
+    "name": "TRƯỜNG ĐẠI HỌC NGOẠI THƯƠNG",
+    "code": "NTH",
+    "website": "http://www.ftu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=821"
+  },
+  {
+    "id": 310,
+    "name": "TRƯỜNG ĐẠI HỌC NGUYỄN TẤT THÀNH",
+    "code": "NTT",
+    "website": "https://ntt.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=711"
+  },
+  {
+    "id": 57,
+    "name": "TRƯỜNG ĐẠI HỌC NGUYỄN TRÃI",
+    "code": "NTU",
+    "website": "http://daihocnguyentrai.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=784"
+  },
+  {
+    "id": 265,
+    "name": "TRƯỜNG ĐẠI HỌC NHA TRANG",
+    "code": "TSN",
+    "website": "http://www.ntu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=691"
+  },
+  {
+    "id": 171,
+    "name": "TRƯỜNG ĐẠI HỌC NỘI VỤ HÀ NỘI",
+    "code": "DNV",
+    "website": "http://huha.edu.vn",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=754"
+  },
+  {
+    "id": 212,
+    "name": "TRƯỜNG ĐẠI HỌC NÔNG LÂM BẮC GIANG",
+    "code": "DBG",
+    "website": "http://bafu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=856"
+  },
+  {
+    "id": 208,
+    "name": "TRƯỜNG ĐẠI HỌC NÔNG LÂM TP. HỒ CHÍ MINH",
+    "code": "NLS",
+    "website": "https://www.hcmuaf.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=785"
+  },
+  {
+    "id": 305,
+    "name": "TRƯỜNG ĐẠI HỌC NÔNG LÂM, ĐẠI HỌC HUẾ",
+    "code": "DHL",
+    "website": "https://huaf.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=705"
+  },
+  {
+    "id": 289,
+    "name": "TRƯỜNG ĐẠI HỌC NÔNG LÂM, ĐẠI HỌC THÁI NGUYÊN",
+    "code": "DTN",
+    "website": "https://tuaf.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=916"
+  },
+  {
+    "id": 283,
+    "name": "TRƯỜNG ĐẠI HỌC PHẠM VĂN ĐỒNG",
+    "code": "DPQ",
+    "website": "http://pdu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=902"
+  },
+  {
+    "id": 58,
+    "name": "TRƯỜNG ĐẠI HỌC PHAN CHÂU TRINH",
+    "code": "DPC",
+    "website": "http://pctu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=981"
+  },
+  {
+    "id": 197,
+    "name": "TRƯỜNG ĐẠI HỌC PHAN THIẾT",
+    "code": "DPT",
+    "website": "http://upt.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=887"
+  },
+  {
+    "id": 183,
+    "name": "TRƯỜNG ĐẠI HỌC PHENIKAA",
+    "code": "DTA",
+    "website": "https://phenikaa-uni.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=755"
+  },
+  {
+    "id": 143,
+    "name": "TRƯỜNG ĐẠI HỌC PHÚ XUÂN",
+    "code": "DPX",
+    "website": "http://pctu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=982"
+  },
+  {
+    "id": 141,
+    "name": "TRƯỜNG ĐẠI HỌC PHÚ YÊN",
+    "code": "DPY",
+    "website": "https://pyu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=903"
+  },
+  {
+    "id": 59,
+    "name": "TRƯỜNG ĐẠI HỌC QUẢN LÝ VÀ CÔNG NGHỆ HẢI PHÒNG",
+    "code": "DHP",
+    "website": "https://hpu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=985"
+  },
+  {
+    "id": 55,
+    "name": "TRƯỜNG ĐẠI HỌC QUẢN LÝ VÀ CÔNG NGHỆ TP. HỒ CHÍ MINH",
+    "code": "UMT",
+    "website": "https://www.umt.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=857"
+  },
+  {
+    "id": 238,
+    "name": "TRƯỜNG ĐẠI HỌC QUẢNG BÌNH",
+    "code": "DQB",
+    "website": "https://quangbinhuni.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=904"
+  },
+  {
+    "id": 175,
+    "name": "TRƯỜNG ĐẠI HỌC QUẢNG NAM",
+    "code": "DQU",
+    "website": "http://qnamuni.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=794"
+  },
+  {
+    "id": 56,
+    "name": "TRƯỜNG ĐẠI HỌC QUANG TRUNG",
+    "code": "DQT",
+    "website": "https://qtu.edu.vn",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=954"
+  },
+  {
+    "id": 206,
+    "name": "TRƯỜNG ĐẠI HỌC QUỐC TẾ - ĐẠI HỌC QUỐC GIA TP. HỒ CHÍ MINH",
+    "code": "QSQ",
+    "website": "https://hcmiu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=738"
+  },
+  {
+    "id": 51,
+    "name": "TRƯỜNG ĐẠI HỌC QUỐC TẾ BẮC HÀ",
+    "code": "DBH",
+    "website": "http://iubh.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=888"
+  },
+  {
+    "id": 204,
+    "name": "TRƯỜNG ĐẠI HỌC QUỐC TẾ HỒNG BÀNG",
+    "code": "HIU",
+    "website": "https://hiu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=932"
+  },
+  {
+    "id": 181,
+    "name": "TRƯỜNG ĐẠI HỌC QUỐC TẾ MIỀN ĐÔNG",
+    "code": "EIU",
+    "website": "https://eiu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=809"
+  },
+  {
+    "id": 52,
+    "name": "TRƯỜNG ĐẠI HỌC QUỐC TẾ RMIT VIỆT NAM",
+    "code": "RMU",
+    "website": "https://www.rmit.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=983"
+  },
+  {
+    "id": 284,
+    "name": "TRƯỜNG ĐẠI HỌC QUY NHƠN",
+    "code": "DQN",
+    "website": "http://www.qnu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=905"
+  },
+  {
+    "id": 302,
+    "name": "TRƯỜNG ĐẠI HỌC SÀI GÒN",
+    "code": "SGD",
+    "website": "https://sgu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=741"
+  },
+  {
+    "id": 277,
+    "name": "TRƯỜNG ĐẠI HỌC SAO ĐỎ",
+    "code": "SDU",
+    "website": "http://saodo.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=822"
+  },
+  {
+    "id": 299,
+    "name": "TRƯỜNG ĐẠI HỌC SÂN KHẤU ĐIỆN ẢNH HÀ NỘI",
+    "code": "SKD",
+    "website": "http://skda.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=756"
+  },
+  {
+    "id": 53,
+    "name": "TRƯỜNG ĐẠI HỌC SÂN KHẤU, ĐIỆN ẢNH TP. HỒ CHÍ MINH",
+    "code": "DSD",
+    "website": "http://skdahcm.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=757"
+  },
+  {
+    "id": 300,
+    "name": "TRƯỜNG ĐẠI HỌC SƯ PHẠM HÀ NỘI",
+    "code": "SPH",
+    "website": "https://hnue.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=742"
+  },
+  {
+    "id": 256,
+    "name": "TRƯỜNG ĐẠI HỌC SƯ PHẠM HÀ NỘI 2",
+    "code": "SP2",
+    "website": "https://www.hpu2.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=743"
+  },
+  {
+    "id": 257,
+    "name": "TRƯỜNG ĐẠI HỌC SƯ PHẠM KỸ THUẬT HƯNG YÊN",
+    "code": "SKH",
+    "website": "http://utehy.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=712"
+  },
+  {
+    "id": 54,
+    "name": "TRƯỜNG ĐẠI HỌC SƯ PHẠM KỸ THUẬT NAM ĐỊNH",
+    "code": "SKN",
+    "website": "http://nute.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=713"
+  },
+  {
+    "id": 311,
+    "name": "TRƯỜNG ĐẠI HỌC SƯ PHẠM KỸ THUẬT TP. HỒ CHÍ MINH",
+    "code": "SPK",
+    "website": "http://hcmute.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=714"
+  },
+  {
+    "id": 156,
+    "name": "TRƯỜNG ĐẠI HỌC SƯ PHẠM KỸ THUẬT VINH",
+    "code": "SKV",
+    "website": "http://spktvinh.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=715"
+  },
+  {
+    "id": 187,
+    "name": "TRƯỜNG ĐẠI HỌC SƯ PHẠM KỸ THUẬT VĨNH LONG",
+    "code": "VLU",
+    "website": "http://vlute.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=716"
+  },
+  {
+    "id": 33,
+    "name": "TRƯỜNG ĐẠI HỌC SƯ PHẠM KỸ THUẬT, ĐẠI HỌC ĐÀ NẴNG",
+    "code": "DDC",
+    "website": "https://ute.udn.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=799"
+  },
+  {
+    "id": 231,
+    "name": "TRƯỜNG ĐẠI HỌC SƯ PHẠM NGHỆ THUẬT TRUNG ƯƠNG",
+    "code": "GNT",
+    "website": "http://www.spnttw.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=744"
+  },
+  {
+    "id": 184,
+    "name": "TRƯỜNG ĐẠI HỌC SƯ PHẠM THỂ DỤC THỂ THAO HÀ NỘI",
+    "code": "TDH",
+    "website": "https://hupes.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=692"
+  },
+  {
+    "id": 50,
+    "name": "TRƯỜNG ĐẠI HỌC SƯ PHẠM THỂ DỤC THỂ THAO TP. HỒ CHÍ MINH",
+    "code": "STS",
+    "website": "https://upes.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=693"
+  },
+  {
+    "id": 244,
+    "name": "TRƯỜNG ĐẠI HỌC SƯ PHẠM TP. HỒ CHÍ MINH",
+    "code": "SPS",
+    "website": "https://hcmue.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=745"
+  },
+  {
+    "id": 327,
+    "name": "TRƯỜNG ĐẠI HỌC SƯ PHẠM, ĐẠI HỌC ĐÀ NẴNG",
+    "code": "DDS",
+    "website": "https://ued.udn.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=800"
+  },
+  {
+    "id": 258,
+    "name": "TRƯỜNG ĐẠI HỌC SƯ PHẠM, ĐẠI HỌC HUẾ",
+    "code": "DHS",
+    "website": "http://www.dhsphue.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=706"
+  },
+  {
+    "id": 301,
+    "name": "TRƯỜNG ĐẠI HỌC SƯ PHẠM, ĐẠI HỌC THÁI NGUYÊN",
+    "code": "DTS",
+    "website": "http://tnue.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=917"
+  },
+  {
+    "id": 48,
+    "name": "TRƯỜNG ĐẠI HỌC TÀI CHÍNH - KẾ TOÁN",
+    "code": "DKQ",
+    "website": "http://tckt.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=970"
+  },
+  {
+    "id": 280,
+    "name": "TRƯỜNG ĐẠI HỌC TÀI CHÍNH - MARKETING",
+    "code": "DMS",
+    "website": "https://ufm.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=955"
+  },
+  {
+    "id": 49,
+    "name": "TRƯỜNG ĐẠI HỌC TÀI CHÍNH - NGÂN HÀNG HÀ NỘI",
+    "code": "FBU",
+    "website": "https://fbu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=720"
+  },
+  {
+    "id": 152,
+    "name": "TRƯỜNG ĐẠI HỌC TÀI CHÍNH - QUẢN TRỊ KINH DOANH",
+    "code": "DFA",
+    "website": "http://tcqtkd.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=956"
+  },
+  {
+    "id": 259,
+    "name": "TRƯỜNG ĐẠI HỌC TÀI NGUYÊN VÀ MÔI TRƯỜNG HÀ NỘI",
+    "code": "DMT",
+    "website": "https://www.hunre.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=746"
+  },
+  {
+    "id": 157,
+    "name": "TRƯỜNG ĐẠI HỌC TÀI NGUYÊN VÀ MÔI TRƯỜNG TP. HỒ CHÍ MINH",
+    "code": "DTM",
+    "website": "http://www.hcmunre.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=747"
+  },
+  {
+    "id": 46,
+    "name": "TRƯỜNG ĐẠI HỌC TÂN TẠO",
+    "code": "TTU",
+    "website": "https://ttu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=957"
+  },
+  {
+    "id": 196,
+    "name": "TRƯỜNG ĐẠI HỌC TÂN TRÀO",
+    "code": "TQU",
+    "website": "https://daihoctantrao.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=823"
+  },
+  {
+    "id": 164,
+    "name": "TRƯỜNG ĐẠI HỌC TÂY BẮC",
+    "code": "TTB",
+    "website": "https://utb.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=906"
+  },
+  {
+    "id": 260,
+    "name": "TRƯỜNG ĐẠI HỌC TÂY ĐÔ",
+    "code": "DTD",
+    "website": "https://tdu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=946"
+  },
+  {
+    "id": 176,
+    "name": "TRƯỜNG ĐẠI HỌC TÂY NGUYÊN",
+    "code": "TTN",
+    "website": "https://www.ttn.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=847"
+  },
+  {
+    "id": 147,
+    "name": "TRƯỜNG ĐẠI HỌC THÁI BÌNH",
+    "code": "DTB",
+    "website": "http://tbu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=958"
+  },
+  {
+    "id": 150,
+    "name": "TRƯỜNG ĐẠI HỌC THÁI BÌNH DƯƠNG",
+    "code": "TBD",
+    "website": "https://tbd.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=907"
+  },
+  {
+    "id": 155,
+    "name": "TRƯỜNG ĐẠI HỌC THÀNH ĐÔ",
+    "code": "TDD",
+    "website": "https://www.thanhdo.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=908"
+  },
+  {
+    "id": 173,
+    "name": "TRƯỜNG ĐẠI HỌC THÀNH ĐÔNG",
+    "code": "DDB",
+    "website": "https://thanhdong.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=959"
+  },
+  {
+    "id": 222,
+    "name": "TRƯỜNG ĐẠI HỌC THĂNG LONG",
+    "code": "DTL",
+    "website": "https://thanglong.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=824"
+  },
+  {
+    "id": 261,
+    "name": "TRƯỜNG ĐẠI HỌC THỂ DỤC THỂ THAO BẮC NINH",
+    "code": "TDB",
+    "website": "http://upes1.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=694"
+  },
+  {
+    "id": 166,
+    "name": "TRƯỜNG ĐẠI HỌC THỂ DỤC THỂ THAO ĐÀ NẴNG",
+    "code": "TTD",
+    "website": "https://upes3.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=695"
+  },
+  {
+    "id": 45,
+    "name": "TRƯỜNG ĐẠI HỌC THỂ DỤC THỂ THAO TP. HỒ CHÍ MINH",
+    "code": "TDS",
+    "website": "http://ush.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=696"
+  },
+  {
+    "id": 281,
+    "name": "TRƯỜNG ĐẠI HỌC THỦ DẦU MỘT",
+    "code": "TDM",
+    "website": "https://tdmu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=858"
+  },
+  {
+    "id": 178,
+    "name": "TRƯỜNG ĐẠI HỌC THỦ ĐÔ HÀ NỘI",
+    "code": "HNM",
+    "website": "https://hnmu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=748"
+  },
+  {
+    "id": 203,
+    "name": "TRƯỜNG ĐẠI HỌC THUỶ LỢI",
+    "code": "TLA",
+    "website": "http://www.tlu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=909"
+  },
+  {
+    "id": 262,
+    "name": "TRƯỜNG ĐẠI HỌC THƯƠNG MẠI",
+    "code": "TMA",
+    "website": "https://tmu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=825"
+  },
+  {
+    "id": 287,
+    "name": "TRƯỜNG ĐẠI HỌC TIỀN GIANG",
+    "code": "TTG",
+    "website": "http://www.tgu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=859"
+  },
+  {
+    "id": 213,
+    "name": "TRƯỜNG ĐẠI HỌC TÔN ĐỨC THẮNG",
+    "code": "DTT",
+    "website": "https://www.tdtu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=721"
+  },
+  {
+    "id": 194,
+    "name": "TRƯỜNG ĐẠI HỌC TRÀ VINH",
+    "code": "DVT",
+    "website": "https://www.tvu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=848"
+  },
+  {
+    "id": 136,
+    "name": "TRƯỜNG ĐẠI HỌC TRƯNG VƯƠNG",
+    "code": "DVP",
+    "website": "http://tv-uni.edu.vn",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=826"
+  },
+  {
+    "id": 47,
+    "name": "TRƯỜNG ĐẠI HỌC TƯ THỤC QUỐC TẾ SÀI GÒN",
+    "code": "TTQ",
+    "website": "https://www.siu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=810"
+  },
+  {
+    "id": 172,
+    "name": "TRƯỜNG ĐẠI HỌC VĂN HIẾN",
+    "code": "DVH",
+    "website": "https://vhu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=761"
+  },
+  {
+    "id": 43,
+    "name": "TRƯỜNG ĐẠI HỌC VĂN HOÁ HÀ NỘI",
+    "code": "VHH",
+    "website": "https://huc.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=763"
+  },
+  {
+    "id": 182,
+    "name": "TRƯỜNG ĐẠI HỌC VĂN HOÁ TP. HỒ CHÍ MINH",
+    "code": "VHS",
+    "website": "https://www.hcmuc.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=764"
+  },
+  {
+    "id": 149,
+    "name": "TRƯỜNG ĐẠI HỌC VĂN HOÁ, THỂ THAO VÀ DU LỊCH THANH HOÁ",
+    "code": "DVD",
+    "website": "http://www.dvtdt.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=697"
+  },
+  {
+    "id": 44,
+    "name": "TRƯỜNG ĐẠI HỌC VĂN LANG",
+    "code": "DVL",
+    "website": "https://www.vanlanguni.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=765"
+  },
+  {
+    "id": 40,
+    "name": "TRƯỜNG ĐẠI HỌC VIỆT ĐỨC",
+    "code": "VGU",
+    "website": "https://vgu.edu.vn/vi/home",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=984"
+  },
+  {
+    "id": 41,
+    "name": "TRƯỜNG ĐẠI HỌC VIỆT NHẬT - ĐẠI HỌC QUỐC GIA HÀ NỘI",
+    "code": "VJU",
+    "website": "http://vju.ac.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=730"
+  },
+  {
+    "id": 297,
+    "name": "TRƯỜNG ĐẠI HỌC VINH",
+    "code": "TDV",
+    "website": "http://vinhuni.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=749"
+  },
+  {
+    "id": 42,
+    "name": "TRƯỜNG ĐẠI HỌC VINUNI",
+    "code": "VIN",
+    "website": "https://vinuni.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=750"
+  },
+  {
+    "id": 158,
+    "name": "TRƯỜNG ĐẠI HỌC VÕ TRƯỜNG TOẢN",
+    "code": "VTT",
+    "website": "http://www.vttu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=895"
+  },
+  {
+    "id": 275,
+    "name": "TRƯỜNG ĐẠI HỌC XÂY DỰNG HÀ NỘI",
+    "code": "XDA",
+    "website": "https://www.nuce.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=827"
+  },
+  {
+    "id": 239,
+    "name": "TRƯỜNG ĐẠI HỌC XÂY DỰNG MIỀN TÂY",
+    "code": "MTU",
+    "website": "http://www.mtu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=698"
+  },
+  {
+    "id": 168,
+    "name": "TRƯỜNG ĐẠI HỌC XÂY DỰNG MIỀN TRUNG",
+    "code": "XDT",
+    "website": "http://muce.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=892"
+  },
+  {
+    "id": 38,
+    "name": "TRƯỜNG ĐẠI HỌC Y DƯỢC - ĐẠI HỌC QUỐC GIA HÀ NỘI",
+    "code": "QHY",
+    "website": "http://ump.vnu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=723"
+  },
+  {
+    "id": 161,
+    "name": "TRƯỜNG ĐẠI HỌC Y DƯỢC BUÔN MA THUỘT",
+    "code": "BMU",
+    "website": "https://bmtu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=840"
+  },
+  {
+    "id": 268,
+    "name": "TRƯỜNG ĐẠI HỌC Y DƯỢC CẦN THƠ",
+    "code": "YCT",
+    "website": "http://www.ctump.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=873"
+  },
+  {
+    "id": 223,
+    "name": "TRƯỜNG ĐẠI HỌC Y DƯỢC HẢI PHÒNG",
+    "code": "YPB",
+    "website": "http://hpmu.edu.vn/hpmu/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=874"
+  },
+  {
+    "id": 232,
+    "name": "TRƯỜNG ĐẠI HỌC Y DƯỢC THÁI BÌNH",
+    "code": "YTB",
+    "website": "http://tbump.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=717"
+  },
+  {
+    "id": 304,
+    "name": "TRƯỜNG ĐẠI HỌC Y DƯỢC, ĐẠI HỌC HUẾ",
+    "code": "DHY",
+    "website": "https://huemed-univ.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=707"
+  },
+  {
+    "id": 269,
+    "name": "TRƯỜNG ĐẠI HỌC Y DƯỢC, ĐẠI HỌC THÁI NGUYÊN",
+    "code": "DTY",
+    "website": "http://tump.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=918"
+  },
+  {
+    "id": 288,
+    "name": "TRƯỜNG ĐẠI HỌC Y HÀ NỘI",
+    "code": "YHB",
+    "website": "https://hmu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=876"
+  },
+  {
+    "id": 138,
+    "name": "TRƯỜNG ĐẠI HỌC Y KHOA PHẠM NGỌC THẠCH",
+    "code": "TYS",
+    "website": "https://www.pnt.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=718"
+  },
+  {
+    "id": 39,
+    "name": "TRƯỜNG ĐẠI HỌC Y KHOA TOKYO VIỆT NAM",
+    "code": "THU",
+    "website": "https://tokyo-human.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=877"
+  },
+  {
+    "id": 162,
+    "name": "TRƯỜNG ĐẠI HỌC Y KHOA VINH",
+    "code": "YKV",
+    "website": "http://www.vmu.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=719"
+  },
+  {
+    "id": 278,
+    "name": "TRƯỜNG ĐẠI HỌC Y TẾ CÔNG CỘNG",
+    "code": "YTC",
+    "website": "https://huph.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=878"
+  },
+  {
+    "id": 174,
+    "name": "TRƯỜNG ĐẠI HỌC YERSIN ĐÀ LẠT",
+    "code": "DYD",
+    "website": "https://yersin.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=960"
+  },
+  {
+    "id": 36,
+    "name": "Viện Chăn nuôi",
+    "code": "VCN",
+    "website": "http://vcn.mard.gov.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=987"
+  },
+  {
+    "id": 37,
+    "name": "Viện Chiến lược phát triển",
+    "code": "V19",
+    "website": "http://vids.mpi.gov.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=988"
+  },
+  {
+    "id": 34,
+    "name": "Viện Công nghiệp thực phẩm",
+    "code": "V08",
+    "website": "https://firi.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=990"
+  },
+  {
+    "id": 35,
+    "name": "Viện Cơ điện Nông nghiệp và Công nghệ sau thu hoạch",
+    "code": "VCD",
+    "website": "http://www.viaep.org.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=989"
+  },
+  {
+    "id": 28,
+    "name": "Viện Dầu khí Việt Nam",
+    "code": "VDK",
+    "website": "http://www.vpi.pvn.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=991"
+  },
+  {
+    "id": 29,
+    "name": "Viện Dinh dưỡng",
+    "code": "V66",
+    "website": "http://viendinhduong.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=992"
+  },
+  {
+    "id": 30,
+    "name": "Viện Dược liệu",
+    "code": "V22",
+    "website": "http://vienduoclieu.org.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=993"
+  },
+  {
+    "id": 31,
+    "name": "Viện Hoá học công nghiệp",
+    "code": "V11",
+    "website": "http://viic.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=994"
+  },
+  {
+    "id": 21,
+    "name": "Viện Khoa học công nghệ xây dựng",
+    "code": "V14",
+    "website": "http://www.ibst.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=995"
+  },
+  {
+    "id": 22,
+    "name": "Viện Khoa học Địa chất và Khoáng sản",
+    "code": "V47",
+    "website": "https://vigmr.vn",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=996"
+  },
+  {
+    "id": 23,
+    "name": "Viện Khoa học Đo đạc và Bản đồ",
+    "code": "KBD",
+    "website": "http://www.vigac.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=997"
+  },
+  {
+    "id": 24,
+    "name": "Viện Khoa học Giáo dục Việt nam",
+    "code": "V46",
+    "website": "http://www.vnies.edu.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=998"
+  },
+  {
+    "id": 25,
+    "name": "Viện Khoa học Khí tượng Thủy văn và Biến đổi khí hậu",
+    "code": "V50",
+    "website": "http://www.imh.ac.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=999"
+  },
+  {
+    "id": 26,
+    "name": "Viện Khoa học Lâm nghiệp Việt Nam",
+    "code": "VLN",
+    "website": "http://vafs.gov.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1000"
+  },
+  {
+    "id": 27,
+    "name": "Viện Khoa học Nông nghiệp Việt Nam",
+    "code": "VKN",
+    "website": "https://vaas.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1001"
+  },
+  {
+    "id": 13,
+    "name": "Viện Khoa học Thể dục thể thao",
+    "code": "VKT",
+    "website": "http://vkhtdtt.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1002"
+  },
+  {
+    "id": 14,
+    "name": "Viện Khoa học Thuỷ lợi Việt Nam",
+    "code": "VTL",
+    "website": "http://www.vawr.org.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1003"
+  },
+  {
+    "id": 15,
+    "name": "Viện Khoa học và Công nghệ Giao thông vận tải",
+    "code": "V13",
+    "website": "http://itst.gov.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1004"
+  },
+  {
+    "id": 32,
+    "name": "Viện Kiểm nghiệm thuốc Trung ương",
+    "code": "NQC",
+    "website": "https://nidqc.gov.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1006"
+  },
+  {
+    "id": 20,
+    "name": "Viện Kiến trúc Quốc gia",
+    "code": "V12",
+    "website": "http://vienkientrucquocgia.gov.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1007"
+  },
+  {
+    "id": 16,
+    "name": "Viện Máy và Dụng cụ công nghiệp",
+    "code": "V48",
+    "website": "http://imi-holding.com/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1009"
+  },
+  {
+    "id": 17,
+    "name": "Viện Năng lượng nguyên tử Việt Nam",
+    "code": "V04",
+    "website": "http://www.vaec.gov.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1010"
+  },
+  {
+    "id": 19,
+    "name": "Viện Nghiên cứu Chiến lược, Chính sách Công Thương",
+    "code": "V17",
+    "website": "http://www.viennghiencuuthuongmai.com.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1011"
+  },
+  {
+    "id": 18,
+    "name": "Viện Nghiên cứu Cơ khí",
+    "code": "V49",
+    "website": "http://narime.gov.vn",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1012"
+  },
+  {
+    "id": 1,
+    "name": "Viện Nghiên cứu Điện tử, Tin học, Tự động hoá",
+    "code": "V02",
+    "website": "https://www.vielina.com/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1013"
+  },
+  {
+    "id": 2,
+    "name": "Viện Nghiên cứu hải sản",
+    "code": "V62",
+    "website": "http://rimf.org.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1014"
+  },
+  {
+    "id": 3,
+    "name": "Viện Nghiên cứu Nuôi trồng thuỷ sản I",
+    "code": "VTS",
+    "website": "http://ria1.org",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1016"
+  },
+  {
+    "id": 4,
+    "name": "Viện Nghiên cứu quản lý kinh tế Trung ương",
+    "code": "V18",
+    "website": "http://www.ciem.org.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1017"
+  },
+  {
+    "id": 5,
+    "name": "Viện Pasteur Thành phố Hồ Chí Minh",
+    "code": "V26",
+    "website": "http://www.pasteurhcm.gov.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1018"
+  },
+  {
+    "id": 6,
+    "name": "Viện Sốt rét - Ký sinh trùng - Côn trùng Trung ương",
+    "code": "V25",
+    "website": "http://nimpe.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1019"
+  },
+  {
+    "id": 7,
+    "name": "Viện Sức khoẻ nghề nghiệp và môi trường",
+    "code": "VYL",
+    "website": "http://www.nioeh.org.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1020"
+  },
+  {
+    "id": 9,
+    "name": "Viện Thú y",
+    "code": "VTY",
+    "website": "http://vienthuy.gov.vn",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1021"
+  },
+  {
+    "id": 8,
+    "name": "Viện Toán học",
+    "code": "V59",
+    "website": "http://math.ac.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1022"
+  },
+  {
+    "id": 10,
+    "name": "Viện Ứng dụng Công nghệ",
+    "code": "VUD",
+    "website": "http://nacentech.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1023"
+  },
+  {
+    "id": 11,
+    "name": "Viện Văn hoá Nghệ thuật quốc gia Việt Nam",
+    "code": "V45",
+    "website": "http://www.vicas.org.vn",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1024"
+  },
+  {
+    "id": 12,
+    "name": "Viện Vệ sinh Dịch tễ Trung ương",
+    "code": "V27",
+    "website": "https://nihe.org.vn/",
+    "moetUrl": "https://moet.gov.vn/cosogiaoduc/Pages/danh-sach.aspx?ItemID=1025"
+  }
+]

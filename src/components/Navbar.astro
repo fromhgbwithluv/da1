@@ -1,0 +1,137 @@
+---
+import HeaderCartButton from './HeaderCartButton.svelte';
+import HeaderAuthButton from './HeaderAuthButton.svelte';
+
+const currentPath = Astro.url.pathname;
+
+function isActive(path: string): boolean {
+  if (path === '/') return currentPath === '/' || currentPath === '';
+  return currentPath.startsWith(path);
+}
+
+const navItems = [
+  { label: 'Trang chủ', href: '/', id: 'nav-home' },
+  { label: 'Công việc', href: '/jobs', id: 'nav-jobs' },
+  { label: 'Về chúng tôi', href: '/about', id: 'nav-about' },
+];
+---
+
+<header class="sticky top-0 z-40 w-full border-b border-swiss-200 bg-white/95 backdrop-blur-md">
+  <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+    <!-- Brand Logo & Slogan (Swiss Grid Typographic Style) -->
+    <a
+      href="/"
+      class="flex items-center gap-3.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black"
+      aria-label="TopSiVi Trang chủ"
+    >
+      <!-- Minimalist geometric mark -->
+      <div class="flex h-9 w-9 items-center justify-center rounded-swiss-sm bg-black text-white font-mono font-bold text-xs tracking-tighter transition-colors group-hover:bg-neutral-800">
+        TSV
+      </div>
+
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="text-lg font-black tracking-swiss-tight text-black font-sans">
+            TopSiVi<span class="text-signal-emerald">.</span>
+          </span>
+          <span class="font-mono text-[10px] uppercase tracking-wider text-swiss-500 border border-swiss-200 px-1.5 py-0.5 rounded-swiss-sm hidden sm:inline-block">
+            SV / 2026
+          </span>
+        </div>
+        <p class="font-mono text-[10px] uppercase tracking-swiss-wide text-swiss-500 hidden sm:block">
+          Trao niềm tin • Nhận tài lộc
+        </p>
+      </div>
+    </a>
+
+    <!-- Primary Navigation Links (Desktop) -->
+    <nav class="hidden md:flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider" aria-label="Main Navigation">
+      {navItems.map((item, index) => {
+        const active = isActive(item.href);
+        return (
+          <a
+            href={item.href}
+            id={item.id}
+            class={`relative rounded-swiss-sm px-3.5 py-1.5 transition-all ${
+              active
+                ? 'bg-black text-white shadow-xs font-black'
+                : 'text-swiss-700 hover:text-black hover:bg-swiss-100 font-bold'
+            }`}
+          >
+            <span class="font-mono text-[10px] opacity-60 mr-1.5">0{index + 1}.</span>
+            <span>{item.label}</span>
+          </a>
+        );
+      })}
+    </nav>
+
+    <!-- Header Actions (Auth, Cart, Post Job CTA) -->
+    <div class="flex items-center gap-2 sm:gap-3">
+      <!-- User Profile & CV Manager Island -->
+      <HeaderAuthButton client:load />
+
+      <!-- Svelte Hydrated Cart Button with real-time count -->
+      <HeaderCartButton client:load />
+
+      <!-- Mobile Menu Toggle Button -->
+      <button
+        type="button"
+        id="mobile-nav-toggle"
+        class="flex h-9 w-9 items-center justify-center rounded-swiss-sm border border-swiss-300 text-black md:hidden hover:border-black transition-colors"
+        aria-label="Mở menu điều hướng"
+        aria-expanded="false"
+      >
+        <svg id="hamburger-icon" class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+        <svg id="close-icon" class="hidden h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Drawer Dropdown -->
+  <div
+    id="mobile-nav-menu"
+    class="hidden border-t border-swiss-200 bg-white px-4 py-3 md:hidden shadow-swiss-card font-mono text-xs uppercase"
+  >
+    <div class="space-y-1.5">
+      {navItems.map((item, index) => {
+        const active = isActive(item.href);
+        return (
+          <a
+            href={item.href}
+            class={`flex items-center justify-between rounded-swiss-sm px-3 py-2 font-bold transition-colors ${
+              active
+                ? 'bg-black text-white'
+                : 'text-black hover:bg-swiss-100'
+            }`}
+          >
+            <span>0{index + 1}. {item.label}</span>
+            <span>→</span>
+          </a>
+        );
+      })}
+    </div>
+  </div>
+</header>
+
+<script>
+  const toggleBtn = document.getElementById('mobile-nav-toggle');
+  const menu = document.getElementById('mobile-nav-menu');
+  const hamburgerIcon = document.getElementById('hamburger-icon');
+  const closeIcon = document.getElementById('close-icon');
+
+  if (toggleBtn && menu) {
+    toggleBtn.addEventListener('click', () => {
+      const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+      toggleBtn.setAttribute('aria-expanded', String(!isExpanded));
+      menu.classList.toggle('hidden');
+      if (hamburgerIcon && closeIcon) {
+        hamburgerIcon.classList.toggle('hidden');
+        closeIcon.classList.toggle('hidden');
+      }
+    });
+  }
+</script>

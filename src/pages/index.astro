@@ -1,16 +1,43 @@
 ---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import StudentTiers from '../components/StudentTiers.astro';
+import JobListings from '../components/JobListings.svelte';
+import TrustSection from '../components/TrustSection.astro';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout
+  title="TopSiVi - Trao niềm tin, nhận tài lộc | Nền tảng việc làm phân tầng sinh viên"
+  description="TopSiVi - Nền tảng việc làm phân tầng chuyên biệt cho 3 nhóm sinh viên: Năm 1-2 Part-time linh hoạt, Năm 3-4 Thực tập sinh có dấu mộc & mentor, Mới tốt nghiệp Fresher Full-time. 100% doanh nghiệp xác minh, cam kết không thu cọc."
+>
+  <!-- Hero Section -->
+  <Hero />
+
+  <!-- Core Concept: 3 Student Tiers -->
+  <StudentTiers />
+
+  <!-- Main Job Listings Section with Interactive Filter & Cart Island -->
+  <section id="viec-lam" class="py-16 bg-white border-b border-swiss-200">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="mb-10 max-w-3xl">
+        <div class="inline-block border-b-2 border-black pb-1 mb-2">
+          <span class="font-mono text-xs font-bold uppercase tracking-swiss-wide text-black">
+            [ 04 // DANH MỤC TUYỂN DỤNG ]
+          </span>
+        </div>
+        <h2 class="text-2xl font-black text-black sm:text-3xl tracking-swiss-tight uppercase">
+          Cơ hội việc làm tuyển chọn & Giỏ hồ sơ
+        </h2>
+        <p class="mt-2 text-xs sm:text-sm text-swiss-600 leading-relaxed">
+          Chọn lọc các công việc bạn yêu thích, bấm nút <strong>"Ghim việc"</strong> để lưu vào giỏ hồ sơ và tiến hành ứng tuyển đồng loạt chỉ trong 1 phút hoàn toàn miễn phí.
+        </p>
+      </div>
+
+      <!-- Homepage shows top 3 priority ranked jobs -->
+      <JobListings client:load isHomePage={true} maxItems={3} />
+    </div>
+  </section>
+
+  <!-- Safety & Student Protection Commitments -->
+  <TrustSection />
+</Layout>

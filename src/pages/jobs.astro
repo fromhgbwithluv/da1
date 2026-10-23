@@ -1,0 +1,33 @@
+---
+import Layout from '../layouts/Layout.astro';
+import JobListings from '../components/JobListings.svelte';
+---
+
+<Layout
+  title="Danh mục công việc phân tầng sinh viên | TopSiVi"
+  description="Toàn bộ danh mục việc làm phân tầng chuyên biệt cho 3 nhóm sinh viên: Part-time linh hoạt, Thực tập sinh có dấu mộc & mentor, Fresher Full-time. 100% doanh nghiệp xác minh, cam kết không thu cọc."
+  keywords="việc làm sinh viên, part time sinh viên, thực tập sinh, internship có dấu mộc, fresher, việc làm topsivi"
+>
+  <div class="py-10 sm:py-14">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <!-- Page Title Header (Swiss Typographic Header) -->
+      <div class="mb-8 border-b-2 border-black pb-6">
+        <div class="inline-block border border-black bg-white px-2.5 py-0.5 mb-2 rounded-swiss-xs shadow-xs">
+          <span class="font-mono text-[10px] font-bold uppercase tracking-swiss-wide text-black">
+            [ JOBS DIRECTORY // DANH MỤC VIỆC LÀM ]
+          </span>
+        </div>
+        <h1 class="text-2xl font-black text-black sm:text-4xl tracking-swiss-tight uppercase leading-tight">
+          Khám phá toàn bộ cơ hội việc làm tuyển chọn
+        </h1>
+        <p class="mt-2 text-xs sm:text-sm text-swiss-600 leading-relaxed max-w-3xl">
+          Tìm kiếm theo phân tầng sinh viên (Năm 1-2, Năm 3-4, Mới tốt nghiệp), lọc theo địa bàn 34 tỉnh thành và cấp phường/xã.
+          Các bài đăng từ doanh nghiệp uy tín được hiển thị minh bạch, bảo vệ quyền lợi ứng viên 100%.
+        </p>
+      </div>
+
+      <!-- Interactive Svelte Component Island with full listings -->
+      <JobListings client:load isHomePage={false} />
+    </div>
+  </div>
+</Layout>

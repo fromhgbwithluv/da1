@@ -1,0 +1,61 @@
+---
+import '../styles/global.css';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import GlobalModals from '../components/GlobalModals.svelte';
+
+interface Props {
+  title?: string;
+  description?: string;
+  keywords?: string;
+  ogImage?: string;
+}
+
+const {
+  title = 'TopSiVi - Trao niềm tin, nhận tài lộc | Nền tảng việc làm phân tầng sinh viên',
+  description = 'Nền tảng việc làm phân tầng chuyên biệt cho 3 nhóm sinh viên: Năm 1-2 Part-time linh hoạt, Năm 3-4 Thực tập sinh có dấu mộc & mentor, Mới tốt nghiệp Fresher Full-time. 100% doanh nghiệp xác minh, cam kết không thu cọc.',
+  keywords = 'TopSiVi, việc làm sinh viên, part time sinh viên, thực tập sinh, internship có dấu mộc, fresher, trao niềm tin nhận tài lộc',
+  ogImage = 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=80',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- SEO Meta Tags -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content={keywords} />
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+
+    <!-- Google Fonts Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  </head>
+
+  <body class="min-h-screen bg-swiss-50 text-black antialiased selection:bg-black selection:text-white font-sans flex flex-col justify-between">
+    <!-- Reusable Navbar -->
+    <Navbar />
+
+    <!-- Main Page Content Slot -->
+    <main class="flex-1">
+      <slot />
+    </main>
+
+    <!-- Global Client Modals, Drawers & Toast Island -->
+    <GlobalModals client:load />
+
+    <!-- Reusable Footer -->
+    <Footer />
+  </body>
+</html>
