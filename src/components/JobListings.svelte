@@ -252,7 +252,7 @@
         {#if $currentUser?.role === 'company'}
           <button
             type="button"
-            onclick={openPostJobModal}
+            onclick={() => openPostJobModal()}
             class="rounded-swiss-sm bg-signal-emerald px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-wide text-white hover:bg-emerald-700 transition-colors shadow-swiss-card"
           >
             + Đăng tin tuyển dụng (Markdown)

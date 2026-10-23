@@ -165,7 +165,7 @@
             </button>
             <button
               type="button"
-              onclick={openPostJobModal}
+              onclick={() => openPostJobModal()}
               class="rounded-swiss-sm bg-black px-4 py-2 font-mono text-xs font-bold uppercase tracking-wider text-white hover:bg-neutral-800 transition-colors shadow-swiss-card"
             >
               + Đăng tin tuyển dụng
@@ -385,7 +385,7 @@
             {#if isOwner}
               <button
                 type="button"
-                onclick={openPostJobModal}
+                onclick={() => openPostJobModal()}
                 class="font-mono text-xs font-bold uppercase text-black hover:underline"
               >
                 [ + Đăng thêm việc ]
@@ -407,7 +407,7 @@
               {#if isOwner}
                 <button
                   type="button"
-                  onclick={openPostJobModal}
+                  onclick={() => openPostJobModal()}
                   class="mt-3 rounded-swiss-sm bg-black px-4 py-2 font-mono text-xs font-bold uppercase text-white hover:bg-neutral-800"
                 >
                   Đăng tin tuyển dụng đầu tiên

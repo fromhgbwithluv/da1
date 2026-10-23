@@ -41,7 +41,7 @@
     {#if $currentUser.role === 'company'}
       <button
         type="button"
-        onclick={openPostJobModal}
+        onclick={() => openPostJobModal()}
         class="hidden sm:inline-flex items-center gap-1 rounded-swiss-sm bg-signal-emerald px-2.5 py-1.5 font-mono text-[11px] font-bold uppercase text-white hover:bg-emerald-700 transition-colors shadow-xs"
       >
         <span>+ Đăng tin việc</span>

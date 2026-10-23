@@ -57,9 +57,18 @@ export function closeAuthModal() {
   isAuthModalOpen.set(false);
 }
 
-export function openPostJobModal(jobToEdit?: Job) {
-  if (jobToEdit) {
-    editingJob.set(jobToEdit);
+export function openPostJobModal(jobToEdit?: Job | any) {
+  const isValidJob =
+    jobToEdit &&
+    typeof jobToEdit === 'object' &&
+    typeof jobToEdit.id === 'string' &&
+    typeof jobToEdit.title === 'string' &&
+    !('clientX' in jobToEdit) &&
+    !('target' in jobToEdit) &&
+    !('preventDefault' in jobToEdit);
+
+  if (isValidJob) {
+    editingJob.set(jobToEdit as Job);
   } else {
     editingJob.set(null);
   }
