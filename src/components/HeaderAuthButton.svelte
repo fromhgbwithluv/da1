@@ -5,9 +5,6 @@
     openPostJobModal,
     openUpgradeModal,
     openApplicationHistoryModal,
-    openCloudConfigModal,
-    isCloudConnected,
-    isCloudSyncing,
     getCompanyMonthlyJobStats,
     logout
   } from '../stores/auth';
@@ -209,24 +206,6 @@
               <span>Chỉnh sửa thông tin & CV</span>
             </div>
           </button>
-
-          <!-- Cloud Database Sync Menu Item -->
-          <button
-            type="button"
-            onclick={() => { isDropdownOpen = false; openCloudConfigModal(); }}
-            class="flex w-full items-center justify-between rounded-swiss-sm px-3 py-2 text-xs font-medium text-swiss-800 hover:bg-swiss-100 hover:text-black transition-colors"
-            role="menuitem"
-          >
-            <div class="flex items-center gap-2">
-              <span class="text-xs">☁️</span>
-              <span>Cấu hình Cloud Database</span>
-            </div>
-            {#if $isCloudConnected}
-              <span class="h-2 w-2 rounded-full bg-signal-emerald" title="Đã kết nối"></span>
-            {:else}
-              <span class="font-mono text-[9px] uppercase px-1 py-0.2 rounded bg-amber-100 text-amber-800 border border-amber-300">Local</span>
-            {/if}
-          </button>
         </div>
 
         <div class="border-t border-swiss-200 pt-1">
@@ -260,19 +239,3 @@
     <span class="sm:hidden font-bold">Tài khoản</span>
   </button>
 {/if}
-
-<!-- Quick Cloud Sync Status Badge Button -->
-<button
-  type="button"
-  id="header-cloud-sync-btn"
-  onclick={openCloudConfigModal}
-  class="inline-flex items-center gap-1.5 rounded-swiss-md border px-2 sm:px-2.5 py-1.5 text-xs font-mono transition-colors {$isCloudConnected ? 'border-signal-emerald/60 bg-emerald-50/50 text-emerald-800 hover:border-signal-emerald' : 'border-swiss-300 bg-white text-swiss-600 hover:border-black hover:text-black'}"
-  title={$isCloudConnected ? 'Cloud DB: Đã kết nối Supabase (Realtime Sync)' : 'Cloud DB: Đang chạy Local Storage (Bấm để kết nối Supabase)'}
-  aria-label="Cấu hình Cloud Database"
->
-  <span class="text-xs">☁️</span>
-  <span class="h-1.5 w-1.5 rounded-full {$isCloudConnected ? 'bg-signal-emerald animate-pulse' : 'bg-amber-400'}"></span>
-  <span class="hidden md:inline text-[10px] font-bold uppercase">
-    {$isCloudConnected ? 'Cloud' : 'Local'}
-  </span>
-</button>

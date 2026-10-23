@@ -175,7 +175,10 @@ export async function pushCloudDatabase(db: AppDatabase): Promise<boolean> {
   try {
     const payload = {
       id: RECORD_ID,
-      data: db,
+      data: {
+        ...db,
+        activeUserId: null, // Session is strictly local to each device, never sync activeUserId to cloud
+      },
       updated_at: new Date().toISOString()
     };
 

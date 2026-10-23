@@ -6,7 +6,6 @@
   import PostJobModal from './PostJobModal.svelte';
   import UpgradePlanModal from './UpgradePlanModal.svelte';
   import ApplicationHistoryModal from './ApplicationHistoryModal.svelte';
-  import CloudDatabaseModal from './CloudDatabaseModal.svelte';
   import Toast from './Toast.svelte';
 </script>
 
@@ -18,5 +17,4 @@
 <PostJobModal />
 <UpgradePlanModal />
 <ApplicationHistoryModal />
-<CloudDatabaseModal />
 <Toast />
