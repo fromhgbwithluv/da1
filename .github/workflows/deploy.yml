@@ -28,19 +28,19 @@ jobs:
       - name: 1. Checkout repository
         uses: actions/checkout@v4
 
-      - name: 2. Cài đặt Node.js LTS
-        uses: actions/setup-node@v4
+      - name: 2. Cài đặt Deno
+        uses: denoland/setup-deno@v2
         with:
-          node-version: 22
+          deno-version: v2.x
 
       - name: 3. Thiết lập GitHub Pages
         uses: actions/configure-pages@v5
 
       - name: 4. Cài đặt Dependencies
-        run: npm install
+        run: deno install
 
       - name: 5. Build dự án Astro
-        run: npm run build
+        run: deno task build
 
       - name: 6. Upload static artifacts
         uses: actions/upload-pages-artifact@v3
