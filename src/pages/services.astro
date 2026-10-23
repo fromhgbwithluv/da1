@@ -1,0 +1,86 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ServicesList from '../components/ServicesList.svelte';
+---
+
+<Layout
+  title="Dịch vụ Hỗ trợ Nghề nghiệp & Doanh nghiệp | TopSiVi"
+  description="Hệ thống 6 gói dịch vụ tối ưu hóa CV ATS, thiết kế portfolio cá nhân hóa, phỏng vấn thử 1-1 cùng mentor và gói tuyển dụng VIP dành cho doanh nghiệp."
+>
+  <div class="border-b border-swiss-200 bg-white py-12 lg:py-16">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <!-- Section Tag & Authoritative Header -->
+      <div class="max-w-3xl space-y-4">
+        <div class="inline-flex items-center gap-2 rounded-swiss-sm border border-black bg-swiss-50 px-2.5 py-1">
+          <span class="h-1.5 w-1.5 bg-signal-emerald"></span>
+          <span class="font-mono text-[11px] font-black uppercase tracking-swiss-wide text-black">
+            [ 04 // HỆ THỐNG DỊCH VỤ ]
+          </span>
+        </div>
+
+        <h1 class="text-3xl font-black uppercase tracking-swiss-tight text-black sm:text-4xl lg:text-5xl lg:leading-tight">
+          Dịch vụ Hỗ trợ Nghề nghiệp <br class="hidden sm:inline">
+          <span class="underline decoration-signal-emerald decoration-4 underline-offset-4">
+            & Doanh nghiệp
+          </span>
+        </h1>
+
+        <p class="text-sm text-swiss-600 sm:text-base leading-relaxed">
+          Đồng hành cùng sinh viên từ bước trau chuốt hồ sơ cá nhân, tập dượt phỏng vấn cùng chuyên gia đến giải pháp tiếp cận ứng viên chất lượng cao dành cho doanh nghiệp đối tác.
+        </p>
+
+        <!-- Fast Guarantees (Neubrutalism Mini Grid) -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+          <div class="rounded-lg border-2 border-black bg-swiss-50 p-3 shadow-[2px_2px_0px_0px_#000]">
+            <span class="font-mono text-[10px] font-black uppercase text-swiss-500 block">CAM KẾT 01 //</span>
+            <span class="font-mono text-xs font-black text-black">Mentor 1-1 từ doanh nghiệp</span>
+          </div>
+          <div class="rounded-lg border-2 border-black bg-swiss-50 p-3 shadow-[2px_2px_0px_0px_#000]">
+            <span class="font-mono text-[10px] font-black uppercase text-swiss-500 block">CAM KẾT 02 //</span>
+            <span class="font-mono text-xs font-black text-signal-emerald">Phản hồi kết quả 24h - 48h</span>
+          </div>
+          <div class="rounded-lg border-2 border-black bg-swiss-50 p-3 shadow-[2px_2px_0px_0px_#000]">
+            <span class="font-mono text-[10px] font-black uppercase text-swiss-500 block">CAM KẾT 03 //</span>
+            <span class="font-mono text-xs font-black text-black">Chi phí minh bạch 100%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content: Services Filter & Cards -->
+  <main class="py-12 bg-swiss-50">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <ServicesList client:load />
+    </div>
+  </main>
+
+  <!-- Bottom Notice Box (Neubrutalism Callout) -->
+  <section class="border-t border-swiss-200 bg-white py-12">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="rounded-xl border-[3px] border-black bg-black text-white p-6 sm:p-8 shadow-[5px_5px_0px_0px_#000]">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div class="space-y-2">
+            <span class="font-mono text-xs font-bold text-signal-emerald uppercase tracking-wider block">
+              TOPSIVI SERVICE GUARANTEE //
+            </span>
+            <h3 class="text-xl font-black uppercase tracking-tight sm:text-2xl text-white">
+              Cần tư vấn gói dịch vụ tùy chỉnh hoặc hợp tác doanh nghiệp?
+            </h3>
+            <p class="text-xs text-neutral-300 max-w-2xl font-sans">
+              Chúng tôi luôn sẵn sàng hỗ trợ các buổi định hướng nghề nghiệp tại trường Đại học cũng như các chiến dịch tuyển dụng quy mô lớn.
+            </p>
+          </div>
+
+          <a
+            href="mailto:admin@wherejourneybegins.web.id"
+            class="shrink-0 inline-flex items-center justify-center gap-2 rounded-lg border-2 border-white bg-white px-6 py-3 font-mono text-xs font-black uppercase tracking-wider text-black hover:bg-neutral-100 transition-colors shadow-[3px_3px_0px_0px_#fff]"
+          >
+            <span>Liên hệ đội ngũ cố vấn</span>
+            <span>→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

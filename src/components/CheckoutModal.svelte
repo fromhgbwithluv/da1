@@ -6,6 +6,8 @@
     favoriteJobs
   } from '../stores/favorites';
   import { currentUser, openAuthModal, recordApplication } from '../stores/auth';
+  import { showToast } from '../stores/toast';
+  import { isValidVietnamesePhone } from '../utils/formatters';
   import UniversitySelect from './UniversitySelect.svelte';
   import Modal from './Modal.svelte';
 
@@ -55,6 +57,11 @@
 
   function handleSubmit(e: SubmitEvent) {
     e.preventDefault();
+    if (!isValidVietnamesePhone(phone)) {
+      showToast('Số điện thoại không đúng chuẩn di động Việt Nam (gồm 10 số, bắt đầu bằng 03, 05, 07, 08, 09)!', 'remove');
+      return;
+    }
+
     isSubmitting = true;
 
     // Simulate network latency
@@ -180,12 +187,15 @@
               </div>
 
               <div>
-                <label for="checkout-phone" class="block font-mono text-[11px] uppercase tracking-wide text-swiss-700 mb-1">Số điện thoại / Zalo *</label>
+                <label for="checkout-phone" class="block font-mono text-[11px] uppercase tracking-wide text-swiss-700 mb-1">
+                  Số điện thoại / Zalo (10 số di động) *
+                </label>
                 <input
                   type="tel"
                   id="checkout-phone"
                   bind:value={phone}
                   required
+                  maxlength="12"
                   placeholder="0912 345 678"
                   class="w-full rounded-swiss-sm border border-swiss-300 px-3 py-2 text-xs font-medium text-black focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
                 />

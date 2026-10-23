@@ -17,6 +17,8 @@
     exportDatabaseJSON,
     openPostJobModal
   } from '../stores/auth';
+  import { showToast } from '../stores/toast';
+  import { isValidVietnamesePhone } from '../utils/formatters';
   import type { UserRole } from '../types/user';
   import UniversitySelect from './UniversitySelect.svelte';
   import Modal from './Modal.svelte';
@@ -105,6 +107,11 @@
     e.preventDefault();
     if (!regFullName.trim() || !regEmail.trim() || !regUsername.trim() || !regPhone.trim()) return;
 
+    if (!isValidVietnamesePhone(regPhone)) {
+      showToast('Số điện thoại không đúng định dạng di động Việt Nam (gồm 10 số, bắt đầu bằng 03, 05, 07, 08, 09)!', 'remove');
+      return;
+    }
+
     register({
       role: regRole,
       fullName: regFullName.trim(),
@@ -130,6 +137,11 @@
 
   function handleSaveProfile(e: SubmitEvent) {
     e.preventDefault();
+    if (editPhone && !isValidVietnamesePhone(editPhone)) {
+      showToast('Số điện thoại không đúng định dạng di động Việt Nam (gồm 10 số, bắt đầu bằng 03, 05, 07, 08, 09)!', 'remove');
+      return;
+    }
+
     if ($currentUser?.role === 'student') {
       updateProfile({
         fullName: editFullName,
@@ -426,13 +438,14 @@
 
               <div>
                 <label for="reg-phone" class="block font-mono text-[11px] uppercase tracking-wide text-swiss-700 mb-1">
-                  Số điện thoại / Hotline *
+                  Số điện thoại / Hotline (10 số di động) *
                 </label>
                 <input
                   type="tel"
                   id="reg-phone"
                   bind:value={regPhone}
                   required
+                  maxlength="12"
                   placeholder="0912 345 678"
                   class="w-full rounded-swiss-sm border border-swiss-300 px-3 py-2 text-xs font-medium text-black focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
                 />

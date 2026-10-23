@@ -5,6 +5,7 @@ import type { Job } from '../types/job';
 import initialDb from '../data/database.json';
 import { showToast } from './toast';
 import { detectProvinceFromLocation, detectWardFromLocation, normalizeVietnamese } from '../data/provinces';
+import { isValidVietnamesePhone } from '../utils/formatters';
 import {
   isSupabaseConfigured,
   fetchCloudDatabase,
@@ -307,6 +308,11 @@ export function register(userData: {
     return null;
   }
 
+  if (!isValidVietnamesePhone(userData.phone)) {
+    showToast('Số điện thoại không đúng chuẩn di động Việt Nam (gồm 10 số, bắt đầu bằng 03, 05, 07, 08, 09)!', 'remove');
+    return null;
+  }
+
   const id = (userData.role === 'company' ? 'com-' : 'std-') + Date.now();
   const now = new Date().toISOString();
 
@@ -363,6 +369,11 @@ export function logout() {
 }
 
 export function updateProfile(fields: Partial<UserProfile>): boolean {
+  if (fields.phone && !isValidVietnamesePhone(fields.phone)) {
+    showToast('Số điện thoại không đúng chuẩn di động Việt Nam (gồm 10 số, bắt đầu bằng 03, 05, 07, 08, 09)!', 'remove');
+    return false;
+  }
+
   const db = databaseStore.get();
   const activeId = db.activeUserId;
   if (!activeId) return false;
