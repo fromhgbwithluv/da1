@@ -8,6 +8,7 @@
     getCompanyMonthlyJobStats,
     logout
   } from '../stores/auth';
+  import { url } from '../utils/url';
 
   let isDropdownOpen = $state(false);
 
@@ -113,7 +114,7 @@
         <div class="py-1">
           <!-- Direct public profile link as requested: https://website.com/profile/@username -->
           <a
-            href="/profile/@{$currentUser.username}"
+            href={url(`/profile/@${$currentUser.username}`)}
             class="flex w-full items-center justify-between rounded-swiss-sm px-3 py-2 text-xs font-medium text-swiss-800 hover:bg-swiss-100 hover:text-black transition-colors"
             role="menuitem"
           >

@@ -7,6 +7,7 @@
   } from '../stores/auth';
   import { openJobDetail } from '../stores/favorites';
   import { formatDateTime } from '../utils/formatters';
+  import { url } from '../utils/url';
   import Modal from './Modal.svelte';
   import Badge from './Badge.svelte';
   import type { AppliedJobRecord } from '../types/user';
@@ -55,7 +56,7 @@
             </span>
             {#if record.companyUsername}
               <a
-                href={`/profile/${record.companyUsername}`}
+                href={url(`/profile/${record.companyUsername}`)}
                 class="text-[10px] text-swiss-500 hover:text-black hover:underline lowercase"
               >
                 ({record.companyUsername})

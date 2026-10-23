@@ -1,0 +1,60 @@
+name: Deploy TopSiVi to GitHub Pages
+
+on:
+  # Chạy tự động mỗi khi push code lên nhánh main
+  push:
+    branches:
+      - main
+
+  # Cho phép kích hoạt thủ công từ tab Actions trên GitHub
+  workflow_dispatch:
+
+# Cấp quyền cho GITHUB_TOKEN để deploy lên GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Chỉ cho phép 1 bản deployment chạy đồng thời để tránh xung đột
+concurrency:
+  group: 'pages'
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build Website
+    runs-on: ubuntu-latest
+    steps:
+      - name: 1. Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 2. Cài đặt Node.js LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: 3. Thiết lập GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: 4. Cài đặt Dependencies
+        run: npm install
+
+      - name: 5. Build dự án Astro
+        run: npm run build
+
+      - name: 6. Upload static artifacts
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy trang web
+        id: deployment
+        uses: actions/deploy-pages@v4

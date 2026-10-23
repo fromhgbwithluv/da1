@@ -228,7 +228,7 @@
         </div>
 
         <a
-          href="/jobs"
+          href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/jobs`}
           class="inline-flex items-center gap-2 rounded-swiss-sm bg-black px-6 py-3 font-mono text-xs font-bold uppercase tracking-wider text-white hover:bg-neutral-800 transition-colors shadow-swiss-card shrink-0"
         >
           <span>Xem tất cả công việc ({allJobs.length} việc)</span>

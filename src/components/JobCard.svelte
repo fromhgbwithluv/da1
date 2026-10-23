@@ -3,6 +3,7 @@
   import { favoriteJobs, toggleFavorite, openJobDetail, openCheckout } from '../stores/favorites';
   import { currentUser, openPostJobModal, deleteJob } from '../stores/auth';
   import { getCategoryLabel } from '../utils/formatters';
+  import { url } from '../utils/url';
   import Badge from './Badge.svelte';
 
   let { job } = $props<{ job: Job }>();
@@ -105,7 +106,7 @@
     <div class="mb-1.5 flex items-center justify-between text-xs text-swiss-500 font-mono">
       {#if job.companyUsername}
         <a
-          href={`/profile/${job.companyUsername}`}
+          href={url(`/profile/${job.companyUsername}`)}
           class="font-bold text-black uppercase tracking-tight truncate max-w-[70%] hover:underline flex items-center gap-1 group/company"
           title={`Xem hồ sơ doanh nghiệp ${job.company}`}
         >

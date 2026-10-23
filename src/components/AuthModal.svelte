@@ -20,6 +20,7 @@
   import type { UserRole } from '../types/user';
   import UniversitySelect from './UniversitySelect.svelte';
   import Modal from './Modal.svelte';
+  import { url } from '../utils/url';
 
   // Login form state
   let loginIdentifier = $state('');
@@ -631,7 +632,7 @@
                   ĐƯỜNG DẪN TRANG CÁ NHÂN CÔNG KHAI:
                 </span>
                 <a
-                  href="/profile/@{$currentUser.username}"
+                  href={url(`/profile/@${$currentUser.username}`)}
                   class="font-mono text-xs font-black text-black hover:text-signal-emerald underline"
                 >
                   /profile/@{$currentUser.username} →

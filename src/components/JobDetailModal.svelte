@@ -9,6 +9,7 @@
   import { currentUser, openPostJobModal, deleteJob } from '../stores/auth';
   import { renderMarkdown } from '../utils/markdown';
   import { getCategoryLabel } from '../utils/formatters';
+  import { url } from '../utils/url';
   import Modal from './Modal.svelte';
   import Badge from './Badge.svelte';
 
@@ -95,7 +96,7 @@
         <div class="absolute bottom-4 left-6 right-6 text-white">
           {#if $selectedJobDetail.companyUsername}
             <a
-              href={`/profile/${$selectedJobDetail.companyUsername}`}
+              href={url(`/profile/${$selectedJobDetail.companyUsername}`)}
               class="inline-flex items-center gap-1.5 font-mono text-[11px] font-bold uppercase tracking-wide text-white hover:underline bg-black/60 px-2 py-0.5 rounded border border-neutral-700 hover:border-white transition-colors"
             >
               <span>{$selectedJobDetail.company}</span>
