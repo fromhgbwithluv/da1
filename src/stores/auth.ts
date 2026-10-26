@@ -744,6 +744,7 @@ export function postNewJob(jobData: {
     markdownContent: jobData.markdownContent,
     deadline: jobData.deadline || '30/12/2026',
     postedAt: 'Vừa xong',
+    updatedAt: now,
     verified: true,
     tags: jobData.tags && jobData.tags.length > 0 ? jobData.tags : [primaryCategory, user.industry || 'Tuyển dụng'],
   };
@@ -914,8 +915,8 @@ function mergeDatabases(localDb: AppDatabase, remoteDb: AppDatabase): AppDatabas
         jobMap.set(j.id, j);
       } else {
         const existing = jobMap.get(j.id)!;
-        const localTime = new Date(j.createdAt || 0).getTime();
-        const remoteTime = new Date(existing.createdAt || 0).getTime();
+        const localTime = new Date(j.updatedAt || 0).getTime();
+        const remoteTime = new Date(existing.updatedAt || 0).getTime();
         if (localTime > remoteTime) {
           jobMap.set(j.id, j);
         }
