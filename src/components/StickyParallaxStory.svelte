@@ -641,22 +641,6 @@
     return 2;
   });
 
-  function scrollToStage(stageIndex: number) {
-    if (!trackEl) return;
-    const targetP = stageMeta[stageIndex].centerTargetP;
-    const rect = trackEl.getBoundingClientRect();
-    const trackTop = window.scrollY + rect.top;
-    const scrollableDistance = trackEl.offsetHeight - window.innerHeight;
-    const targetScrollY = trackTop + scrollableDistance * targetP;
-
-    const lenis = getLenis();
-    if (lenis) {
-      lenis.scrollTo(targetScrollY, { duration: 1.2 });
-    } else {
-      window.scrollTo({ top: targetScrollY, behavior: 'smooth' });
-    }
-  }
-
   function handleRecruitClick() {
     if ($currentUser) {
       openPostJobModal();
@@ -734,39 +718,6 @@
       <circle cx={originX} cy={originY} r={baseRadius * 0.82} fill="none" stroke="#70ffaf" stroke-width="1.2" />
       <circle cx={originX} cy={originY} r={baseRadius * 1.00} fill="none" stroke="#70ffaf" stroke-width="1.2" />
     </svg>
-
-    <!-- Top Navigation & Stage Selector -->
-    <div class="relative z-30 mx-auto flex w-full max-w-7xl items-center justify-between px-4 pt-20 sm:px-6 lg:px-8">
-      <div class="flex items-center gap-1.5 sm:gap-2.5 bg-obsidian-800/90 border border-obsidian-700/80 backdrop-blur-md p-1.5 rounded-full shadow-lg">
-        {#each stageMeta as stage}
-          <button
-            type="button"
-            onclick={() => scrollToStage(stage.index)}
-            class="flex items-center gap-2 rounded-full px-4 py-2 text-xs sm:text-sm font-bold transition-all duration-200 {activeStage === stage.index
-              ? 'bg-mint text-obsidian-900 shadow-mint-glow scale-102'
-              : 'text-alabaster-300 hover:text-alabaster-50'}"
-          >
-            <span class="font-mono text-xs opacity-75">{stage.code}.</span>
-            <span>{stage.title}</span>
-          </button>
-        {/each}
-      </div>
-
-      <!-- Orbital Direction & Progress Badge -->
-      <div class="hidden sm:flex items-center gap-3 rounded-full border border-obsidian-700/80 bg-obsidian-800/80 px-4 py-2 backdrop-blur-md">
-        <span class="font-mono text-xs text-mint flex items-center gap-1.5">
-          <span>↺</span>
-          <span>Quỹ đạo ngược chiều kim đồng hồ</span>
-        </span>
-        <div class="h-2 w-28 overflow-hidden rounded-full bg-obsidian-700">
-          <div
-            class="h-full rounded-full bg-mint transition-all duration-75"
-            style="width: {(smoothProgress * 100).toFixed(1)}%;"
-          ></div>
-        </div>
-        <span class="font-mono text-xs font-bold text-mint">{Math.round(smoothProgress * 100)}%</span>
-      </div>
-    </div>
 
     <!-- MAIN ORBITAL CANVAS: SVG CONNECTIONS + UPRIGHT EXPANDED CARDS -->
     <div class="pointer-events-none absolute inset-0 z-20 h-full w-full">
@@ -981,12 +932,6 @@
     <!-- BOTTOM CENTER HEMISPHERE / DOME (Anchored at bottom center as orbital axis) -->
     <div class="relative z-30 mx-auto flex w-full flex-col items-center justify-end">
       <div class="relative flex h-40 w-[340px] sm:h-48 sm:w-[480px] flex-col items-center justify-center rounded-t-full border-t-2 border-x-2 border-mint bg-obsidian-800/95 px-8 pt-6 text-center shadow-[0_-20px_60px_rgba(112,255,175,0.22)] backdrop-blur-md">
-        <!-- Rotating Tick Arc inside Dome -->
-        <div
-          class="pointer-events-none absolute -inset-3.5 rounded-t-full border border-dashed border-mint/35"
-          style="transform: rotate({(-smoothProgress * 180).toFixed(1)}deg); transform-origin: bottom center;"
-        ></div>
-
         <span class="font-mono text-xs font-bold uppercase tracking-widest text-mint mb-1.5">
           GIAI ĐOẠN 0{activeStage + 1} / 03
         </span>
