@@ -12,18 +12,17 @@
     sub?: string;
     tag?: string;
     link?: string;
+    image?: string;       // Direct image replacement (e.g. real Facebook post image)
     baseAngle: number;    // Base polar angle in degrees (0 = right horizon, 90 = top zenith, 180 = left horizon)
-    radiusRatio: number;  // Multiplier on baseRadius (0.48 - 0.92)
+    radiusRatio: number;  // Multiplier on baseRadius (0.44 - 1.02 for wide radial separation)
     postSnippet?: string;
     postSource?: string;
   }
 
-  // --- 44 NODES FORMING A SEAMLESS CONTINUOUS CELESTIAL PARADE ---
+  // --- 44 NODES WITH WIDE RADIAL SEPARATION AND LARGER BOXES ---
   const ALL_NODES: OrbitNode[] = [
     // =========================================================
-    // GIAI ĐOẠN 1: THỰC TRẠNG (Base angles: +145° down to -55°)
-    // Visible at start: +145° to +25°
-    // Extended Part 1B rises as user scrolls: +20° down to -55°
+    // GIAI ĐOẠN 1: THỰC TRẠNG (Base angles: +145° down to -56°)
     // =========================================================
     {
       id: 's1-itviec',
@@ -32,7 +31,7 @@
       title: 'IT viec',
       sub: 'Nền tảng IT',
       baseAngle: 145,
-      radiusRatio: 0.72,
+      radiusRatio: 0.82,
     },
     {
       id: 's1-req-exp',
@@ -40,19 +39,18 @@
       kind: 'problem',
       title: 'Yêu cầu kn',
       sub: 'Đòi 1–2 năm KN cho vị trí mới ra trường',
-      baseAngle: 130,
-      radiusRatio: 0.52,
+      baseAngle: 132,
+      radiusRatio: 0.48,
     },
     {
       id: 's1-post-1',
       stage: 0,
       kind: 'post',
-      title: 'Bài tuyển dụng #1',
+      title: 'Việc làm parttime sinh viên TPHCM',
       sub: 'Facebook Group',
-      postSource: 'FB: Việc Làm Sinh Viên',
-      postSnippet: 'Tuyển gấp CTV nhập liệu tại nhà 300k/ngày, không yêu cầu bằng cấp...',
+      image: '/images/posts/fb-post-1.jpg', // Replaced with user's real screenshot
       baseAngle: 115,
-      radiusRatio: 0.84,
+      radiusRatio: 0.98, // Outer track
     },
     {
       id: 's1-linkedin',
@@ -60,8 +58,8 @@
       kind: 'badge',
       title: 'Linked In',
       sub: 'Mạng chuyên nghiệp',
-      baseAngle: 100,
-      radiusRatio: 0.62,
+      baseAngle: 102,
+      radiusRatio: 0.66,
     },
     {
       id: 's1-career',
@@ -70,7 +68,7 @@
       title: 'career viet',
       sub: 'Cổng việc làm',
       baseAngle: 90,
-      radiusRatio: 0.48,
+      radiusRatio: 0.44, // Inner track
     },
     {
       id: 's1-post-2',
@@ -80,8 +78,8 @@
       sub: 'Threads Post',
       postSource: 'Threads: @sinhvien_confession',
       postSnippet: 'Cảnh báo bẫy lừa đảo thực tập bắt đóng cọc 500k làm hồ sơ rồi biến mất...',
-      baseAngle: 75,
-      radiusRatio: 0.86,
+      baseAngle: 76,
+      radiusRatio: 1.02, // Outer track
     },
     {
       id: 's1-topcv',
@@ -90,7 +88,7 @@
       title: 'top CV',
       sub: 'Sàn tuyển dụng',
       baseAngle: 62,
-      radiusRatio: 0.58,
+      radiusRatio: 0.64,
     },
     {
       id: 's1-scattered',
@@ -98,10 +96,10 @@
       kind: 'problem',
       title: 'rải rác?',
       sub: 'Thông tin phân mảnh khắp 10+ kênh',
-      baseAngle: 45,
-      radiusRatio: 0.70,
+      baseAngle: 46,
+      radiusRatio: 0.84,
     },
-    // Extended Part 1B (Rises as scroll starts)
+    // Extended Part 1B
     {
       id: 's1-post-3',
       stage: 0,
@@ -110,8 +108,8 @@
       sub: 'Sàn tuyển dụng đại trà',
       postSource: 'Sàn tuyển dụng',
       postSnippet: 'Thực tập sinh Marketing không lương, cam kết làm full-time 6 tháng...',
-      baseAngle: 25,
-      radiusRatio: 0.85,
+      baseAngle: 26,
+      radiusRatio: 1.00, // Outer track
     },
     {
       id: 's1-vieclam24h',
@@ -119,8 +117,8 @@
       kind: 'badge',
       title: 'Vieclam24h',
       sub: 'Kênh việc làm',
-      baseAngle: 12,
-      radiusRatio: 0.60,
+      baseAngle: 14,
+      radiusRatio: 0.62,
     },
     {
       id: 's1-jd-vague',
@@ -128,8 +126,8 @@
       kind: 'problem',
       title: 'JD mập mờ?',
       sub: 'Mô tả chung chung, giấu mức lương thực',
-      baseAngle: -2,
-      radiusRatio: 0.50,
+      baseAngle: -1,
+      radiusRatio: 0.44, // Inner track
     },
     {
       id: 's1-post-4',
@@ -140,7 +138,7 @@
       postSource: 'Zalo: Tuyển dụng SV',
       postSnippet: 'Ca tối 4 tiếng, thu trước 200k tiền đồng phục bảo đảm công việc...',
       baseAngle: -20,
-      radiusRatio: 0.83,
+      radiusRatio: 0.98, // Outer track
     },
     {
       id: 's1-groupsv',
@@ -149,7 +147,7 @@
       title: 'Group SV',
       sub: 'Mạng xã hội',
       baseAngle: -35,
-      radiusRatio: 0.65,
+      radiusRatio: 0.66,
     },
     {
       id: 's1-trap-deposit',
@@ -157,8 +155,8 @@
       kind: 'problem',
       title: 'Thu cọc / Đa cấp?',
       sub: 'Đòi giữ CCCD gốc và đóng phí đào tạo',
-      baseAngle: -45,
-      radiusRatio: 0.52,
+      baseAngle: -46,
+      radiusRatio: 0.46, // Inner track
     },
     {
       id: 's1-clash-time',
@@ -166,13 +164,12 @@
       kind: 'problem',
       title: 'Trùng lịch học?',
       sub: 'Ca gãy khó xoay xở theo tín chỉ',
-      baseAngle: -55,
-      radiusRatio: 0.74,
+      baseAngle: -56,
+      radiusRatio: 0.82,
     },
 
     // =========================================================
-    // GIAI ĐOẠN 2: SUY NGHĨ (Base angles: -70° down to -200°)
-    // Directly following Stage 1 with only a 15° transition!
+    // GIAI ĐOẠN 2: SUY NGHĨ (Base angles: -70° down to -214°)
     // =========================================================
     // Cụm 1: Sinh viên cần gì?
     {
@@ -181,7 +178,7 @@
       kind: 'hub',
       title: 'Sinh viên cần gì?',
       baseAngle: -70,
-      radiusRatio: 0.75,
+      radiusRatio: 0.76,
     },
     {
       id: 's2-stamp',
@@ -190,7 +187,7 @@
       title: 'Dấu mộc thực tập',
       sub: 'Số liệu làm khóa luận tốt nghiệp',
       baseAngle: -82,
-      radiusRatio: 0.88,
+      radiusRatio: 1.02,
     },
     {
       id: 's2-flex-time',
@@ -199,7 +196,7 @@
       title: 'Thời gian linh hoạt',
       sub: 'Đăng ký theo thời khóa biểu',
       baseAngle: -85,
-      radiusRatio: 0.54,
+      radiusRatio: 0.46,
     },
 
     // Cụm 2: Thị trường cần gì?
@@ -209,7 +206,7 @@
       kind: 'hub',
       title: 'Thị trường cần gì?',
       baseAngle: -105,
-      radiusRatio: 0.70,
+      radiusRatio: 0.72,
     },
     {
       id: 's2-mass-workforce',
@@ -218,7 +215,7 @@
       title: 'Nhiều nhân lực',
       sub: 'Bổ sung ca làm thời vụ',
       baseAngle: -115,
-      radiusRatio: 0.52,
+      radiusRatio: 0.45,
     },
     {
       id: 's2-qual-workforce',
@@ -227,7 +224,7 @@
       title: 'Nhân lực chất lượng',
       sub: 'Có nền tảng & thái độ tốt',
       baseAngle: -120,
-      radiusRatio: 0.86,
+      radiusRatio: 1.00,
     },
 
     // Cụm 3: Sinh viên có gì?
@@ -237,7 +234,7 @@
       kind: 'hub',
       title: 'Sinh viên có gì?',
       baseAngle: -138,
-      radiusRatio: 0.68,
+      radiusRatio: 0.70,
     },
     {
       id: 's2-free-time',
@@ -246,7 +243,7 @@
       title: 'Thời gian rảnh',
       sub: 'Ngoài giờ lên giảng đường',
       baseAngle: -148,
-      radiusRatio: 0.86,
+      radiusRatio: 0.98,
     },
     {
       id: 's2-knowledge',
@@ -255,7 +252,7 @@
       title: 'Kiến thức',
       sub: 'Nền tảng trường đại học',
       baseAngle: -152,
-      radiusRatio: 0.50,
+      radiusRatio: 0.44,
     },
 
     // Cụm 4: Doanh nghiệp gặp khó gì?
@@ -274,7 +271,7 @@
       title: 'Tốn chi phí tuyển',
       sub: 'Phí đăng tin cao, ít hồ sơ chuẩn',
       baseAngle: -178,
-      radiusRatio: 0.88,
+      radiusRatio: 1.00,
     },
     {
       id: 's2-filter-cv',
@@ -283,10 +280,10 @@
       title: 'Lọc CV trái ngành',
       sub: 'Mất thời gian thẩm định',
       baseAngle: -182,
-      radiusRatio: 0.54,
+      radiusRatio: 0.46,
     },
 
-    // Cụm 5: Làm sao khớp nối? (Cầu nối sang sản phẩm)
+    // Cụm 5: Làm sao khớp nối?
     {
       id: 's2-solution',
       stage: 1,
@@ -301,8 +298,8 @@
       kind: 'leaf',
       title: 'Phân tầng theo năm học',
       sub: 'Năm 1-2, Năm 3-4, Fresher',
-      baseAngle: -202,
-      radiusRatio: 0.88,
+      baseAngle: -203,
+      radiusRatio: 1.02,
     },
     {
       id: 's2-verify-2way',
@@ -310,8 +307,8 @@
       kind: 'leaf',
       title: 'Xác thực 2 chiều',
       sub: 'Mã số thuế & sinh viên thật',
-      baseAngle: -205,
-      radiusRatio: 0.50,
+      baseAngle: -206,
+      radiusRatio: 0.44,
     },
     {
       id: 's2-single-hub',
@@ -319,13 +316,12 @@
       kind: 'leaf',
       title: 'Tập trung 1 nền tảng',
       sub: 'Ứng tuyển đồng loạt không phí',
-      baseAngle: -212,
+      baseAngle: -214,
       radiusRatio: 0.70,
     },
 
     // =========================================================
-    // GIAI ĐOẠN 3: SẢN PHẨM (Base angles: -225° down to -355°)
-    // Directly following Stage 2 with only a 13° transition!
+    // GIAI ĐOẠN 3: SẢN PHẨM (Base angles: -226° down to -358°)
     // =========================================================
     {
       id: 's3-b2b-ads',
@@ -334,8 +330,8 @@
       title: 'Quảng cáo doanh nghiệp',
       sub: 'B2B Branding & Tuyển chọn',
       link: '/services',
-      baseAngle: -225,
-      radiusRatio: 0.76,
+      baseAngle: -226,
+      radiusRatio: 0.82,
     },
     {
       id: 's3-screen-1',
@@ -346,7 +342,7 @@
       tag: 'Phân tầng 3 nhóm SV',
       link: '/jobs',
       baseAngle: -240,
-      radiusRatio: 0.85,
+      radiusRatio: 0.98,
     },
     {
       id: 's3-cv-consult',
@@ -356,7 +352,7 @@
       sub: 'Chuẩn hóa ATS 1-1',
       link: '/services',
       baseAngle: -248,
-      radiusRatio: 0.52,
+      radiusRatio: 0.46,
     },
     {
       id: 's3-services-circle',
@@ -366,7 +362,7 @@
       sub: 'Mentor & CV',
       link: '/services',
       baseAngle: -260,
-      radiusRatio: 0.68,
+      radiusRatio: 0.72,
     },
     {
       id: 's3-mock-interview',
@@ -376,7 +372,7 @@
       sub: 'Tập dượt cùng chuyên gia HR',
       link: '/services',
       baseAngle: -272,
-      radiusRatio: 0.52,
+      radiusRatio: 0.46,
     },
     {
       id: 's3-logo',
@@ -385,7 +381,7 @@
       title: 'logo Topsivi',
       sub: 'Nền tảng việc làm phân tầng',
       baseAngle: -282,
-      radiusRatio: 0.62,
+      radiusRatio: 0.64,
     },
     {
       id: 's3-screen-2',
@@ -395,8 +391,8 @@
       sub: 'topsivi.vn/cart',
       tag: 'Giỏ hồ sơ 1-click',
       link: '/jobs',
-      baseAngle: -295,
-      radiusRatio: 0.86,
+      baseAngle: -296,
+      radiusRatio: 1.00,
     },
     {
       id: 's3-screen-3',
@@ -406,16 +402,16 @@
       sub: 'topsivi.vn/services',
       tag: 'Gói CV & Phỏng vấn',
       link: '/services',
-      baseAngle: -312,
-      radiusRatio: 0.84,
+      baseAngle: -314,
+      radiusRatio: 0.98,
     },
     {
       id: 's3-trust-hub',
       stage: 2,
       kind: 'hub',
       title: '100% Minh bạch',
-      baseAngle: -325,
-      radiusRatio: 0.66,
+      baseAngle: -326,
+      radiusRatio: 0.70,
     },
     {
       id: 's3-no-deposit',
@@ -423,8 +419,8 @@
       kind: 'leaf',
       title: 'Cam kết 0đ cọc',
       sub: 'Không thu phí sinh viên',
-      baseAngle: -335,
-      radiusRatio: 0.50,
+      baseAngle: -336,
+      radiusRatio: 0.44,
     },
     {
       id: 's3-legal-verify',
@@ -432,8 +428,8 @@
       kind: 'leaf',
       title: 'Xác minh MST',
       sub: 'Pháp lý doanh nghiệp rõ ràng',
-      baseAngle: -340,
-      radiusRatio: 0.88,
+      baseAngle: -342,
+      radiusRatio: 1.02,
     },
     {
       id: 's3-screen-4',
@@ -444,7 +440,7 @@
       tag: 'Hồ sơ & Lịch When2Meet',
       link: '/profile/@nguyenvanan',
       baseAngle: -348,
-      radiusRatio: 0.74,
+      radiusRatio: 0.80,
     },
     {
       id: 's3-stamp-guarantee',
@@ -453,7 +449,7 @@
       title: 'Cam kết dấu mộc',
       sub: 'Bảo chứng thực tập chuẩn',
       baseAngle: -358,
-      radiusRatio: 0.56,
+      radiusRatio: 0.48,
     },
   ];
 
@@ -536,11 +532,13 @@
 
   // Center of orbital motion
   let originX = $derived(isMobile ? 24 : viewportWidth / 2);
-  let originY = $derived(isMobile ? viewportHeight - 10 : viewportHeight + 25);
+  let originY = $derived(isMobile ? viewportHeight - 10 : viewportHeight + 35);
+
+  // Expanded baseRadius to fill vertical space and spread the orbits far apart
   let baseRadius = $derived(
     isMobile
-      ? Math.min(viewportWidth * 0.82, viewportHeight * 0.55)
-      : Math.min(viewportWidth * 0.44, viewportHeight * 0.76)
+      ? Math.min(viewportWidth * 0.88, viewportHeight * 0.62)
+      : Math.min(viewportWidth * 0.52, viewportHeight * 0.86)
   );
 
   // Compute live polar coordinates, opacity, scale for each node
@@ -566,8 +564,6 @@
       const y = originY - r * Math.sin(rad);
 
       // Visibility & opacity along the celestial horizon
-      // Desktop visible horizon: roughly 8° to 172° (zenith at 90°)
-      // Mobile visible horizon: roughly 4° to 86° (upper-right 90° quadrant)
       const minAngle = isMobile ? 4 : 8;
       const maxAngle = isMobile ? 86 : 172;
 
@@ -575,17 +571,15 @@
       let scale = 1;
 
       if (angleDeg >= minAngle && angleDeg <= maxAngle) {
-        // Smooth fade-in near entry horizon (right side)
         const inFadeSpan = isMobile ? 12 : 20;
         const outFadeSpan = isMobile ? 12 : 20;
 
         if (angleDeg < minAngle + inFadeSpan) {
           opacity = (angleDeg - minAngle) / inFadeSpan;
-          scale = 0.88 + opacity * 0.12;
+          scale = 0.90 + opacity * 0.10;
         } else if (angleDeg > maxAngle - outFadeSpan) {
-          // Smooth fade-out near exit horizon (left side)
           opacity = (maxAngle - angleDeg) / outFadeSpan;
-          scale = 0.88 + opacity * 0.12;
+          scale = 0.90 + opacity * 0.10;
         } else {
           opacity = 1;
           scale = 1;
@@ -598,7 +592,7 @@
         y,
         angleDeg,
         opacity: Math.max(0, Math.min(1, opacity)),
-        scale: Math.max(0.85, Math.min(1.04, scale)),
+        scale: Math.max(0.88, Math.min(1.04, scale)),
         visible: opacity > 0.01,
       });
     }
@@ -635,10 +629,6 @@
 
   // Which stage is currently dominant at zenith?
   let activeStage = $derived.by(() => {
-    // Stage centers in baseAngle:
-    // Stage 0 center: ~45°
-    // Stage 1 center: ~-140°
-    // Stage 2 center: ~-290°
     const rot = smoothProgress * TOTAL_ROTATION_DEG;
     const targetApex = isMobile ? 45 : 90;
 
@@ -676,10 +666,8 @@
   }
 
   onMount(() => {
-    // 1. Initialize global Lenis + GSAP smooth scroll
     initSmoothScroll();
 
-    // 2. Measure viewport
     const handleResize = () => {
       viewportWidth = window.innerWidth;
       viewportHeight = window.innerHeight;
@@ -688,7 +676,6 @@
     handleResize();
     window.addEventListener('resize', handleResize, { passive: true });
 
-    // 3. Scroll tracking using GSAP ScrollTrigger for buttery sync
     let st: ScrollTrigger | null = null;
     let tickerCallback: (() => void) | null = null;
 
@@ -702,7 +689,6 @@
         },
       });
 
-      // Lerp smooth ticker for ultra-natural kinetic feel
       tickerCallback = () => {
         const diff = targetProgress - smoothProgress;
         if (Math.abs(diff) > 0.0001) {
@@ -737,42 +723,42 @@
       class="pointer-events-none absolute inset-0 transition-transform duration-75"
       style="transform: translate3d({(0.5 - smoothProgress) * 140}px, {(0.5 - smoothProgress) * 50}px, 0);"
     >
-      <div class="absolute top-1/4 left-1/4 h-96 w-96 rounded-full bg-mint/10 blur-[120px]"></div>
-      <div class="absolute bottom-20 right-1/4 h-80 w-80 rounded-full bg-mint/8 blur-[100px]"></div>
+      <div class="absolute top-1/4 left-1/4 h-96 w-96 rounded-full bg-mint/10 blur-[130px]"></div>
+      <div class="absolute bottom-20 right-1/4 h-80 w-80 rounded-full bg-mint/8 blur-[110px]"></div>
     </div>
 
-    <!-- Background Concentric Orbital Guides (Faint circular tracks) -->
+    <!-- Background Concentric Orbital Guides (Widely spaced tracks) -->
     <svg class="pointer-events-none absolute inset-0 h-full w-full" style="opacity: 0.18;">
-      <!-- Semicircle radial tracks centered at (originX, originY) -->
-      <circle cx={originX} cy={originY} r={baseRadius * 0.52} fill="none" stroke="#70ffaf" stroke-width="1" />
-      <circle cx={originX} cy={originY} r={baseRadius * 0.70} fill="none" stroke="#70ffaf" stroke-width="1" />
-      <circle cx={originX} cy={originY} r={baseRadius * 0.86} fill="none" stroke="#70ffaf" stroke-width="1" />
+      <circle cx={originX} cy={originY} r={baseRadius * 0.46} fill="none" stroke="#70ffaf" stroke-width="1.2" />
+      <circle cx={originX} cy={originY} r={baseRadius * 0.65} fill="none" stroke="#70ffaf" stroke-width="1.2" />
+      <circle cx={originX} cy={originY} r={baseRadius * 0.82} fill="none" stroke="#70ffaf" stroke-width="1.2" />
+      <circle cx={originX} cy={originY} r={baseRadius * 1.00} fill="none" stroke="#70ffaf" stroke-width="1.2" />
     </svg>
 
     <!-- Top Navigation & Stage Selector -->
     <div class="relative z-30 mx-auto flex w-full max-w-7xl items-center justify-between px-4 pt-20 sm:px-6 lg:px-8">
-      <div class="flex items-center gap-1.5 sm:gap-2.5 bg-obsidian-800/90 border border-obsidian-700/80 backdrop-blur-md p-1 sm:p-1.5 rounded-full shadow-lg">
+      <div class="flex items-center gap-1.5 sm:gap-2.5 bg-obsidian-800/90 border border-obsidian-700/80 backdrop-blur-md p-1.5 rounded-full shadow-lg">
         {#each stageMeta as stage}
           <button
             type="button"
             onclick={() => scrollToStage(stage.index)}
-            class="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold transition-all duration-200 {activeStage === stage.index
+            class="flex items-center gap-2 rounded-full px-4 py-2 text-xs sm:text-sm font-bold transition-all duration-200 {activeStage === stage.index
               ? 'bg-mint text-obsidian-900 shadow-mint-glow scale-102'
               : 'text-alabaster-300 hover:text-alabaster-50'}"
           >
-            <span class="font-mono text-[10px] opacity-75">{stage.code}.</span>
+            <span class="font-mono text-xs opacity-75">{stage.code}.</span>
             <span>{stage.title}</span>
           </button>
         {/each}
       </div>
 
-      <!-- Orbital Direction & Progress Badge (matching "↺ chiều scroll" from Sketch 2) -->
-      <div class="hidden sm:flex items-center gap-3 rounded-full border border-obsidian-700/80 bg-obsidian-800/80 px-4 py-1.5 backdrop-blur-md">
-        <span class="font-mono text-[11px] text-mint flex items-center gap-1">
+      <!-- Orbital Direction & Progress Badge -->
+      <div class="hidden sm:flex items-center gap-3 rounded-full border border-obsidian-700/80 bg-obsidian-800/80 px-4 py-2 backdrop-blur-md">
+        <span class="font-mono text-xs text-mint flex items-center gap-1.5">
           <span>↺</span>
           <span>Quỹ đạo ngược chiều kim đồng hồ</span>
         </span>
-        <div class="h-1.5 w-24 overflow-hidden rounded-full bg-obsidian-700">
+        <div class="h-2 w-28 overflow-hidden rounded-full bg-obsidian-700">
           <div
             class="h-full rounded-full bg-mint transition-all duration-75"
             style="width: {(smoothProgress * 100).toFixed(1)}%;"
@@ -782,9 +768,9 @@
       </div>
     </div>
 
-    <!-- MAIN ORBITAL CANVAS: SVG CONNECTIONS + UPRIGHT CARDS -->
+    <!-- MAIN ORBITAL CANVAS: SVG CONNECTIONS + UPRIGHT EXPANDED CARDS -->
     <div class="pointer-events-none absolute inset-0 z-20 h-full w-full">
-      <!-- Thin, Open Connecting Lines (No dashed lines, clean subtle solid stroke) -->
+      <!-- Thin, Open Connecting Lines -->
       <svg class="h-full w-full">
         {#each renderedLines as line}
           <line
@@ -793,13 +779,13 @@
             x2={line.x2}
             y2={line.y2}
             stroke="#70ffaf"
-            stroke-width="1.2"
+            stroke-width="1.3"
             stroke-opacity={line.opacity}
           />
         {/each}
       </svg>
 
-      <!-- ALL CARDS: STRICTLY ALWAYS UPRIGHT (rotate(0deg)), POSITIONED BY POLAR (X, Y) -->
+      <!-- ALL CARDS: STRICTLY ALWAYS UPRIGHT (rotate(0deg)), LARGER BOUNDS -->
       {#each renderedNodes as node (node.id)}
         {#if node.visible}
           <div
@@ -812,81 +798,96 @@
               will-change: transform, opacity;
             "
           >
-            <!-- 1. PLACEHOLDER JOB POST IMAGE CARD (4 Cards in Stage 1) -->
+            <!-- 1. JOB POST IMAGE CARD -->
             {#if node.kind === 'post'}
-              <div class="w-48 sm:w-56 rounded-2xl border-2 border-alabaster-200/90 bg-obsidian-800/95 p-3.5 shadow-xl backdrop-blur-md transition-all hover:border-mint hover:shadow-mint-glow">
-                <!-- Social Source Header -->
-                <div class="flex items-center justify-between border-b border-obsidian-600/80 pb-2 mb-2.5">
-                  <span class="font-mono text-[10px] font-bold text-mint uppercase tracking-wider truncate max-w-[140px]">
-                    {node.postSource || node.sub}
-                  </span>
-                  <span class="h-2 w-2 rounded-full bg-mint/80"></span>
+              <!-- If real image provided (e.g. Facebook post image) -->
+              {#if node.image}
+                <div class="w-64 sm:w-72 lg:w-80 rounded-3xl border-2 border-alabaster-100 bg-obsidian-800 p-2 shadow-2xl overflow-hidden hover:border-mint transition-all duration-200 hover:scale-103">
+                  <div class="relative overflow-hidden rounded-2xl border border-obsidian-700/60 bg-obsidian-900">
+                    <img
+                      src={url(node.image)}
+                      alt={node.title}
+                      class="w-full h-auto object-cover block"
+                      loading="lazy"
+                    />
+                  </div>
                 </div>
+              {:else}
+                <!-- Placeholder Frame for other posts (Threads, Job portal, Zalo) -->
+                <div class="w-64 sm:w-72 lg:w-80 rounded-3xl border-2 border-alabaster-200/90 bg-obsidian-800/95 p-4 sm:p-5 shadow-2xl backdrop-blur-md transition-all hover:border-mint hover:shadow-mint-glow">
+                  <!-- Header -->
+                  <div class="flex items-center justify-between border-b border-obsidian-600/80 pb-2.5 mb-3">
+                    <span class="font-mono text-xs font-bold text-mint uppercase tracking-wider truncate max-w-[180px]">
+                      {node.postSource || node.sub}
+                    </span>
+                    <span class="h-2.5 w-2.5 rounded-full bg-mint"></span>
+                  </div>
 
-                <!-- Sleek Placeholder Image Box (Ready for user to drop real screenshot) -->
-                <div class="relative mb-2.5 h-24 w-full overflow-hidden rounded-xl border border-dashed border-mint/40 bg-obsidian-900/90 flex flex-col items-center justify-center text-center p-2">
-                  <svg class="h-6 w-6 text-mint/60 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                  <span class="font-mono text-[10px] font-extrabold text-alabaster-50 tracking-tight">
-                    {node.title}
-                  </span>
-                  <span class="font-mono text-[8px] text-alabaster-400">
-                    [ Placeholder ảnh ]
-                  </span>
+                  <!-- Placeholder Image Box -->
+                  <div class="relative mb-3 h-28 sm:h-32 w-full overflow-hidden rounded-2xl border border-dashed border-mint/40 bg-obsidian-900/90 flex flex-col items-center justify-center text-center p-3">
+                    <svg class="h-7 w-7 text-mint/70 mb-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    <span class="font-mono text-xs sm:text-sm font-extrabold text-alabaster-50 tracking-tight">
+                      {node.title}
+                    </span>
+                    <span class="font-mono text-[9px] sm:text-[10px] text-alabaster-400 mt-0.5">
+                      [ Placeholder ảnh ]
+                    </span>
+                  </div>
+
+                  <!-- Snippet -->
+                  <p class="text-xs sm:text-sm leading-relaxed text-alabaster-200 line-clamp-3">
+                    {node.postSnippet}
+                  </p>
                 </div>
+              {/if}
 
-                <!-- Excerpt Snippet -->
-                <p class="text-[11px] leading-snug text-alabaster-300 line-clamp-2">
-                  {node.postSnippet}
-                </p>
-              </div>
-
-            <!-- 2. PLACEHOLDER WEB SCREENSHOT CARD (4 Cards in Stage 3) -->
+            <!-- 2. PLACEHOLDER WEB SCREENSHOT CARD (Stage 3) -->
             {:else if node.kind === 'screenshot'}
               <a
                 href={url(node.link || '/jobs')}
-                class="block w-48 sm:w-56 rounded-2xl border-2 border-mint/80 bg-obsidian-800/95 p-3 shadow-mint-glow backdrop-blur-md transition-all hover:scale-104 hover:border-mint"
+                class="block w-64 sm:w-72 lg:w-80 rounded-3xl border-2 border-mint/80 bg-obsidian-800/95 p-4 sm:p-5 shadow-mint-glow backdrop-blur-md transition-all hover:scale-104 hover:border-mint"
               >
                 <!-- Browser mockup header -->
-                <div class="flex items-center justify-between border-b border-obsidian-600/80 pb-1.5 mb-2">
-                  <div class="flex items-center gap-1">
-                    <span class="h-2 w-2 rounded-full bg-mint"></span>
-                    <span class="h-2 w-2 rounded-full bg-obsidian-600"></span>
-                    <span class="h-2 w-2 rounded-full bg-obsidian-600"></span>
+                <div class="flex items-center justify-between border-b border-obsidian-600/80 pb-2 mb-2.5">
+                  <div class="flex items-center gap-1.5">
+                    <span class="h-2.5 w-2.5 rounded-full bg-mint"></span>
+                    <span class="h-2.5 w-2.5 rounded-full bg-obsidian-600"></span>
+                    <span class="h-2.5 w-2.5 rounded-full bg-obsidian-600"></span>
                   </div>
-                  <span class="font-mono text-[9px] text-mint font-semibold truncate max-w-[120px]">
+                  <span class="font-mono text-xs text-mint font-semibold truncate max-w-[150px]">
                     {node.sub}
                   </span>
                 </div>
 
-                <!-- Sleek Placeholder UI Preview -->
-                <div class="relative mb-2 h-24 w-full overflow-hidden rounded-xl border border-dashed border-mint/40 bg-obsidian-900/90 flex flex-col items-center justify-center text-center p-2">
-                  <svg class="h-6 w-6 text-mint mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <!-- Preview Box -->
+                <div class="relative mb-2.5 h-28 sm:h-32 w-full overflow-hidden rounded-2xl border border-dashed border-mint/40 bg-obsidian-900/90 flex flex-col items-center justify-center text-center p-3">
+                  <svg class="h-7 w-7 text-mint mb-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
-                  <span class="font-display text-[11px] font-extrabold text-alabaster-50">
+                  <span class="font-display text-xs sm:text-sm font-extrabold text-alabaster-50">
                     {node.title}
                   </span>
-                  <span class="font-mono text-[8px] text-mint">
+                  <span class="font-mono text-[9px] sm:text-[10px] text-mint mt-0.5">
                     [ Giao diện TopSiVi ]
                   </span>
                 </div>
 
-                <p class="font-display text-xs font-bold text-alabaster-100 truncate">
+                <p class="font-display text-sm sm:text-base font-bold text-alabaster-100 truncate">
                   {node.tag || node.sub}
                 </p>
               </a>
 
             <!-- 3. CENTRAL TOPSIVI LOGO EMBLEM (Stage 3 Center) -->
             {:else if node.kind === 'logo'}
-              <div class="flex flex-col items-center justify-center rounded-3xl border-2 border-mint bg-obsidian-900 px-5 py-3.5 shadow-mint-glow-lg pulse-mint backdrop-blur-md">
-                <svg class="h-8 w-14" viewBox="0 0 88 44" fill="none">
+              <div class="flex flex-col items-center justify-center rounded-3xl border-2 border-mint bg-obsidian-900 px-6 py-4 sm:px-8 sm:py-5 shadow-mint-glow-lg pulse-mint backdrop-blur-md">
+                <svg class="h-9 w-16 sm:h-11 sm:w-20" viewBox="0 0 88 44" fill="none">
                   <path d="M4 6H38V14H25V38H16V14H4V6Z" fill="#70ffaf" />
                   <path d="M45 12C36 12 31 16.5 31 22C31 27.5 37 29.8 43.5 31.5C48.5 32.8 51 34.2 51 37C51 39.8 47.5 41.5 42 41.5C36.5 41.5 32.5 39 31 35.5L24 39.5C27 44.5 33.5 44 42 44C52.5 44 59.5 39 59.5 32C59.5 26 53.5 23 46 21C40.5 19.5 39 18.2 39 16.5C39 14.5 41.5 13.5 45 13.5C48.5 13.5 51.5 15 53.5 17.5L59.5 13C56 10.5 51 12 45 12Z" fill="#f8faf7" />
                   <path d="M50 6L62 36L74 6H83L66 42H58L41 6H50Z" fill="#70ffaf" />
                 </svg>
-                <span class="font-display text-xs font-black text-mint tracking-tight mt-1">
+                <span class="font-display text-sm sm:text-base font-black text-mint tracking-tight mt-1.5">
                   TopSiVi Hub
                 </span>
               </div>
@@ -895,28 +896,28 @@
             {:else if node.kind === 'circle'}
               <a
                 href={url(node.link || '/services')}
-                class="flex h-24 w-24 sm:h-28 sm:w-28 flex-col items-center justify-center rounded-full border-2 border-mint bg-obsidian-800 p-2 text-center shadow-mint-glow hover:bg-mint hover:text-obsidian-900 transition-all"
+                class="flex h-28 w-28 sm:h-36 sm:w-36 flex-col items-center justify-center rounded-full border-2 border-mint bg-obsidian-800 p-3 text-center shadow-mint-glow hover:bg-mint hover:text-obsidian-900 transition-all"
               >
-                <span class="font-display text-xs sm:text-sm font-black leading-tight">Dịch vụ</span>
-                <span class="font-display text-xs sm:text-sm font-black leading-tight">hỗ trợ</span>
+                <span class="font-display text-sm sm:text-base font-black leading-tight">Dịch vụ</span>
+                <span class="font-display text-sm sm:text-base font-black leading-tight">hỗ trợ</span>
               </a>
 
             <!-- 5. MIND-MAP QUESTION / SOLUTION HUB -->
             {:else if node.kind === 'hub'}
-              <div class="rounded-2xl border-2 border-mint bg-obsidian-800/95 px-4 py-2.5 shadow-mint-glow backdrop-blur-md">
-                <span class="font-display text-xs sm:text-sm font-extrabold text-mint whitespace-nowrap">
+              <div class="rounded-2xl sm:rounded-3xl border-2 border-mint bg-obsidian-800/95 px-6 py-3.5 sm:px-8 sm:py-4 shadow-mint-glow backdrop-blur-md">
+                <span class="font-display text-sm sm:text-lg font-black text-mint whitespace-nowrap">
                   {node.title}
                 </span>
               </div>
 
             <!-- 6. PAIN POINT PROBLEM NODE -->
             {:else if node.kind === 'problem'}
-              <div class="max-w-[190px] rounded-2xl border-2 border-mint/70 bg-obsidian-800/95 px-3.5 py-2.5 shadow-lg backdrop-blur-md">
-                <span class="font-display text-xs sm:text-sm font-extrabold text-mint block leading-tight">
+              <div class="max-w-[220px] sm:max-w-[280px] rounded-2xl sm:rounded-3xl border-2 border-mint/80 bg-obsidian-800/95 px-5 py-3.5 sm:px-6 sm:py-4 shadow-xl backdrop-blur-md">
+                <span class="font-display text-sm sm:text-base font-extrabold text-mint block leading-tight">
                   {node.title}
                 </span>
                 {#if node.sub}
-                  <span class="text-[10px] sm:text-[11px] text-alabaster-300 block leading-tight mt-0.5">
+                  <span class="text-xs sm:text-sm text-alabaster-200 block leading-snug mt-1">
                     {node.sub}
                   </span>
                 {/if}
@@ -927,24 +928,24 @@
               {#if node.link}
                 <a
                   href={url(node.link)}
-                  class="block rounded-2xl border-2 border-alabaster-200/80 bg-obsidian-800/95 px-3.5 py-2 shadow-lg hover:border-mint transition-colors backdrop-blur-md"
+                  class="block rounded-2xl border-2 border-alabaster-200/90 bg-obsidian-800/95 px-5 py-3 sm:px-6 sm:py-3.5 shadow-xl hover:border-mint transition-colors backdrop-blur-md"
                 >
-                  <span class="font-display text-xs sm:text-sm font-extrabold text-alabaster-50 block leading-tight">
+                  <span class="font-display text-sm sm:text-base font-extrabold text-alabaster-50 block leading-tight">
                     {node.title}
                   </span>
                   {#if node.sub}
-                    <span class="font-mono text-[10px] text-mint block leading-tight mt-0.5">
+                    <span class="font-mono text-xs text-mint block leading-tight mt-0.5">
                       {node.sub}
                     </span>
                   {/if}
                 </a>
               {:else}
-                <div class="rounded-2xl border-2 border-alabaster-200/80 bg-obsidian-800/95 px-3.5 py-2 shadow-lg backdrop-blur-md">
-                  <span class="font-display text-xs sm:text-sm font-extrabold text-alabaster-50 block leading-tight">
+                <div class="rounded-2xl border-2 border-alabaster-200/90 bg-obsidian-800/95 px-5 py-3 sm:px-6 sm:py-3.5 shadow-xl backdrop-blur-md">
+                  <span class="font-display text-sm sm:text-base font-extrabold text-alabaster-50 block leading-tight">
                     {node.title}
                   </span>
                   {#if node.sub}
-                    <span class="font-mono text-[10px] text-alabaster-300 block leading-tight mt-0.5">
+                    <span class="font-mono text-xs text-alabaster-300 block leading-tight mt-0.5">
                       {node.sub}
                     </span>
                   {/if}
@@ -956,18 +957,18 @@
               {#if node.link}
                 <a
                   href={url(node.link)}
-                  class="block rounded-xl border border-mint/60 bg-obsidian-800/90 px-3 py-1.5 shadow-md hover:bg-mint hover:text-obsidian-900 transition-colors backdrop-blur-md"
+                  class="block rounded-xl sm:rounded-2xl border border-mint/60 bg-obsidian-800/90 px-4 py-2.5 sm:px-5 sm:py-3 shadow-md hover:bg-mint hover:text-obsidian-900 transition-colors backdrop-blur-md"
                 >
-                  <span class="font-display text-xs font-bold block leading-tight">{node.title}</span>
+                  <span class="font-display text-xs sm:text-sm font-bold block leading-tight">{node.title}</span>
                   {#if node.sub}
-                    <span class="text-[10px] text-alabaster-300 block leading-tight">{node.sub}</span>
+                    <span class="text-[11px] sm:text-xs text-alabaster-300 block leading-tight mt-0.5">{node.sub}</span>
                   {/if}
                 </a>
               {:else}
-                <div class="rounded-xl border border-alabaster-200/80 bg-obsidian-800/90 px-3 py-1.5 shadow-md backdrop-blur-md">
-                  <span class="font-display text-xs font-bold text-alabaster-50 block leading-tight">{node.title}</span>
+                <div class="rounded-xl sm:rounded-2xl border border-alabaster-200/80 bg-obsidian-800/90 px-4 py-2.5 sm:px-5 sm:py-3 shadow-md backdrop-blur-md">
+                  <span class="font-display text-xs sm:text-sm font-bold text-alabaster-50 block leading-tight">{node.title}</span>
                   {#if node.sub}
-                    <span class="text-[10px] text-alabaster-300 block leading-tight">{node.sub}</span>
+                    <span class="text-[11px] sm:text-xs text-alabaster-300 block leading-tight mt-0.5">{node.sub}</span>
                   {/if}
                 </div>
               {/if}
@@ -979,23 +980,23 @@
 
     <!-- BOTTOM CENTER HEMISPHERE / DOME (Anchored at bottom center as orbital axis) -->
     <div class="relative z-30 mx-auto flex w-full flex-col items-center justify-end">
-      <div class="relative flex h-36 w-[320px] sm:h-44 sm:w-[440px] flex-col items-center justify-center rounded-t-full border-t-2 border-x-2 border-mint bg-obsidian-800/95 px-6 pt-5 text-center shadow-[0_-15px_50px_rgba(112,255,175,0.20)] backdrop-blur-md">
+      <div class="relative flex h-40 w-[340px] sm:h-48 sm:w-[480px] flex-col items-center justify-center rounded-t-full border-t-2 border-x-2 border-mint bg-obsidian-800/95 px-8 pt-6 text-center shadow-[0_-20px_60px_rgba(112,255,175,0.22)] backdrop-blur-md">
         <!-- Rotating Tick Arc inside Dome -->
         <div
-          class="pointer-events-none absolute -inset-3 rounded-t-full border border-dashed border-mint/35"
+          class="pointer-events-none absolute -inset-3.5 rounded-t-full border border-dashed border-mint/35"
           style="transform: rotate({(-smoothProgress * 180).toFixed(1)}deg); transform-origin: bottom center;"
         ></div>
 
-        <span class="font-mono text-[10px] font-bold uppercase tracking-widest text-mint mb-1">
+        <span class="font-mono text-xs font-bold uppercase tracking-widest text-mint mb-1.5">
           GIAI ĐOẠN 0{activeStage + 1} / 03
         </span>
 
         <!-- Active Stage Title in the Dome -->
-        <h2 class="font-display text-2xl sm:text-4xl font-black tracking-tight text-alabaster-50 transition-all duration-300">
+        <h2 class="font-display text-3xl sm:text-5xl font-black tracking-tight text-alabaster-50 transition-all duration-300">
           {stageMeta[activeStage].title}
         </h2>
 
-        <p class="mt-1.5 max-w-[280px] text-[11px] sm:text-xs text-alabaster-300 leading-snug transition-all duration-300">
+        <p class="mt-2 max-w-[320px] text-xs sm:text-sm text-alabaster-300 leading-snug transition-all duration-300">
           {stageMeta[activeStage].subtitle}
         </p>
       </div>
