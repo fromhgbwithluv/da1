@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- CareerViet circular dynamic swirl / ribbon -->
+  <rect width="64" height="64" rx="14" fill="#F4F7FC" />
+  <path d="M16 32C16 23.16 23.16 16 32 16C37.6 16 42.4 18.88 45.2 23.33L38.4 27.2C36.8 24.67 34.6 23.33 32 23.33C27.2 23.33 23.33 27.2 23.33 32C23.33 36.8 27.2 40.67 32 40.67C34.7 40.67 36.9 39.33 38.5 36.8L45.3 40.67C42.5 45.12 37.6 48 32 48C23.16 48 16 40.84 16 32Z" fill="#005AFF" />
+  <circle cx="43" cy="32" r="5" fill="#FF5200" />
+</svg>

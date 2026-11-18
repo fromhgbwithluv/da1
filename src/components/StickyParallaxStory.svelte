@@ -13,6 +13,7 @@
     tag?: string;
     link?: string;
     image?: string;       // Direct image replacement (e.g. real Facebook post image)
+    logo?: string;        // White rounded frame with brand logo inside, title below
     baseAngle: number;    // Base polar angle in degrees (0 = right horizon, 90 = top zenith, 180 = left horizon)
     radiusRatio: number;  // Multiplier on baseRadius (0.44 - 1.02 for wide radial separation)
     postSnippet?: string;
@@ -28,8 +29,8 @@
       id: 's1-itviec',
       stage: 0,
       kind: 'badge',
-      title: 'IT viec',
-      sub: 'Nền tảng IT',
+      title: 'ITviec',
+      logo: '/images/logos/itviec.svg',
       baseAngle: 145,
       radiusRatio: 0.82,
     },
@@ -56,8 +57,8 @@
       id: 's1-linkedin',
       stage: 0,
       kind: 'badge',
-      title: 'Linked In',
-      sub: 'Mạng chuyên nghiệp',
+      title: 'LinkedIn',
+      logo: '/images/logos/linkedin.svg',
       baseAngle: 102,
       radiusRatio: 0.66,
     },
@@ -65,8 +66,8 @@
       id: 's1-career',
       stage: 0,
       kind: 'badge',
-      title: 'career viet',
-      sub: 'Cổng việc làm',
+      title: 'CareerViet',
+      logo: '/images/logos/careerviet.svg',
       baseAngle: 90,
       radiusRatio: 0.44, // Inner track
     },
@@ -85,8 +86,8 @@
       id: 's1-topcv',
       stage: 0,
       kind: 'badge',
-      title: 'top CV',
-      sub: 'Sàn tuyển dụng',
+      title: 'TopCV',
+      logo: '/images/logos/topcv.svg',
       baseAngle: 62,
       radiusRatio: 0.64,
     },
@@ -116,7 +117,7 @@
       stage: 0,
       kind: 'badge',
       title: 'Vieclam24h',
-      sub: 'Kênh việc làm',
+      logo: '/images/logos/vieclam24h.svg',
       baseAngle: 14,
       radiusRatio: 0.62,
     },
@@ -876,7 +877,22 @@
 
             <!-- 7. PLATFORM BADGE -->
             {:else if node.kind === 'badge'}
-              {#if node.link}
+              {#if node.logo}
+                <!-- Khung trắng bo tròn với logo, tên trang bên dưới -->
+                <div class="flex flex-col items-center group">
+                  <div class="flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-2xl sm:rounded-3xl border-2 border-alabaster-100 bg-white p-2.5 sm:p-3 shadow-2xl transition-all duration-200 group-hover:scale-108 group-hover:border-mint group-hover:shadow-mint-glow">
+                    <img
+                      src={url(node.logo)}
+                      alt={node.title}
+                      class="h-full w-full object-contain"
+                      loading="lazy"
+                    />
+                  </div>
+                  <span class="font-display text-xs sm:text-sm font-extrabold text-alabaster-100 tracking-tight block text-center mt-2 group-hover:text-mint transition-colors">
+                    {node.title}
+                  </span>
+                </div>
+              {:else if node.link}
                 <a
                   href={url(node.link)}
                   class="block rounded-2xl border-2 border-alabaster-200/90 bg-obsidian-800/95 px-5 py-3 sm:px-6 sm:py-3.5 shadow-xl hover:border-mint transition-colors backdrop-blur-md"
