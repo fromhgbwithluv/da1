@@ -701,7 +701,7 @@
   style="height: 580vh;"
 >
   <!-- Sticky Viewport Canvas -->
-  <div class="sticky top-0 h-screen w-full overflow-hidden bg-obsidian-900 bg-organic-grid-dark flex flex-col justify-between">
+  <div class="sticky top-0 h-screen w-full overflow-hidden bg-obsidian-900 bg-organic-grid-dark relative">
     <!-- Ambient Orbital Background Glows -->
     <div
       class="pointer-events-none absolute inset-0 transition-transform duration-75"
@@ -929,8 +929,8 @@
       {/each}
     </div>
 
-    <!-- BOTTOM CENTER HEMISPHERE / DOME (Anchored at bottom center as orbital axis) -->
-    <div class="relative z-30 mx-auto flex w-full flex-col items-center justify-end">
+    <!-- BOTTOM CENTER HEMISPHERE / DOME (Permanently anchored at bottom center as orbital axis) -->
+    <div class="pointer-events-auto absolute inset-x-0 bottom-0 z-30 flex flex-col items-center justify-end">
       <div class="relative flex h-40 w-[340px] sm:h-48 sm:w-[480px] flex-col items-center justify-center rounded-t-full border-t-2 border-x-2 border-mint bg-obsidian-800/95 px-8 pt-6 text-center shadow-[0_-20px_60px_rgba(112,255,175,0.22)] backdrop-blur-md">
         <span class="font-mono text-xs font-bold uppercase tracking-widest text-mint mb-1.5">
           GIAI ĐOẠN 0{activeStage + 1} / 03
