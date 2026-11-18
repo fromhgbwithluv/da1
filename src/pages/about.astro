@@ -1,0 +1,338 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const leaders = [
+  {
+    name: 'Hoàng Gia Bảo',
+    role: 'Founder & Chief Executive Officer (CEO)',
+    initials: 'HGB',
+    bio: 'Khởi xướng tầm nhìn TopSiVi với sứ mệnh bảo vệ quyền lợi sinh viên Việt Nam, định hướng chiến lược phát triển nền tảng và kết nối hệ sinh thái nhà trường - doanh nghiệp.',
+    tags: ['Chiến lược', 'Quản trị', 'Tầm nhìn'],
+  },
+  {
+    name: 'Triệu Sỹ Kha',
+    role: 'Co-Founder & Head of Product (CPO)',
+    initials: 'TSK',
+    bio: 'Chịu trách nhiệm kiến tạo trải nghiệm người dùng, thiết kế hệ thống phân tầng sinh viên 3 nhóm và chuẩn hóa quy trình xác thực việc làm an toàn.',
+    tags: ['Sản phẩm', 'UI/UX', 'Phân tầng SV'],
+  },
+  {
+    name: 'Phạm Thanh Lộc',
+    role: 'Co-Founder & Head of Engineering (CTO)',
+    initials: 'PTL',
+    bio: 'Kiến trúc sư hệ thống kỹ thuật, chịu trách nhiệm hạ tầng công nghệ, tối ưu hóa tốc độ tải trang và an toàn bảo mật dữ liệu ứng viên.',
+    tags: ['Kỹ thuật', 'Hạ tầng', 'Bảo mật'],
+  },
+  {
+    name: 'Nguyễn Khắc Gia Kiên',
+    role: 'Co-Founder & Head of Operations (COO)',
+    initials: 'NGK',
+    bio: 'Điều hành mạng lưới hỗ trợ sinh viên và doanh nghiệp, quản lý quy trình kiểm duyệt tin tuyển dụng nghiêm ngặt và hỗ trợ giải quyết sự cố 24/7.',
+    tags: ['Vận hành', 'Kiểm duyệt', 'CSKH 24/7'],
+  },
+  {
+    name: 'Nguyễn Gia Minh',
+    role: 'Co-Founder & Head of Partnerships (Growth)',
+    initials: 'NGM',
+    bio: 'Phụ trách phát triển mạng lưới liên kết với hơn 327+ trường Đại học, Cao đẳng trên cả nước và thu hút các đối tác doanh nghiệp uy tín hàng đầu.',
+    tags: ['Hợp tác', 'Mạng lưới 327+ ĐH', 'Mở rộng'],
+  },
+];
+---
+
+<Layout
+  title="Về chúng tôi & Đội ngũ sáng lập | TopSiVi"
+  description="Tìm hiểu sứ mệnh, nguyên tắc hoạt động và đội ngũ 5 leader cốt cán sáng lập nền tảng việc làm phân tầng TopSiVi: Hoàng Gia Bảo, Triệu Sỹ Kha, Phạm Thanh Lộc, Nguyễn Khắc Gia Kiên, Nguyễn Gia Minh."
+>
+  <!-- Hero Banner -->
+  <section class="relative overflow-hidden border-b border-obsidian-900/10 bg-alabaster-50 bg-organic-dots-light py-16 sm:py-24">
+    <div class="pointer-events-none absolute -top-20 right-1/4 h-80 w-80 rounded-full bg-mint/25 blur-3xl"></div>
+    <div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl">
+        <div class="inline-flex items-center gap-2 rounded-full border border-obsidian-900/15 bg-alabaster-100 px-3.5 py-1 mb-4">
+          <span class="h-2 w-2 rounded-full bg-mint-500"></span>
+          <span class="font-mono text-xs font-bold text-obsidian-900">
+            Câu chuyện & Sứ mệnh TopSiVi
+          </span>
+        </div>
+        <h1 class="font-display text-3xl font-extrabold text-obsidian-900 sm:text-5xl tracking-tight leading-tight">
+          Trao niềm tin • <span class="bg-mint px-2.5 rounded-xl">Nhận tài lộc</span>
+        </h1>
+        <p class="mt-4 text-sm sm:text-base text-obsidian-700 leading-relaxed">
+          TopSiVi được kiến tạo nhằm giải quyết triệt để vấn đề nhức nhối nhất của sinh viên khi tìm việc:
+          <strong>bẫy lừa đảo, đa cấp trá hình và thu tiền cọc bất hợp pháp</strong>.
+          Chúng tôi định hình lại thị trường tuyển dụng sinh viên bằng sự minh bạch tuyệt đối và mô hình phân tầng khoa học.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sứ Mệnh & Giá Trị Cốt Lõi -->
+  <section class="border-b border-obsidian-900/10 bg-alabaster-100 py-16">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="mb-10 max-w-2xl">
+        <span class="font-mono text-xs font-bold uppercase tracking-wider text-obsidian-600 block mb-1">
+          Nguyên tắc cốt lõi
+        </span>
+        <h2 class="font-display text-2xl font-extrabold tracking-tight text-obsidian-900 sm:text-3xl">
+          Bảo vệ 100% quyền lợi ứng viên sinh viên
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="rounded-3xl border border-obsidian-900/15 bg-alabaster-50 p-7 shadow-swiss-card space-y-3">
+          <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-obsidian-900 font-display font-bold text-sm text-mint">
+            01
+          </div>
+          <h3 class="font-display text-lg font-extrabold text-obsidian-900">
+            Cam kết 0 đồng cọc
+          </h3>
+          <p class="text-xs sm:text-sm text-obsidian-700 leading-relaxed">
+            Tuyệt đối không thu bất kỳ khoản phí nào từ sinh viên dưới mọi hình thức: không phí hồ sơ, không phí đào tạo, không tiền cọc đồng phục.
+          </p>
+        </div>
+
+        <div class="rounded-3xl border-2 border-obsidian-900 bg-mint/25 p-7 shadow-swiss-card space-y-3">
+          <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-obsidian-900 font-display font-bold text-sm text-mint">
+            02
+          </div>
+          <h3 class="font-display text-lg font-extrabold text-obsidian-900">
+            100% Doanh nghiệp xác thực
+          </h3>
+          <p class="text-xs sm:text-sm text-obsidian-800 leading-relaxed">
+            Mọi nhà tuyển dụng trên TopSiVi đều phải cung cấp mã số thuế, địa chỉ trụ sở thực tế và người liên hệ rõ ràng trước khi được phép đăng tin.
+          </p>
+        </div>
+
+        <div class="rounded-3xl border border-obsidian-900/15 bg-alabaster-50 p-7 shadow-swiss-card space-y-3">
+          <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-obsidian-900 font-display font-bold text-sm text-mint">
+            03
+          </div>
+          <h3 class="font-display text-lg font-extrabold text-obsidian-900">
+            Phân tầng đúng năng lực
+          </h3>
+          <p class="text-xs sm:text-sm text-obsidian-700 leading-relaxed">
+            Chia tách công việc khoa học theo 3 lộ trình: Part-time linh hoạt (Năm 1–2), Thực tập sinh có dấu mộc (Năm 3–4), và Fresher chuyên nghiệp.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 Leader Cốt Cán -->
+  <section class="border-b border-obsidian-900/10 bg-alabaster-50 py-16 sm:py-20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="mb-12 max-w-2xl">
+        <span class="font-mono text-xs font-bold uppercase tracking-wider text-obsidian-600 block mb-1">
+          Đội ngũ sáng lập
+        </span>
+        <h2 class="font-display text-2xl font-extrabold tracking-tight text-obsidian-900 sm:text-3xl">
+          5 Leader cốt cán kiến tạo TopSiVi
+        </h2>
+        <p class="mt-2 text-xs sm:text-sm text-obsidian-700 leading-relaxed">
+          Kết hợp giữa tư duy sản phẩm công nghệ và khát vọng mang lại môi trường khởi đầu sự nghiệp lành mạnh cho sinh viên Việt Nam.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {leaders.map((leader, index) => (
+          <div class="group rounded-3xl border border-obsidian-900/15 bg-alabaster-100/60 p-6 shadow-swiss-card hover:border-obsidian-900 hover:bg-alabaster-50 transition-all flex flex-col justify-between">
+            <div>
+              <div class="flex items-start justify-between mb-4">
+                <div class="relative flex h-16 w-16 items-center justify-center rounded-2xl bg-obsidian-900 text-mint font-display font-extrabold text-lg border-2 border-obsidian-900 group-hover:scale-105 transition-transform">
+                  {leader.initials}
+                  <span class="absolute -bottom-1 -right-1 h-3.5 w-3.5 rounded-full bg-mint border-2 border-alabaster-50"></span>
+                </div>
+
+                <span class="font-mono text-xs font-bold text-obsidian-600 bg-mint/30 px-2.5 py-1 rounded-full">
+                  0{index + 1} • FOUNDER
+                </span>
+              </div>
+
+              <h3 class="font-display text-lg font-extrabold text-obsidian-900">
+                {leader.name}
+              </h3>
+              <p class="font-mono text-xs font-bold text-signal-emerald mt-0.5">
+                {leader.role}
+              </p>
+
+              <p class="mt-3 text-xs sm:text-sm text-obsidian-700 leading-relaxed">
+                {leader.bio}
+              </p>
+            </div>
+
+            <div class="mt-5 pt-3 border-t border-obsidian-900/10 flex flex-wrap gap-1.5 font-mono text-[11px]">
+              {leader.tags.map((tag) => (
+                <span class="bg-alabaster-50 text-obsidian-800 px-2.5 py-0.5 rounded-full border border-obsidian-900/15">
+                  #{tag}
+                </span>
+              ))}
+            </div>
+          </div>
+        ))}
+
+        <div class="rounded-3xl border-2 border-dashed border-obsidian-900/40 bg-mint/20 p-6 flex flex-col justify-between">
+          <div>
+            <span class="font-mono text-xs font-bold uppercase text-obsidian-900 block mb-2">
+              Mạng lưới đối tác
+            </span>
+            <h3 class="font-display text-lg font-extrabold text-obsidian-900">
+              Đồng hành cùng TopSiVi
+            </h3>
+            <p class="mt-2 text-xs sm:text-sm text-obsidian-800 leading-relaxed">
+              Chúng tôi luôn mở rộng cơ hội hợp tác cùng các CLB sinh viên, Phòng Quan hệ Doanh nghiệp các trường ĐH và nhà tuyển dụng uy tín.
+            </p>
+          </div>
+
+          <div class="mt-6">
+            <a
+              href="#lien-he"
+              class="inline-flex items-center gap-2 rounded-full bg-obsidian-900 px-5 py-2.5 text-xs font-bold text-mint hover:bg-obsidian-800 transition-colors"
+            >
+              <span>Liên hệ hợp tác</span>
+              <span>→</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Liên Hệ -->
+  <section id="lien-he" class="bg-alabaster-100 py-16">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+        <div class="space-y-6">
+          <div>
+            <span class="font-mono text-xs font-bold uppercase tracking-wider text-obsidian-600 block mb-1">
+              Kênh hỗ trợ trực tiếp
+            </span>
+            <h2 class="font-display text-2xl font-extrabold tracking-tight text-obsidian-900 sm:text-3xl">
+              Thông tin liên hệ & Hỗ trợ sinh viên
+            </h2>
+            <p class="mt-2 text-xs sm:text-sm text-obsidian-700 leading-relaxed">
+              Nếu bạn cần hỗ trợ về quy trình ứng tuyển, báo cáo tin tuyển dụng vi phạm hoặc thảo luận hợp tác doanh nghiệp, hãy kết nối ngay với chúng tôi.
+            </p>
+          </div>
+
+          <div class="space-y-4 text-xs sm:text-sm">
+            <div class="rounded-2xl border border-obsidian-900/15 bg-alabaster-50 p-5">
+              <span class="font-mono text-[10px] uppercase font-bold text-obsidian-600 block">Hotline sinh viên 24/7</span>
+              <a href="tel:19006868" class="font-display text-lg font-extrabold text-obsidian-900 hover:underline mt-0.5 block">
+                1900 6868 • 024 7300 8888
+              </a>
+              <span class="text-xs text-obsidian-600">Miễn phí cước gọi hỗ trợ sinh viên các trường</span>
+            </div>
+
+            <div class="rounded-2xl border border-obsidian-900/15 bg-alabaster-50 p-5">
+              <span class="font-mono text-[10px] uppercase font-bold text-obsidian-600 block">Email điều hành & Hợp tác</span>
+              <a href="mailto:admin@wherejourneybegins.web.id" class="font-mono text-sm font-bold text-obsidian-900 hover:underline mt-1 block">
+                admin@wherejourneybegins.web.id
+              </a>
+            </div>
+
+            <div class="rounded-2xl border border-obsidian-900/15 bg-alabaster-50 p-5 space-y-2">
+              <span class="font-mono text-[10px] uppercase font-bold text-obsidian-600 block">Văn phòng điều hành</span>
+              <div>
+                <strong class="text-obsidian-900 font-bold block">HÀ NỘI:</strong>
+                <span class="text-obsidian-700">Tầng 8, Tòa nhà TopSiVi Tower, Phố Duy Tân, Quận Cầu Giấy, Hà Nội.</span>
+              </div>
+              <div>
+                <strong class="text-obsidian-900 font-bold block">TP. HỒ CHÍ MINH:</strong>
+                <span class="text-obsidian-700">Tầng 12, Landmark Plus, Điện Biên Phủ, Quận Bình Thạnh, TP. Hồ Chí Minh.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rounded-3xl border-2 border-obsidian-900 bg-alabaster-50 p-6 sm:p-8 shadow-swiss-card">
+          <div class="border-b border-obsidian-900/10 pb-4 mb-5">
+            <span class="font-display text-base font-extrabold text-obsidian-900 block">
+              Gửi yêu cầu hỗ trợ trực tuyến
+            </span>
+            <p class="text-xs text-obsidian-600 mt-1">
+              Chúng tôi sẽ phản hồi qua email hoặc số điện thoại trong vòng tối đa 2 giờ làm việc.
+            </p>
+          </div>
+
+          <form class="space-y-4 text-xs" onsubmit="event.preventDefault(); alert('Cảm ơn bạn! Yêu cầu của bạn đã được gửi đến ban quản trị TopSiVi.');">
+            <div>
+              <label for="contact-name" class="block font-semibold text-obsidian-800 mb-1.5">
+                Họ và tên của bạn *
+              </label>
+              <input
+                type="text"
+                id="contact-name"
+                required
+                placeholder="Ví dụ: Nguyễn Văn An"
+                class="w-full rounded-xl border border-obsidian-900/20 bg-alabaster-100/60 px-3.5 py-2.5 text-xs text-obsidian-900 focus:border-obsidian-900 focus:outline-none"
+              />
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+              <div>
+                <label for="contact-email" class="block font-semibold text-obsidian-800 mb-1.5">
+                  Email liên hệ *
+                </label>
+                <input
+                  type="email"
+                  id="contact-email"
+                  required
+                  placeholder="an.nguyen@gmail.com"
+                  class="w-full rounded-xl border border-obsidian-900/20 bg-alabaster-100/60 px-3.5 py-2.5 text-xs text-obsidian-900 focus:border-obsidian-900 focus:outline-none"
+                />
+              </div>
+              <div>
+                <label for="contact-phone" class="block font-semibold text-obsidian-800 mb-1.5">
+                  Số điện thoại
+                </label>
+                <input
+                  type="tel"
+                  id="contact-phone"
+                  placeholder="0912 345 678"
+                  class="w-full rounded-xl border border-obsidian-900/20 bg-alabaster-100/60 px-3.5 py-2.5 text-xs text-obsidian-900 focus:border-obsidian-900 focus:outline-none"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label for="contact-topic" class="block font-semibold text-obsidian-800 mb-1.5">
+                Chủ đề cần hỗ trợ *
+              </label>
+              <select
+                id="contact-topic"
+                class="w-full rounded-xl border border-obsidian-900/20 bg-alabaster-100/60 px-3.5 py-2.5 text-xs text-obsidian-900 focus:border-obsidian-900 focus:outline-none"
+              >
+                <option value="student-help">Hỗ trợ ứng tuyển / tìm việc cho sinh viên</option>
+                <option value="report-job">Báo cáo tin tuyển dụng có dấu hiệu vi phạm</option>
+                <option value="company-partnership">Hợp tác đăng tin & nâng cấp tài khoản doanh nghiệp</option>
+                <option value="university-cooperation">Hợp tác liên kết ngày hội việc làm Đại học</option>
+                <option value="other">Chủ đề khác</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="contact-message" class="block font-semibold text-obsidian-800 mb-1.5">
+                Nội dung tin nhắn *
+              </label>
+              <textarea
+                id="contact-message"
+                rows="4"
+                required
+                placeholder="Mô tả chi tiết câu hỏi hoặc vấn đề bạn cần TopSiVi giải đáp..."
+                class="w-full rounded-xl border border-obsidian-900/20 bg-alabaster-100/60 px-3.5 py-2.5 text-xs text-obsidian-900 focus:border-obsidian-900 focus:outline-none"
+              ></textarea>
+            </div>
+
+            <button
+              type="submit"
+              class="w-full rounded-full bg-obsidian-900 py-3.5 text-xs font-bold text-mint hover:bg-obsidian-800 transition-colors"
+            >
+              Gửi yêu cầu hỗ trợ ngay →
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

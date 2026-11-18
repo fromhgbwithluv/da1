@@ -1,0 +1,198 @@
+---
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<section class="relative overflow-hidden bg-alabaster-100 bg-organic-dots-light pt-10 pb-28 sm:pt-16 sm:pb-36 lg:pt-20 lg:pb-44">
+  <!-- Subtle ambient mint aura -->
+  <div class="pointer-events-none absolute -top-24 right-1/4 h-96 w-96 rounded-full bg-mint/25 blur-3xl"></div>
+  <div class="pointer-events-none absolute top-1/2 -left-24 h-80 w-80 rounded-full bg-mint/15 blur-3xl"></div>
+
+  <div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-10">
+      <!-- Left Editorial Column -->
+      <div class="lg:col-span-7 space-y-7">
+        <!-- Organic Signal Pill -->
+        <div class="inline-flex items-center gap-2.5 rounded-full border border-obsidian-900/15 bg-alabaster-50 px-4 py-1.5 shadow-xs">
+          <span class="relative flex h-2.5 w-2.5">
+            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-mint opacity-75"></span>
+            <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-mint-500"></span>
+          </span>
+          <span class="font-mono text-xs font-semibold tracking-wide text-obsidian-900">
+            TopSiVi • Trao niềm tin, nhận tài lộc
+          </span>
+        </div>
+
+        <!-- Main Display Headline -->
+        <h1 class="text-4xl font-extrabold tracking-tight text-obsidian-900 sm:text-5xl lg:text-[3.5rem] lg:leading-[1.08]">
+          Tìm việc chuẩn lộ trình, <br class="hidden sm:inline" />
+          <span class="relative inline-block mt-1">
+            <span class="relative z-10 px-2">không lo bẫy cọc</span>
+            <span class="absolute inset-x-0 bottom-1 -z-0 h-5 sm:h-6 rounded-lg bg-mint -rotate-1"></span>
+          </span>
+          <span class="block mt-1 text-obsidian-800">cho sinh viên Việt Nam.</span>
+        </h1>
+
+        <!-- Editorial Lead Paragraph -->
+        <p class="max-w-xl text-base leading-relaxed text-obsidian-700 sm:text-lg">
+          Từ ca làm <strong>Part-time linh hoạt</strong> năm nhất, kỳ <strong>Thực tập có dấu mộc</strong> năm cuối, đến vị trí <strong>Fresher Full-time</strong> ngày ra trường — mọi cơ hội đều được gom về một nơi và xác thực pháp lý 100%.
+        </p>
+
+        <!-- Primary Action Bar -->
+        <div class="flex flex-wrap items-center gap-4 pt-1">
+          <a
+            href={`${baseUrl}jobs`}
+            class="group inline-flex items-center gap-3 rounded-full bg-obsidian-900 px-7 py-4 text-sm font-bold text-alabaster-50 transition-all duration-200 hover:bg-obsidian-800 hover:shadow-mint-glow"
+          >
+            <span>Khám phá việc làm ngay</span>
+            <span class="flex h-6 w-6 items-center justify-center rounded-full bg-mint text-obsidian-900 font-mono text-xs font-black transition-transform duration-200 group-hover:translate-x-1">
+              →
+            </span>
+          </a>
+
+          <a
+            href="#cau-chuyen-topsivi"
+            class="inline-flex items-center gap-2.5 rounded-full border border-obsidian-900/20 bg-alabaster-50 px-6 py-4 text-sm font-bold text-obsidian-900 transition-all duration-200 hover:border-obsidian-900 hover:bg-mint/20"
+          >
+            <span>Cuộn xem hành trình</span>
+            <span class="font-mono text-xs animate-bounce">↓</span>
+          </a>
+        </div>
+
+        <!-- Key Metrics Strip -->
+        <div class="grid grid-cols-3 gap-4 pt-4 max-w-lg border-t border-obsidian-900/10">
+          <div>
+            <span class="font-display text-2xl sm:text-3xl font-extrabold text-obsidian-900">327+</span>
+            <span class="block text-xs font-medium text-obsidian-600 mt-0.5">Đại học & Cao đẳng</span>
+          </div>
+          <div>
+            <span class="inline-block font-display text-2xl sm:text-3xl font-extrabold text-obsidian-900 bg-mint/60 px-2 rounded-lg">100%</span>
+            <span class="block text-xs font-medium text-obsidian-600 mt-0.5">Xác minh mã số thuế</span>
+          </div>
+          <div>
+            <span class="font-display text-2xl sm:text-3xl font-extrabold text-obsidian-900">0đ</span>
+            <span class="block text-xs font-medium text-obsidian-600 mt-0.5">Cam kết không thu cọc</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Interactive 3-Stage Architecture Showcase -->
+      <div class="lg:col-span-5">
+        <div class="relative rounded-3xl border-2 border-obsidian-900 bg-alabaster-50 p-6 sm:p-7 shadow-[0_20px_50px_rgba(14,20,18,0.12)]">
+          <!-- Floating Top Badge -->
+          <div class="flex items-center justify-between border-b border-obsidian-900/10 pb-4 mb-5">
+            <div class="flex items-center gap-2.5">
+              <span class="h-3 w-3 rounded-full bg-mint border border-obsidian-900"></span>
+              <span class="font-mono text-xs font-bold uppercase tracking-wider text-obsidian-900">
+                Phân tầng 3 giai đoạn
+              </span>
+            </div>
+            <span class="rounded-full bg-obsidian-900 px-3 py-1 font-mono text-[10px] font-bold text-mint">
+              CHUẨN HÓA 2026
+            </span>
+          </div>
+
+          <!-- 3 Stage Interactive Cards -->
+          <div class="space-y-3.5">
+            <!-- Stage 1 -->
+            <a
+              href={`${baseUrl}jobs`}
+              class="group flex items-center justify-between gap-4 rounded-2xl border border-obsidian-900/15 bg-alabaster-100/70 p-4 transition-all duration-200 hover:border-obsidian-900 hover:bg-mint/25"
+            >
+              <div class="flex items-center gap-3.5">
+                <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-obsidian-900 font-display text-sm font-bold text-mint">
+                  01
+                </div>
+                <div>
+                  <div class="flex items-center gap-2">
+                    <h3 class="text-sm font-extrabold text-obsidian-900">Năm 1–2 • Part-time</h3>
+                    <span class="rounded-full bg-alabaster-50 border border-obsidian-900/15 px-2 py-0.5 font-mono text-[10px] font-semibold text-obsidian-700">Ca linh hoạt</span>
+                  </div>
+                  <p class="text-xs text-obsidian-600 mt-0.5">Phù hợp lịch học, tuyệt đối không giữ giấy tờ gốc.</p>
+                </div>
+              </div>
+              <span class="font-mono text-xs font-bold text-obsidian-900 bg-mint px-2.5 py-1 rounded-lg shrink-0">
+                25–55k/h
+              </span>
+            </a>
+
+            <!-- Stage 2 -->
+            <a
+              href={`${baseUrl}jobs`}
+              class="group flex items-center justify-between gap-4 rounded-2xl border-2 border-obsidian-900 bg-mint/30 p-4 transition-all duration-200 hover:bg-mint/50"
+            >
+              <div class="flex items-center gap-3.5">
+                <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-obsidian-900 font-display text-sm font-bold text-mint">
+                  02
+                </div>
+                <div>
+                  <div class="flex items-center gap-2">
+                    <h3 class="text-sm font-extrabold text-obsidian-900">Năm 3–4 • Thực tập</h3>
+                    <span class="rounded-full bg-obsidian-900 px-2 py-0.5 font-mono text-[10px] font-bold text-mint">Có dấu mộc</span>
+                  </div>
+                  <p class="text-xs text-obsidian-800 mt-0.5">Mentor kèm 1-1, hỗ trợ số liệu báo cáo & dấu mộc.</p>
+                </div>
+              </div>
+              <span class="font-mono text-xs font-bold text-alabaster-50 bg-obsidian-900 px-2.5 py-1 rounded-lg shrink-0">
+                4–7M/th
+              </span>
+            </a>
+
+            <!-- Stage 3 -->
+            <a
+              href={`${baseUrl}jobs`}
+              class="group flex items-center justify-between gap-4 rounded-2xl border border-obsidian-900/15 bg-alabaster-100/70 p-4 transition-all duration-200 hover:border-obsidian-900 hover:bg-mint/25"
+            >
+              <div class="flex items-center gap-3.5">
+                <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-obsidian-900 font-display text-sm font-bold text-mint">
+                  03
+                </div>
+                <div>
+                  <div class="flex items-center gap-2">
+                    <h3 class="text-sm font-extrabold text-obsidian-900">Tốt nghiệp • Fresher</h3>
+                    <span class="rounded-full bg-alabaster-50 border border-obsidian-900/15 px-2 py-0.5 font-mono text-[10px] font-semibold text-obsidian-700">Full-time</span>
+                  </div>
+                  <p class="text-xs text-obsidian-600 mt-0.5">Không đòi hỏi 2 năm KN vô lý, ký HĐLĐ chính thức.</p>
+                </div>
+              </div>
+              <span class="font-mono text-xs font-bold text-obsidian-900 bg-mint px-2.5 py-1 rounded-lg shrink-0">
+                10–20M/th
+              </span>
+            </a>
+          </div>
+
+          <!-- Bottom Quick Status -->
+          <div class="mt-5 flex items-center justify-between border-t border-obsidian-900/10 pt-4 text-xs text-obsidian-700">
+            <span class="font-mono font-medium">Ứng tuyển đồng loạt qua Giỏ hồ sơ</span>
+            <a href={`${baseUrl}services`} class="font-bold text-obsidian-900 underline decoration-mint decoration-2 underline-offset-4 hover:text-obsidian-700">
+              Dịch vụ CV & Phỏng vấn →
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Double-Hill Organic Wave Transition into Obsidian Dark ("Nền đen") matching Sketch 1 -->
+  <div class="pointer-events-none absolute inset-x-0 bottom-0 z-20 w-full overflow-hidden leading-none">
+    <svg
+      class="relative block h-20 w-full sm:h-28 lg:h-36"
+      viewBox="0 0 1440 160"
+      preserveAspectRatio="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <!-- Subtle Mint Rim Line following the double-hill wave -->
+      <path
+        d="M0,126 C140,124 250,32 410,32 C560,32 630,96 730,96 C830,96 900,22 1050,22 C1210,22 1310,130 1440,134"
+        fill="none"
+        stroke="#70ffaf"
+        stroke-width="3"
+        stroke-opacity="0.7"
+      />
+      <!-- Deep Obsidian ("Nền đen" #0e1412) Fill below the wave -->
+      <path
+        d="M0,128 C140,126 250,34 410,34 C560,34 630,98 730,98 C830,98 900,24 1050,24 C1210,24 1310,132 1440,136 L1440,165 L0,165 Z"
+        fill="#0e1412"
+      />
+    </svg>
+  </div>
+</section>

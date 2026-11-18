@@ -1,0 +1,16 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import StickyParallaxStory from '../components/StickyParallaxStory.svelte';
+---
+
+<Layout
+  title="TopSiVi - Trao niềm tin, nhận tài lộc | Nền tảng việc làm phân tầng sinh viên"
+  description="TopSiVi - Nền tảng việc làm phân tầng chuyên biệt cho 3 nhóm sinh viên: Năm 1-2 Part-time linh hoạt, Năm 3-4 Thực tập sinh có dấu mộc & mentor, Mới tốt nghiệp Fresher Full-time. 100% doanh nghiệp xác minh, cam kết không thu cọc."
+>
+  <!-- Sketch 1: Hero Section + Wavy Transition into Obsidian Dark ("Nền đen") -->
+  <Hero />
+
+  <!-- Sketches 2, 3, 4 & 5: Sticky Orbital Parallax Scroll Story + Dual CTA ("Tìm việc ngay" / "Đăng tuyển ngay") -->
+  <StickyParallaxStory client:load />
+</Layout>

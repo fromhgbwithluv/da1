@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
+  <rect width="128" height="128" rx="28" fill="#0e1412" />
+  <!-- T (Left-Top Mint) -->
+  <path d="M18 32H68V44H49V86H36V44H18V32Z" fill="#70ffaf" />
+  <!-- S (Center Interlocking Off-White/Silver) -->
+  <path d="M74 44C62 44 55 50 55 58C55 66 63 69 72 72C79 74 83 76 83 81C83 86 78 89 70 89C62 89 56 85 54 80L44 86C48 95 57 100 70 100C85 100 96 92 96 80C96 70 88 65 77 62C69 60 67 58 67 55C67 52 70 50 75 50C80 50 84 52 87 56L96 49C91 45 83 44 74 44Z" fill="#f1f5f0" />
+  <!-- V (Right Mint) -->
+  <path d="M76 32L92 78L108 32H120L98 92H86L64 32H76Z" fill="#70ffaf" fill-opacity="0.92" />
+</svg>

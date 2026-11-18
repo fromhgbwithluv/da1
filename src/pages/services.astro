@@ -1,0 +1,84 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ServicesList from '../components/ServicesList.svelte';
+---
+
+<Layout
+  title="Dịch vụ Hỗ trợ Nghề nghiệp & Doanh nghiệp | TopSiVi"
+  description="Hệ thống 6 gói dịch vụ tối ưu hóa CV ATS, thiết kế portfolio cá nhân hóa, phỏng vấn thử 1-1 cùng mentor và gói tuyển dụng VIP dành cho doanh nghiệp."
+>
+  <div class="relative overflow-hidden border-b border-obsidian-900/10 bg-alabaster-50 bg-organic-dots-light py-14 lg:py-20">
+    <div class="pointer-events-none absolute -top-20 left-1/3 h-80 w-80 rounded-full bg-mint/25 blur-3xl"></div>
+
+    <div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl space-y-5">
+        <div class="inline-flex items-center gap-2 rounded-full border border-obsidian-900/15 bg-alabaster-100 px-3.5 py-1">
+          <span class="h-2 w-2 rounded-full bg-mint-500"></span>
+          <span class="font-mono text-xs font-bold text-obsidian-900">
+            Hệ sinh thái đồng hành nghề nghiệp
+          </span>
+        </div>
+
+        <h1 class="font-display text-3xl font-extrabold tracking-tight text-obsidian-900 sm:text-5xl lg:leading-[1.1]">
+          Dịch vụ hỗ trợ <span class="bg-mint px-2.5 rounded-xl">CV, Phỏng vấn</span> & Quảng bá Doanh nghiệp
+        </h1>
+
+        <p class="text-sm text-obsidian-700 sm:text-base leading-relaxed">
+          Đồng hành cùng sinh viên từ bước chuẩn hóa CV chuẩn ATS, luyện phỏng vấn thử 1-1 cùng HR thực chiến đến giải pháp thương hiệu tuyển dụng uy tín cho doanh nghiệp đối tác.
+        </p>
+
+        <!-- Guarantees Strip -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-2">
+          <div class="rounded-2xl border border-obsidian-900/15 bg-alabaster-100/90 p-4">
+            <span class="font-mono text-[10px] font-bold uppercase text-obsidian-600 block">Chuyên gia đồng hành</span>
+            <span class="font-display text-sm font-extrabold text-obsidian-900 mt-0.5 block">Mentor 1-1 từ doanh nghiệp</span>
+          </div>
+          <div class="rounded-2xl border border-obsidian-900 bg-mint/35 p-4">
+            <span class="font-mono text-[10px] font-bold uppercase text-obsidian-800 block">Tốc độ xử lý</span>
+            <span class="font-display text-sm font-extrabold text-obsidian-900 mt-0.5 block">Phản hồi kết quả 24h – 48h</span>
+          </div>
+          <div class="rounded-2xl border border-obsidian-900/15 bg-alabaster-100/90 p-4">
+            <span class="font-mono text-[10px] font-bold uppercase text-obsidian-600 block">Bảo đảm chất lượng</span>
+            <span class="font-display text-sm font-extrabold text-obsidian-900 mt-0.5 block">Chi phí minh bạch 100%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content: Services Cards -->
+  <div class="py-14 bg-alabaster-100">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <ServicesList client:load />
+    </div>
+  </div>
+
+  <!-- Bottom Callout -->
+  <section class="border-t border-obsidian-900/10 bg-alabaster-50 py-14">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="rounded-3xl border-2 border-obsidian-900 bg-obsidian-900 text-alabaster-50 p-8 sm:p-10 shadow-swiss-elevated">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div class="space-y-2">
+            <span class="font-mono text-xs font-bold text-mint uppercase tracking-wider block">
+              Hợp tác Đại học & Doanh nghiệp
+            </span>
+            <h3 class="font-display text-2xl font-extrabold tracking-tight sm:text-3xl text-alabaster-50">
+              Cần tư vấn gói dịch vụ tùy chỉnh hoặc chiến dịch tuyển dụng?
+            </h3>
+            <p class="text-xs sm:text-sm text-alabaster-300 max-w-2xl">
+              Đội ngũ TopSiVi luôn sẵn sàng phối hợp tổ chức Workshop hướng nghiệp tại các trường Đại học và thiết kế gói tuyển dụng riêng biệt.
+            </p>
+          </div>
+
+          <a
+            href="mailto:admin@wherejourneybegins.web.id"
+            class="shrink-0 inline-flex items-center justify-center gap-2.5 rounded-full bg-mint px-7 py-4 font-display text-sm font-extrabold text-obsidian-900 hover:bg-mint-400 transition-all shadow-mint-glow"
+          >
+            <span>Liên hệ đội ngũ cố vấn</span>
+            <span>→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
