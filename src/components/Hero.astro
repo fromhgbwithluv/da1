@@ -2,7 +2,7 @@
 const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
 ---
 
-<section class="relative overflow-hidden bg-alabaster-100 bg-organic-dots-light pt-10 pb-28 sm:pt-16 sm:pb-36 lg:pt-20 lg:pb-44">
+<section class="relative overflow-hidden bg-alabaster-100 bg-organic-dots-light pt-12 pb-36 sm:pt-20 sm:pb-48 lg:pt-24 lg:pb-64 min-h-[92vh] flex flex-col justify-between">
   <!-- Subtle ambient mint aura -->
   <div class="pointer-events-none absolute -top-24 right-1/4 h-96 w-96 rounded-full bg-mint/25 blur-3xl"></div>
   <div class="pointer-events-none absolute top-1/2 -left-24 h-80 w-80 rounded-full bg-mint/15 blur-3xl"></div>
@@ -175,22 +175,22 @@ const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_UR
   <!-- Double-Hill Organic Wave Transition into Obsidian Dark ("Nền đen") matching Sketch 1 -->
   <div class="pointer-events-none absolute inset-x-0 bottom-0 z-20 w-full overflow-hidden leading-none">
     <svg
-      class="relative block h-20 w-full sm:h-28 lg:h-36"
+      class="relative block h-14 w-full sm:h-20 lg:h-24"
       viewBox="0 0 1440 160"
       preserveAspectRatio="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <!-- Subtle Mint Rim Line following the double-hill wave -->
+      <!-- Subtle Mint Rim Line following the lowered double-hill wave -->
       <path
-        d="M0,126 C140,124 250,32 410,32 C560,32 630,96 730,96 C830,96 900,22 1050,22 C1210,22 1310,130 1440,134"
+        d="M0,138 C160,136 280,82 430,82 C580,82 660,118 750,118 C850,118 930,72 1080,72 C1220,72 1330,138 1440,140"
         fill="none"
         stroke="#70ffaf"
-        stroke-width="3"
-        stroke-opacity="0.7"
+        stroke-width="2.5"
+        stroke-opacity="0.8"
       />
-      <!-- Deep Obsidian ("Nền đen" #0e1412) Fill below the wave -->
+      <!-- Deep Obsidian ("Nền đen" #0e1412) Fill below the lowered wave -->
       <path
-        d="M0,128 C140,126 250,34 410,34 C560,34 630,98 730,98 C830,98 900,24 1050,24 C1210,24 1310,132 1440,136 L1440,165 L0,165 Z"
+        d="M0,140 C160,138 280,84 430,84 C580,84 660,120 750,120 C850,120 930,74 1080,74 C1220,74 1330,140 1440,142 L1440,165 L0,165 Z"
         fill="#0e1412"
       />
     </svg>
