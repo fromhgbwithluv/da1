@@ -33,7 +33,6 @@
     postSource?: string;
   }
 
-  // --- 44 NODES WITH WIDE RADIAL SEPARATION AND LARGER BOXES ---
   const ALL_NODES: OrbitNode[] = [
     // =========================================================
     // GIAI ĐOẠN 1: THỰC TRẠNG (Base angles: +145° down to -56°)
@@ -44,16 +43,16 @@
       kind: "badge",
       title: "ITviec",
       logo: "/images/logos/itviec.png",
-      baseAngle: 145,
-      radiusRatio: 0.82,
+      baseAngle: 130,
+      radiusRatio: 0.75,
     },
     {
       id: "s1-req-exp",
       stage: 0,
       kind: "problem",
-      title: "Yêu cầu kn",
-      sub: "Đòi 1–2 năm KN cho vị trí mới ra trường",
-      baseAngle: 132,
+      title: "Yêu cầu kinh nghiệm",
+      sub: "Khó tiếp cận với đa số sinh viên",
+      baseAngle: 120,
       radiusRatio: 0.48,
     },
     {
@@ -63,17 +62,8 @@
       title: "Việc làm parttime sinh viên TPHCM",
       sub: "Facebook Group",
       image: "/images/posts/fb-post-1.jpg", // Replaced with user's real screenshot
-      baseAngle: 115,
-      radiusRatio: 0.98, // Outer track
-    },
-    {
-      id: "s1-linkedin",
-      stage: 0,
-      kind: "badge",
-      title: "LinkedIn",
-      logo: "/images/logos/linkedin.png",
-      baseAngle: 102,
-      radiusRatio: 0.66,
+      baseAngle: 80,
+      radiusRatio: 0.9, // Outer track
     },
     {
       id: "s1-career",
@@ -81,8 +71,8 @@
       kind: "badge",
       title: "CareerViet",
       logo: "/images/logos/careerviet.png",
-      baseAngle: 90,
-      radiusRatio: 0.44, // Inner track
+      baseAngle: 105,
+      radiusRatio: 0.7, // Inner track
     },
     {
       id: "s1-post-2",
@@ -91,8 +81,8 @@
       title: "Bài tuyển dụng #2",
       sub: "Threads Post",
       image: "/images/posts/threads-post-1.png",
-      baseAngle: 76,
-      radiusRatio: 1.02, // Outer track
+      baseAngle: 45,
+      radiusRatio: 0.9, // Outer track
     },
     {
       id: "s1-topcv",
@@ -100,17 +90,17 @@
       kind: "badge",
       title: "TopCV",
       logo: "/images/logos/topcv.png",
-      baseAngle: 62,
-      radiusRatio: 0.64,
+      baseAngle: 150,
+      radiusRatio: 0.7,
     },
     {
       id: "s1-scattered",
       stage: 0,
       kind: "problem",
-      title: "rải rác?",
-      sub: "Thông tin phân mảnh khắp 10+ kênh",
-      baseAngle: 46,
-      radiusRatio: 0.84,
+      title: "Rải rác?",
+      sub: "Thông tin phân mảnh khắp các kênh",
+      baseAngle: 40,
+      radiusRatio: 0.5,
     },
     // Extended Part 1B
     {
@@ -119,50 +109,18 @@
       kind: "post",
       title: "Bài tuyển dụng #3",
       sub: "Sàn tuyển dụng đại trà",
-      postSource: "Sàn tuyển dụng",
-      postSnippet:
-        "Thực tập sinh Marketing không lương, cam kết làm full-time 6 tháng...",
-      baseAngle: 26,
-      radiusRatio: 1.0, // Outer track
-    },
-    {
-      id: "s1-vieclam24h",
-      stage: 0,
-      kind: "badge",
-      title: "Vieclam24h",
-      logo: "/images/logos/vieclam24h.svg",
-      baseAngle: 14,
-      radiusRatio: 0.62,
+      image: "/images/posts/ig-post-1.png",
+      baseAngle: 10,
+      radiusRatio: 0.9, // Outer track
     },
     {
       id: "s1-jd-vague",
       stage: 0,
       kind: "problem",
-      title: "JD mập mờ?",
+      title: "Thông tin mập mờ?",
       sub: "Mô tả chung chung, giấu mức lương thực",
-      baseAngle: -1,
-      radiusRatio: 0.44, // Inner track
-    },
-    {
-      id: "s1-post-4",
-      stage: 0,
-      kind: "post",
-      title: "Bài tuyển dụng #4",
-      sub: "Nhóm Zalo / SV",
-      postSource: "Zalo: Tuyển dụng SV",
-      postSnippet:
-        "Ca tối 4 tiếng, thu trước 200k tiền đồng phục bảo đảm công việc...",
       baseAngle: -20,
-      radiusRatio: 0.98, // Outer track
-    },
-    {
-      id: "s1-groupsv",
-      stage: 0,
-      kind: "badge",
-      title: "Group SV",
-      sub: "Mạng xã hội",
-      baseAngle: -35,
-      radiusRatio: 0.66,
+      radiusRatio: 0.55, // Inner track
     },
     {
       id: "s1-trap-deposit",
@@ -170,15 +128,15 @@
       kind: "problem",
       title: "Thu cọc / Đa cấp?",
       sub: "Đòi giữ CCCD gốc và đóng phí đào tạo",
-      baseAngle: -46,
-      radiusRatio: 0.46, // Inner track
+      baseAngle: -25,
+      radiusRatio: 0.9, // Inner track
     },
     {
       id: "s1-clash-time",
       stage: 0,
       kind: "problem",
-      title: "Trùng lịch học?",
-      sub: "Ca gãy khó xoay xở theo tín chỉ",
+      title: "Thiếu linh hoạt?",
+      sub: "Ca làm khó thay đổi theo lịch học",
       baseAngle: -56,
       radiusRatio: 0.82,
     },
@@ -473,18 +431,13 @@
     // Stage 1 connections
     ["s1-itviec", "s1-req-exp"],
     ["s1-req-exp", "s1-career"],
-    ["s1-career", "s1-topcv"],
-    ["s1-post-1", "s1-linkedin"],
-    ["s1-linkedin", "s1-post-2"],
-    ["s1-post-1", "s1-post-2"],
+    ["s1-req-exp", "s1-topcv"],
     ["s1-post-2", "s1-scattered"],
+    ["s1-post-1", "s1-scattered"],
     ["s1-scattered", "s1-post-3"],
-    ["s1-post-3", "s1-vieclam24h"],
-    ["s1-vieclam24h", "s1-jd-vague"],
-    ["s1-post-3", "s1-post-4"],
-    ["s1-post-4", "s1-trap-deposit"],
     ["s1-trap-deposit", "s1-clash-time"],
-    ["s1-post-4", "s1-groupsv"],
+    ["s1-trap-deposit", "s1-jd-vague"],
+    ["s1-clash-time", "s1-jd-vague"],
 
     // Stage 2 connections
     ["s2-sv-need", "s2-stamp"],
@@ -515,24 +468,18 @@
       index: 0,
       code: "01",
       title: "Thực trạng",
-      subtitle:
-        "Thông tin rải rác khắp nơi, đòi hỏi kinh nghiệm vô lý & nguy cơ bẫy cọc",
       centerTargetP: 0.12,
     },
     {
       index: 1,
       code: "02",
       title: "Suy nghĩ",
-      subtitle:
-        "Giải bài toán giao thoa giữa nhu cầu Sinh viên và nguồn lực Thị trường",
       centerTargetP: 0.5,
     },
     {
       index: 2,
       code: "03",
       title: "Sản phẩm",
-      subtitle:
-        "Hệ sinh thái việc làm phân tầng thông minh & dịch vụ đồng hành TopSiVi",
       centerTargetP: 0.88,
     },
   ];
@@ -674,7 +621,7 @@
   }
 
   onMount(() => {
-    initSmoothScroll();
+    const lenis = initSmoothScroll();
 
     const handleResize = () => {
       viewportWidth = window.innerWidth;
@@ -687,9 +634,44 @@
     let st: ScrollTrigger | null = null;
     let tickerCallback: (() => void) | null = null;
 
+    // Scroll speed dampening inside the sticky parallax story
+    const DEFAULT_WHEEL = 0.95;
+    const PARALLAX_WHEEL = 0.42; // ~56% speed reduction for slow, precision viewing
+    const DEFAULT_TOUCH = 1.5;
+    const PARALLAX_TOUCH = 0.8;
+
+    const updateLenisSpeed = (progress: number) => {
+      if (!lenis || !lenis.options) return;
+      const H = trackEl ? trackEl.offsetHeight : 7500;
+      const V = window.innerHeight || 900;
+      const stickyDistance = Math.max(1, H - V);
+
+      let slowFactor = 1.0;
+      if (progress < 0) {
+        const minP = -V / stickyDistance;
+        slowFactor = Math.max(0, Math.min(1, (progress - minP) / (0 - minP)));
+      } else if (progress > 1) {
+        const maxP = 1 + V / stickyDistance;
+        slowFactor = Math.max(0, Math.min(1, (maxP - progress) / (maxP - 1)));
+      } else {
+        slowFactor = 1.0;
+      }
+
+      lenis.options.wheelMultiplier =
+        DEFAULT_WHEEL - slowFactor * (DEFAULT_WHEEL - PARALLAX_WHEEL);
+      lenis.options.touchMultiplier =
+        DEFAULT_TOUCH - slowFactor * (DEFAULT_TOUCH - PARALLAX_TOUCH);
+    };
+
+    const resetNormalSpeed = () => {
+      if (!lenis || !lenis.options) return;
+      lenis.options.wheelMultiplier = DEFAULT_WHEEL;
+      lenis.options.touchMultiplier = DEFAULT_TOUCH;
+    };
+
     if (trackEl) {
       const computeProgress = (self: ScrollTrigger) => {
-        const H = trackEl ? trackEl.offsetHeight : 5000;
+        const H = trackEl ? trackEl.offsetHeight : 7500;
         const V = window.innerHeight || 900;
         const stickyDistance = Math.max(1, H - V);
         const totalDistance = Math.max(1, self.end - self.start); // equals H + V
@@ -706,14 +688,19 @@
         start: "top bottom",
         end: "bottom top",
         onUpdate: (self) => {
-          targetProgress = computeProgress(self);
+          const p = computeProgress(self);
+          targetProgress = p;
+          updateLenisSpeed(p);
         },
+        onLeave: resetNormalSpeed,
+        onLeaveBack: resetNormalSpeed,
       });
 
       // Synchronize immediately on load to prevent jumping
       const initialP = computeProgress(st);
       targetProgress = initialP;
       smoothProgress = initialP;
+      updateLenisSpeed(initialP);
 
       tickerCallback = () => {
         const diff = targetProgress - smoothProgress;
@@ -731,16 +718,17 @@
       window.removeEventListener("resize", handleResize);
       if (st) st.kill();
       if (tickerCallback) gsap.ticker.remove(tickerCallback);
+      resetNormalSpeed();
     };
   });
 </script>
 
-<!-- STICKY PARALLAX SCROLL TRACK (~580vh = ~1.8 viewports per stage) -->
+<!-- STICKY PARALLAX SCROLL TRACK (~750vh = ~2.2 viewports per stage for calm, cinematic pace) -->
 <section
   id="cau-chuyen-topsivi"
   bind:this={trackEl}
   class="relative w-full bg-obsidian-900 text-alabaster-50 select-none"
-  style="height: 580vh;"
+  style="height: 750vh;"
 >
   <!-- Sticky Viewport Canvas -->
   <div
@@ -1145,7 +1133,7 @@
         <span
           class="font-mono text-xs font-bold uppercase tracking-widest text-mint mb-1.5"
         >
-          GIAI ĐOẠN 0{activeStage + 1} / 03
+          0{activeStage + 1} / 03
         </span>
 
         <!-- Active Stage Title in the Dome -->
@@ -1154,12 +1142,6 @@
         >
           {stageMeta[activeStage].title}
         </h2>
-
-        <p
-          class="mt-2 max-w-[320px] text-xs sm:text-sm text-alabaster-300 leading-snug transition-all duration-300"
-        >
-          {stageMeta[activeStage].subtitle}
-        </p>
       </div>
     </div>
   </div>
