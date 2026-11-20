@@ -1,21 +1,27 @@
 ---
-import HeaderCartButton from './HeaderCartButton.svelte';
-import HeaderAuthButton from './HeaderAuthButton.svelte';
+import HeaderCartButton from "./HeaderCartButton.svelte";
+import HeaderAuthButton from "./HeaderAuthButton.svelte";
 
-const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+const baseUrl = import.meta.env.BASE_URL.endsWith("/")
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
 const currentPath = Astro.url.pathname;
 
 function isActive(path: string): boolean {
   if (path === baseUrl || path === baseUrl.slice(0, -1)) {
-    return currentPath === baseUrl || currentPath === baseUrl.slice(0, -1) || currentPath === '/';
+    return (
+      currentPath === baseUrl ||
+      currentPath === baseUrl.slice(0, -1) ||
+      currentPath === "/"
+    );
   }
   return currentPath.startsWith(path);
 }
 
 const navItems = [
-  { label: 'Tìm việc', href: `${baseUrl}jobs`, id: 'nav-jobs' },
-  { label: 'Dịch vụ hỗ trợ', href: `${baseUrl}services`, id: 'nav-services' },
-  { label: 'Về chúng tôi', href: `${baseUrl}about`, id: 'nav-about' },
+  { label: "Tìm việc", href: `${baseUrl}jobs`, id: "nav-jobs" },
+  { label: "Dịch vụ hỗ trợ", href: `${baseUrl}services`, id: "nav-services" },
+  { label: "Về chúng tôi", href: `${baseUrl}about`, id: "nav-about" },
 ];
 ---
 
@@ -29,16 +35,7 @@ const navItems = [
     >
       <div class="relative flex flex-col items-center justify-center rounded-xl bg-alabaster-100/80 border border-obsidian-900/10 px-2.5 py-1.5 transition-all duration-200 group-hover:border-obsidian-900/30 group-hover:bg-mint/15">
         <!-- Interlocking TSV SVG Mark -->
-        <svg class="h-6 w-11" viewBox="0 0 88 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- T (Mint with dark stroke accent) -->
-          <path d="M4 6H38V14H25V38H16V14H4V6Z" fill="#24c46f" />
-          <path d="M6 6H38V11H25V36H19V11H6V6Z" fill="#70ffaf" />
-          <!-- S (Interlocking Obsidian Charcoal) -->
-          <path d="M45 12C36 12 31 16.5 31 22C31 27.5 37 29.8 43.5 31.5C48.5 32.8 51 34.2 51 37C51 39.8 47.5 41.5 42 41.5C36.5 41.5 32.5 39 31 35.5L24 39.5C27 44.5 33.5 44 42 44C52.5 44 59.5 39 59.5 32C59.5 26 53.5 23 46 21C40.5 19.5 39 18.2 39 16.5C39 14.5 41.5 13.5 45 13.5C48.5 13.5 51.5 15 53.5 17.5L59.5 13C56 10.5 51 12 45 12Z" fill="#16201c" />
-          <!-- V (Mint right wing) -->
-          <path d="M50 6L62 36L74 6H83L66 42H58L41 6H50Z" fill="#24c46f" />
-          <path d="M52 6L62 32L72 6H79L65 39H59L45 6H52Z" fill="#70ffaf" />
-        </svg>
+        <svg></svg>
         <span class="font-display text-[11px] font-extrabold tracking-tight text-obsidian-900 leading-none mt-0.5">
           TopSiVi
         </span>
@@ -47,7 +44,10 @@ const navItems = [
 
     <!-- Right-aligned Navigation + Bookmark & Avatar (matching Sketch 1) -->
     <div class="flex items-center gap-3 sm:gap-6">
-      <nav class="hidden md:flex items-center gap-1 lg:gap-2" aria-label="Điều hướng chính">
+      <nav
+        class="hidden md:flex items-center gap-1 lg:gap-2"
+        aria-label="Điều hướng chính"
+      >
         {navItems.map((item) => {
           const active = isActive(item.href);
           return (
@@ -56,8 +56,8 @@ const navItems = [
               id={item.id}
               class={`relative rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200 ${
                 active
-                  ? 'bg-obsidian-900 text-mint shadow-xs'
-                  : 'text-obsidian-800 hover:text-obsidian-900 hover:bg-obsidian-900/5'
+                  ? "bg-obsidian-900 text-mint shadow-xs"
+                  : "text-obsidian-800 hover:text-obsidian-900 hover:bg-obsidian-900/5"
               }`}
             >
               {item.label}
@@ -82,11 +82,33 @@ const navItems = [
           aria-label="Mở menu điều hướng"
           aria-expanded="false"
         >
-          <svg id="hamburger-icon" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          <svg
+            id="hamburger-icon"
+            class="h-5 w-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
           </svg>
-          <svg id="close-icon" class="hidden h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          <svg
+            id="close-icon"
+            class="hidden h-5 w-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
           </svg>
         </button>
       </div>
@@ -106,8 +128,8 @@ const navItems = [
             href={item.href}
             class={`flex items-center justify-between rounded-xl px-4 py-3 text-sm font-bold transition-colors ${
               active
-                ? 'bg-obsidian-900 text-mint'
-                : 'text-obsidian-900 hover:bg-mint/20'
+                ? "bg-obsidian-900 text-mint"
+                : "text-obsidian-900 hover:bg-mint/20"
             }`}
           >
             <span>{item.label}</span>
@@ -120,19 +142,19 @@ const navItems = [
 </header>
 
 <script>
-  const toggleBtn = document.getElementById('mobile-nav-toggle');
-  const menu = document.getElementById('mobile-nav-menu');
-  const hamburgerIcon = document.getElementById('hamburger-icon');
-  const closeIcon = document.getElementById('close-icon');
+  const toggleBtn = document.getElementById("mobile-nav-toggle");
+  const menu = document.getElementById("mobile-nav-menu");
+  const hamburgerIcon = document.getElementById("hamburger-icon");
+  const closeIcon = document.getElementById("close-icon");
 
   if (toggleBtn && menu) {
-    toggleBtn.addEventListener('click', () => {
-      const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
-      toggleBtn.setAttribute('aria-expanded', String(!isExpanded));
-      menu.classList.toggle('hidden');
+    toggleBtn.addEventListener("click", () => {
+      const isExpanded = toggleBtn.getAttribute("aria-expanded") === "true";
+      toggleBtn.setAttribute("aria-expanded", String(!isExpanded));
+      menu.classList.toggle("hidden");
       if (hamburgerIcon && closeIcon) {
-        hamburgerIcon.classList.toggle('hidden');
-        closeIcon.classList.toggle('hidden');
+        hamburgerIcon.classList.toggle("hidden");
+        closeIcon.classList.toggle("hidden");
       }
     });
   }

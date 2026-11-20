@@ -621,7 +621,7 @@
   }
 
   onMount(() => {
-    const lenis = initSmoothScroll();
+    initSmoothScroll();
 
     const handleResize = () => {
       viewportWidth = window.innerWidth;
@@ -634,44 +634,9 @@
     let st: ScrollTrigger | null = null;
     let tickerCallback: (() => void) | null = null;
 
-    // Scroll speed dampening inside the sticky parallax story
-    const DEFAULT_WHEEL = 0.95;
-    const PARALLAX_WHEEL = 0.42; // ~56% speed reduction for slow, precision viewing
-    const DEFAULT_TOUCH = 1.5;
-    const PARALLAX_TOUCH = 0.8;
-
-    const updateLenisSpeed = (progress: number) => {
-      if (!lenis || !lenis.options) return;
-      const H = trackEl ? trackEl.offsetHeight : 7500;
-      const V = window.innerHeight || 900;
-      const stickyDistance = Math.max(1, H - V);
-
-      let slowFactor = 1.0;
-      if (progress < 0) {
-        const minP = -V / stickyDistance;
-        slowFactor = Math.max(0, Math.min(1, (progress - minP) / (0 - minP)));
-      } else if (progress > 1) {
-        const maxP = 1 + V / stickyDistance;
-        slowFactor = Math.max(0, Math.min(1, (maxP - progress) / (maxP - 1)));
-      } else {
-        slowFactor = 1.0;
-      }
-
-      lenis.options.wheelMultiplier =
-        DEFAULT_WHEEL - slowFactor * (DEFAULT_WHEEL - PARALLAX_WHEEL);
-      lenis.options.touchMultiplier =
-        DEFAULT_TOUCH - slowFactor * (DEFAULT_TOUCH - PARALLAX_TOUCH);
-    };
-
-    const resetNormalSpeed = () => {
-      if (!lenis || !lenis.options) return;
-      lenis.options.wheelMultiplier = DEFAULT_WHEEL;
-      lenis.options.touchMultiplier = DEFAULT_TOUCH;
-    };
-
     if (trackEl) {
       const computeProgress = (self: ScrollTrigger) => {
-        const H = trackEl ? trackEl.offsetHeight : 7500;
+        const H = trackEl ? trackEl.offsetHeight : 5000;
         const V = window.innerHeight || 900;
         const stickyDistance = Math.max(1, H - V);
         const totalDistance = Math.max(1, self.end - self.start); // equals H + V
@@ -688,19 +653,14 @@
         start: "top bottom",
         end: "bottom top",
         onUpdate: (self) => {
-          const p = computeProgress(self);
-          targetProgress = p;
-          updateLenisSpeed(p);
+          targetProgress = computeProgress(self);
         },
-        onLeave: resetNormalSpeed,
-        onLeaveBack: resetNormalSpeed,
       });
 
       // Synchronize immediately on load to prevent jumping
       const initialP = computeProgress(st);
       targetProgress = initialP;
       smoothProgress = initialP;
-      updateLenisSpeed(initialP);
 
       tickerCallback = () => {
         const diff = targetProgress - smoothProgress;
@@ -718,17 +678,16 @@
       window.removeEventListener("resize", handleResize);
       if (st) st.kill();
       if (tickerCallback) gsap.ticker.remove(tickerCallback);
-      resetNormalSpeed();
     };
   });
 </script>
 
-<!-- STICKY PARALLAX SCROLL TRACK (~750vh = ~2.2 viewports per stage for calm, cinematic pace) -->
+<!-- STICKY PARALLAX SCROLL TRACK (~580vh = ~1.8 viewports per stage) -->
 <section
   id="cau-chuyen-topsivi"
   bind:this={trackEl}
   class="relative w-full bg-obsidian-900 text-alabaster-50 select-none"
-  style="height: 750vh;"
+  style="height: 580vh;"
 >
   <!-- Sticky Viewport Canvas -->
   <div
