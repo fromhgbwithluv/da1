@@ -51,7 +51,7 @@
       stage: 0,
       kind: "problem",
       title: "Yêu cầu kinh nghiệm",
-      sub: "Khó tiếp cận với đa số sinh viên",
+      sub: "Khó tiếp cận với nhiều sinh viên",
       baseAngle: 120,
       radiusRatio: 0.48,
     },
