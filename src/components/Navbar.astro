@@ -43,7 +43,7 @@ const navItems = [
         <img
           src={`${baseUrl}favicon.svg`}
           alt="TopSiVi Logo"
-          class="h-10 sm:h-11 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
+          class="h-10 pt-2 sm:h-11 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
         />
       </div>
     </a>
@@ -157,7 +157,9 @@ const navItems = [
   :global(#main-navbar.is-dark) {
     background-color: rgba(14, 20, 18, 0.94) !important;
     border-bottom: 2px solid #70ffaf !important;
-    box-shadow: 0 4px 24px -2px rgba(112, 255, 175, 0.22), 0 1px 0 rgba(112, 255, 175, 0.4) !important;
+    box-shadow:
+      0 4px 24px -2px rgba(112, 255, 175, 0.22),
+      0 1px 0 rgba(112, 255, 175, 0.4) !important;
   }
 
   /* Logo badge gets clean white rounded container on dark navbar */
@@ -294,7 +296,7 @@ const navItems = [
     const rect = darkTrigger.getBoundingClientRect();
 
     // When the top of dark section or wave boundary meets or passes the navbar
-    if (rect.top <= navHeight) {
+    if (rect.top <= navHeight - 75) {
       navbar.classList.add("is-dark");
     } else {
       navbar.classList.remove("is-dark");
