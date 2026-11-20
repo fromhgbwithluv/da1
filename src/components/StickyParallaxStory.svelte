@@ -144,35 +144,8 @@
     // =========================================================
     // GIAI ĐOẠN 2: SUY NGHĨ (Base angles: -70° down to -214°)
     // =========================================================
-    // Cụm 1: Sinh viên cần gì?
-    {
-      id: "s2-sv-need",
-      stage: 1,
-      kind: "hub",
-      title: "Sinh viên cần gì?",
-      baseAngle: -70,
-      radiusRatio: 0.76,
-    },
-    {
-      id: "s2-stamp",
-      stage: 1,
-      kind: "leaf",
-      title: "Dấu mộc thực tập",
-      sub: "Số liệu làm khóa luận tốt nghiệp",
-      baseAngle: -82,
-      radiusRatio: 1.02,
-    },
-    {
-      id: "s2-flex-time",
-      stage: 1,
-      kind: "leaf",
-      title: "Thời gian linh hoạt",
-      sub: "Đăng ký theo thời khóa biểu",
-      baseAngle: -85,
-      radiusRatio: 0.46,
-    },
 
-    // Cụm 2: Thị trường cần gì?
+    // Cụm: Thị trường cần gì?
     {
       id: "s2-mkt-need",
       stage: 1,
@@ -186,7 +159,7 @@
       stage: 1,
       kind: "leaf",
       title: "Nhiều nhân lực",
-      sub: "Bổ sung ca làm thời vụ",
+      sub: "Đặc biệt với các vị trí thời vụ",
       baseAngle: -115,
       radiusRatio: 0.45,
     },
