@@ -50,7 +50,7 @@
       id: "s1-req-exp",
       stage: 0,
       kind: "problem",
-      title: "Yêu cầu kinh nghiệm",
+      title: "Nền tảng truyền thống",
       sub: "Khó tiếp cận với nhiều sinh viên",
       baseAngle: 120,
       radiusRatio: 0.48,
@@ -151,8 +151,8 @@
       stage: 1,
       kind: "hub",
       title: "Thị trường cần gì?",
-      baseAngle: -105,
-      radiusRatio: 0.72,
+      baseAngle: -110,
+      radiusRatio: 0.75,
     },
     {
       id: "s2-mass-workforce",
@@ -161,7 +161,7 @@
       title: "Nhiều nhân lực",
       sub: "Đặc biệt với các vị trí thời vụ",
       baseAngle: -115,
-      radiusRatio: 0.45,
+      radiusRatio: 0.5,
     },
     {
       id: "s2-qual-workforce",
@@ -169,8 +169,8 @@
       kind: "leaf",
       title: "Nhân lực chất lượng",
       sub: "Có nền tảng & thái độ tốt",
-      baseAngle: -120,
-      radiusRatio: 1.0,
+      baseAngle: -122,
+      radiusRatio: 0.9,
     },
 
     // Cụm 3: Sinh viên có gì?
@@ -179,8 +179,8 @@
       stage: 1,
       kind: "hub",
       title: "Sinh viên có gì?",
-      baseAngle: -138,
-      radiusRatio: 0.7,
+      baseAngle: -150,
+      radiusRatio: 0.75,
     },
     {
       id: "s2-free-time",
@@ -188,8 +188,8 @@
       kind: "leaf",
       title: "Thời gian rảnh",
       sub: "Ngoài giờ lên giảng đường",
-      baseAngle: -148,
-      radiusRatio: 0.98,
+      baseAngle: -145,
+      radiusRatio: 0.5,
     },
     {
       id: "s2-knowledge",
@@ -197,73 +197,45 @@
       kind: "leaf",
       title: "Kiến thức",
       sub: "Nền tảng trường đại học",
-      baseAngle: -152,
-      radiusRatio: 0.44,
+      baseAngle: -137,
+      radiusRatio: 0.9,
     },
 
-    // Cụm 4: Doanh nghiệp gặp khó gì?
-    {
-      id: "s2-biz-pain",
-      stage: 1,
-      kind: "hub",
-      title: "Doanh nghiệp ngại gì?",
-      baseAngle: -168,
-      radiusRatio: 0.74,
-    },
-    {
-      id: "s2-hire-cost",
-      stage: 1,
-      kind: "leaf",
-      title: "Tốn chi phí tuyển",
-      sub: "Phí đăng tin cao, ít hồ sơ chuẩn",
-      baseAngle: -178,
-      radiusRatio: 1.0,
-    },
-    {
-      id: "s2-filter-cv",
-      stage: 1,
-      kind: "leaf",
-      title: "Lọc CV trái ngành",
-      sub: "Mất thời gian thẩm định",
-      baseAngle: -182,
-      radiusRatio: 0.46,
-    },
-
-    // Cụm 5: Làm sao khớp nối?
+    // Cụm 5: Làm sao kết nối?
     {
       id: "s2-solution",
       stage: 1,
       kind: "hub",
-      title: "Làm sao khớp nối?",
-      baseAngle: -195,
-      radiusRatio: 0.72,
+      title: "Làm sao kết nối?",
+      baseAngle: -180,
+      radiusRatio: 0.7,
     },
     {
       id: "s2-tier-split",
       stage: 1,
       kind: "leaf",
-      title: "Phân tầng theo năm học",
-      sub: "Năm 1-2, Năm 3-4, Fresher",
-      baseAngle: -203,
-      radiusRatio: 1.02,
+      title: "Phân nhóm theo năm học",
+      sub: "Năm 1-2, Năm 3-4, Ra trường",
+      baseAngle: -185,
+      radiusRatio: 0.9,
     },
     {
       id: "s2-verify-2way",
       stage: 1,
       kind: "leaf",
-      title: "Xác thực 2 chiều",
-      sub: "Mã số thuế & sinh viên thật",
-      baseAngle: -206,
-      radiusRatio: 0.44,
+      title: "Xác thực hai bên",
+      sub: "Công việc thật & năng lực thật",
+      baseAngle: -200,
+      radiusRatio: 0.5,
     },
     {
       id: "s2-single-hub",
       stage: 1,
       kind: "leaf",
-      title: "Tập trung 1 nền tảng",
-      sub: "Ứng tuyển đồng loạt không phí",
-      baseAngle: -214,
-      radiusRatio: 0.7,
+      title: "Khung lộ trình phát triển thực tế",
+      sub: "Từ dự án, part-time, thực tập đến chính thức",
+      baseAngle: -210,
+      radiusRatio: 0.8,
     },
 
     // =========================================================
@@ -783,7 +755,8 @@
                     >
                       {node.postSource || node.sub}
                     </span>
-                    <span class="h-2.5 w-2.5 rounded-full bg-mint flex-shrink-0"></span>
+                    <span class="h-2.5 w-2.5 rounded-full bg-mint flex-shrink-0"
+                    ></span>
                   </div>
 
                   <!-- Placeholder Image Box -->
@@ -962,7 +935,9 @@
             {:else if node.kind === "badge"}
               {#if node.logo}
                 <!-- Khung trắng bo tròn với logo, tên trang bên dưới -->
-                <div class="flex flex-col items-center group w-max flex-shrink-0">
+                <div
+                  class="flex flex-col items-center group w-max flex-shrink-0"
+                >
                   <div
                     class="flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-2xl sm:rounded-3xl border-2 border-alabaster-100 bg-white p-2.5 sm:p-3 shadow-2xl transition-all duration-200 group-hover:scale-108 group-hover:border-mint group-hover:shadow-mint-glow"
                   >
