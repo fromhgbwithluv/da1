@@ -741,13 +741,14 @@
       {#each renderedNodes as node (node.id)}
         {#if node.visible}
           <div
-            class="pointer-events-auto absolute"
+            class="pointer-events-auto absolute w-max flex-shrink-0 select-none"
             style="
               left: {node.x}px;
               top: {node.y}px;
               opacity: {node.opacity};
               transform: translate(-50%, -50%) scale({node.scale});
               will-change: transform, opacity;
+              width: max-content;
             "
           >
             <!-- 1. JOB POST IMAGE CARD -->
@@ -755,7 +756,7 @@
               <!-- If real image provided (e.g. Facebook post image) -->
               {#if node.image}
                 <div
-                  class="w-64 sm:w-72 lg:w-80 rounded-3xl border-2 border-alabaster-100 bg-obsidian-800 p-2 shadow-2xl overflow-hidden hover:border-mint transition-all duration-200 hover:scale-103"
+                  class="w-64 sm:w-72 lg:w-80 flex-shrink-0 max-w-none rounded-3xl border-2 border-alabaster-100 bg-obsidian-800 p-2 shadow-2xl overflow-hidden hover:border-mint transition-all duration-200 hover:scale-103"
                 >
                   <div
                     class="relative overflow-hidden rounded-2xl border border-obsidian-700/60 bg-obsidian-900"
@@ -771,18 +772,18 @@
               {:else}
                 <!-- Placeholder Frame for other posts (Threads, Job portal, Zalo) -->
                 <div
-                  class="w-64 sm:w-72 lg:w-80 rounded-3xl border-2 border-alabaster-200/90 bg-obsidian-800/95 p-4 sm:p-5 shadow-2xl backdrop-blur-md transition-all hover:border-mint hover:shadow-mint-glow"
+                  class="w-64 sm:w-72 lg:w-80 flex-shrink-0 max-w-none rounded-3xl border-2 border-alabaster-200/90 bg-obsidian-800/95 p-4 sm:p-5 shadow-2xl backdrop-blur-md transition-all hover:border-mint hover:shadow-mint-glow"
                 >
                   <!-- Header -->
                   <div
                     class="flex items-center justify-between border-b border-obsidian-600/80 pb-2.5 mb-3"
                   >
                     <span
-                      class="font-mono text-xs font-bold text-mint uppercase tracking-wider truncate max-w-[180px]"
+                      class="font-mono text-xs font-bold text-mint uppercase tracking-wider truncate max-w-[180px] whitespace-nowrap"
                     >
                       {node.postSource || node.sub}
                     </span>
-                    <span class="h-2.5 w-2.5 rounded-full bg-mint"></span>
+                    <span class="h-2.5 w-2.5 rounded-full bg-mint flex-shrink-0"></span>
                   </div>
 
                   <!-- Placeholder Image Box -->
@@ -790,7 +791,7 @@
                     class="relative mb-3 h-28 sm:h-32 w-full overflow-hidden rounded-2xl border border-dashed border-mint/40 bg-obsidian-900/90 flex flex-col items-center justify-center text-center p-3"
                   >
                     <svg
-                      class="h-7 w-7 text-mint/70 mb-1.5"
+                      class="h-7 w-7 text-mint/70 mb-1.5 flex-shrink-0"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -803,12 +804,12 @@
                       />
                     </svg>
                     <span
-                      class="font-mono text-xs sm:text-sm font-extrabold text-alabaster-50 tracking-tight"
+                      class="font-mono text-xs sm:text-sm font-extrabold text-alabaster-50 tracking-tight whitespace-nowrap"
                     >
                       {node.title}
                     </span>
                     <span
-                      class="font-mono text-[9px] sm:text-[10px] text-alabaster-400 mt-0.5"
+                      class="font-mono text-[9px] sm:text-[10px] text-alabaster-400 mt-0.5 whitespace-nowrap"
                     >
                       [ Placeholder ảnh ]
                     </span>
@@ -827,13 +828,13 @@
             {:else if node.kind === "screenshot"}
               <a
                 href={url(node.link || "/jobs")}
-                class="block w-64 sm:w-72 lg:w-80 rounded-3xl border-2 border-mint/80 bg-obsidian-800/95 p-4 sm:p-5 shadow-mint-glow backdrop-blur-md transition-all hover:scale-104 hover:border-mint"
+                class="block w-64 sm:w-72 lg:w-80 flex-shrink-0 max-w-none rounded-3xl border-2 border-mint/80 bg-obsidian-800/95 p-4 sm:p-5 shadow-mint-glow backdrop-blur-md transition-all hover:scale-104 hover:border-mint"
               >
                 <!-- Browser mockup header -->
                 <div
                   class="flex items-center justify-between border-b border-obsidian-600/80 pb-2 mb-2.5"
                 >
-                  <div class="flex items-center gap-1.5">
+                  <div class="flex items-center gap-1.5 flex-shrink-0">
                     <span class="h-2.5 w-2.5 rounded-full bg-mint"></span>
                     <span class="h-2.5 w-2.5 rounded-full bg-obsidian-600"
                     ></span>
@@ -841,7 +842,7 @@
                     ></span>
                   </div>
                   <span
-                    class="font-mono text-xs text-mint font-semibold truncate max-w-[150px]"
+                    class="font-mono text-xs text-mint font-semibold truncate max-w-[150px] whitespace-nowrap"
                   >
                     {node.sub}
                   </span>
@@ -852,7 +853,7 @@
                   class="relative mb-2.5 h-28 sm:h-32 w-full overflow-hidden rounded-2xl border border-dashed border-mint/40 bg-obsidian-900/90 flex flex-col items-center justify-center text-center p-3"
                 >
                   <svg
-                    class="h-7 w-7 text-mint mb-1.5"
+                    class="h-7 w-7 text-mint mb-1.5 flex-shrink-0"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -865,19 +866,19 @@
                     />
                   </svg>
                   <span
-                    class="font-display text-xs sm:text-sm font-extrabold text-alabaster-50"
+                    class="font-display text-xs sm:text-sm font-extrabold text-alabaster-50 whitespace-nowrap"
                   >
                     {node.title}
                   </span>
                   <span
-                    class="font-mono text-[9px] sm:text-[10px] text-mint mt-0.5"
+                    class="font-mono text-[9px] sm:text-[10px] text-mint mt-0.5 whitespace-nowrap"
                   >
                     [ Giao diện TopSiVi ]
                   </span>
                 </div>
 
                 <p
-                  class="font-display text-sm sm:text-base font-bold text-alabaster-100 truncate"
+                  class="font-display text-sm sm:text-base font-bold text-alabaster-100 truncate whitespace-nowrap"
                 >
                   {node.tag || node.sub}
                 </p>
@@ -886,7 +887,7 @@
               <!-- 3. CENTRAL TOPSIVI LOGO EMBLEM (Stage 3 Center) -->
             {:else if node.kind === "logo"}
               <div
-                class="flex flex-col items-center justify-center rounded-3xl border-2 border-mint bg-obsidian-900 px-6 py-4 sm:px-8 sm:py-5 shadow-mint-glow-lg pulse-mint backdrop-blur-md"
+                class="flex flex-col items-center justify-center w-max flex-shrink-0 rounded-3xl border-2 border-mint bg-obsidian-900 px-6 py-4 sm:px-8 sm:py-5 shadow-mint-glow-lg pulse-mint backdrop-blur-md"
               >
                 <svg
                   class="h-9 w-16 sm:h-11 sm:w-20"
@@ -904,7 +905,7 @@
                   />
                 </svg>
                 <span
-                  class="font-display text-sm sm:text-base font-black text-mint tracking-tight mt-1.5"
+                  class="font-display text-sm sm:text-base font-black text-mint tracking-tight mt-1.5 whitespace-nowrap"
                 >
                   TopSiVi Hub
                 </span>
@@ -914,14 +915,14 @@
             {:else if node.kind === "circle"}
               <a
                 href={url(node.link || "/services")}
-                class="flex h-28 w-28 sm:h-36 sm:w-36 flex-col items-center justify-center rounded-full border-2 border-mint bg-obsidian-800 p-3 text-center shadow-mint-glow hover:bg-mint hover:text-obsidian-900 transition-all"
+                class="flex h-28 w-28 sm:h-36 sm:w-36 flex-shrink-0 flex-col items-center justify-center rounded-full border-2 border-mint bg-obsidian-800 p-3 text-center shadow-mint-glow hover:bg-mint hover:text-obsidian-900 transition-all"
               >
                 <span
-                  class="font-display text-sm sm:text-base font-black leading-tight"
+                  class="font-display text-sm sm:text-base font-black leading-tight whitespace-nowrap"
                   >Dịch vụ</span
                 >
                 <span
-                  class="font-display text-sm sm:text-base font-black leading-tight"
+                  class="font-display text-sm sm:text-base font-black leading-tight whitespace-nowrap"
                   >hỗ trợ</span
                 >
               </a>
@@ -929,7 +930,7 @@
               <!-- 5. MIND-MAP QUESTION / SOLUTION HUB -->
             {:else if node.kind === "hub"}
               <div
-                class="rounded-2xl sm:rounded-3xl border-2 border-mint bg-obsidian-800/95 px-6 py-3.5 sm:px-8 sm:py-4 shadow-mint-glow backdrop-blur-md"
+                class="w-max flex-shrink-0 rounded-2xl sm:rounded-3xl border-2 border-mint bg-obsidian-800/95 px-6 py-3.5 sm:px-8 sm:py-4 shadow-mint-glow backdrop-blur-md"
               >
                 <span
                   class="font-display text-sm sm:text-lg font-black text-mint whitespace-nowrap"
@@ -941,16 +942,16 @@
               <!-- 6. PAIN POINT PROBLEM NODE -->
             {:else if node.kind === "problem"}
               <div
-                class="max-w-[220px] sm:max-w-[280px] rounded-2xl sm:rounded-3xl border-2 border-mint/80 bg-obsidian-800/95 px-5 py-3.5 sm:px-6 sm:py-4 shadow-xl backdrop-blur-md"
+                class="w-max flex-shrink-0 rounded-2xl sm:rounded-3xl border-2 border-mint/80 bg-obsidian-800/95 px-5 py-3.5 sm:px-6 sm:py-4 shadow-xl backdrop-blur-md"
               >
                 <span
-                  class="font-display text-sm sm:text-base font-extrabold text-mint block leading-tight"
+                  class="font-display text-sm sm:text-base font-extrabold text-mint block leading-tight whitespace-nowrap"
                 >
                   {node.title}
                 </span>
                 {#if node.sub}
                   <span
-                    class="text-xs sm:text-sm text-alabaster-200 block leading-snug mt-1"
+                    class="text-xs sm:text-sm text-alabaster-200 block leading-snug mt-1 whitespace-nowrap"
                   >
                     {node.sub}
                   </span>
@@ -961,7 +962,7 @@
             {:else if node.kind === "badge"}
               {#if node.logo}
                 <!-- Khung trắng bo tròn với logo, tên trang bên dưới -->
-                <div class="flex flex-col items-center group">
+                <div class="flex flex-col items-center group w-max flex-shrink-0">
                   <div
                     class="flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-2xl sm:rounded-3xl border-2 border-alabaster-100 bg-white p-2.5 sm:p-3 shadow-2xl transition-all duration-200 group-hover:scale-108 group-hover:border-mint group-hover:shadow-mint-glow"
                   >
@@ -973,7 +974,7 @@
                     />
                   </div>
                   <span
-                    class="font-display text-xs sm:text-sm font-extrabold text-alabaster-100 tracking-tight block text-center mt-2 group-hover:text-mint transition-colors"
+                    class="font-display text-xs sm:text-sm font-extrabold text-alabaster-100 tracking-tight block text-center mt-2 group-hover:text-mint transition-colors whitespace-nowrap"
                   >
                     {node.title}
                   </span>
@@ -981,16 +982,16 @@
               {:else if node.link}
                 <a
                   href={url(node.link)}
-                  class="block rounded-2xl border-2 border-alabaster-200/90 bg-obsidian-800/95 px-5 py-3 sm:px-6 sm:py-3.5 shadow-xl hover:border-mint transition-colors backdrop-blur-md"
+                  class="block w-max flex-shrink-0 rounded-2xl border-2 border-alabaster-200/90 bg-obsidian-800/95 px-5 py-3 sm:px-6 sm:py-3.5 shadow-xl hover:border-mint transition-colors backdrop-blur-md"
                 >
                   <span
-                    class="font-display text-sm sm:text-base font-extrabold text-alabaster-50 block leading-tight"
+                    class="font-display text-sm sm:text-base font-extrabold text-alabaster-50 block leading-tight whitespace-nowrap"
                   >
                     {node.title}
                   </span>
                   {#if node.sub}
                     <span
-                      class="font-mono text-xs text-mint block leading-tight mt-0.5"
+                      class="font-mono text-xs text-mint block leading-tight mt-0.5 whitespace-nowrap"
                     >
                       {node.sub}
                     </span>
@@ -998,16 +999,16 @@
                 </a>
               {:else}
                 <div
-                  class="rounded-2xl border-2 border-alabaster-200/90 bg-obsidian-800/95 px-5 py-3 sm:px-6 sm:py-3.5 shadow-xl backdrop-blur-md"
+                  class="w-max flex-shrink-0 rounded-2xl border-2 border-alabaster-200/90 bg-obsidian-800/95 px-5 py-3 sm:px-6 sm:py-3.5 shadow-xl backdrop-blur-md"
                 >
                   <span
-                    class="font-display text-sm sm:text-base font-extrabold text-alabaster-50 block leading-tight"
+                    class="font-display text-sm sm:text-base font-extrabold text-alabaster-50 block leading-tight whitespace-nowrap"
                   >
                     {node.title}
                   </span>
                   {#if node.sub}
                     <span
-                      class="font-mono text-xs text-alabaster-300 block leading-tight mt-0.5"
+                      class="font-mono text-xs text-alabaster-300 block leading-tight mt-0.5 whitespace-nowrap"
                     >
                       {node.sub}
                     </span>
@@ -1020,30 +1021,30 @@
               {#if node.link}
                 <a
                   href={url(node.link)}
-                  class="block rounded-xl sm:rounded-2xl border border-mint/60 bg-obsidian-800/90 px-4 py-2.5 sm:px-5 sm:py-3 shadow-md hover:bg-mint hover:text-obsidian-900 transition-colors backdrop-blur-md"
+                  class="block w-max flex-shrink-0 rounded-xl sm:rounded-2xl border border-mint/60 bg-obsidian-800/90 px-4 py-2.5 sm:px-5 sm:py-3 shadow-md hover:bg-mint hover:text-obsidian-900 transition-colors backdrop-blur-md"
                 >
                   <span
-                    class="font-display text-xs sm:text-sm font-bold block leading-tight"
+                    class="font-display text-xs sm:text-sm font-bold block leading-tight whitespace-nowrap"
                     >{node.title}</span
                   >
                   {#if node.sub}
                     <span
-                      class="text-[11px] sm:text-xs text-alabaster-300 block leading-tight mt-0.5"
+                      class="text-[11px] sm:text-xs text-alabaster-300 block leading-tight mt-0.5 whitespace-nowrap"
                       >{node.sub}</span
                     >
                   {/if}
                 </a>
               {:else}
                 <div
-                  class="rounded-xl sm:rounded-2xl border border-alabaster-200/80 bg-obsidian-800/90 px-4 py-2.5 sm:px-5 sm:py-3 shadow-md backdrop-blur-md"
+                  class="w-max flex-shrink-0 rounded-xl sm:rounded-2xl border border-alabaster-200/80 bg-obsidian-800/90 px-4 py-2.5 sm:px-5 sm:py-3 shadow-md backdrop-blur-md"
                 >
                   <span
-                    class="font-display text-xs sm:text-sm font-bold text-alabaster-50 block leading-tight"
+                    class="font-display text-xs sm:text-sm font-bold text-alabaster-50 block leading-tight whitespace-nowrap"
                     >{node.title}</span
                   >
                   {#if node.sub}
                     <span
-                      class="text-[11px] sm:text-xs text-alabaster-300 block leading-tight mt-0.5"
+                      class="text-[11px] sm:text-xs text-alabaster-300 block leading-tight mt-0.5 whitespace-nowrap"
                       >{node.sub}</span
                     >
                   {/if}
