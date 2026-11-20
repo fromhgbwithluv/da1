@@ -36,14 +36,18 @@ const navItems = [
       class="group flex items-center gap-3 focus-visible:outline-none"
       aria-label="TopSiVi Trang chủ"
     >
-      <div
-        id="navbar-logo-badge"
-        class="flex items-center rounded-2xl px-2.5 py-1 transition-all duration-300"
-      >
+      <div>
         <img
           src={`${baseUrl}favicon.svg`}
           alt="TopSiVi Logo"
-          class="h-10 pt-2 sm:h-11 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
+          class="h-10 pt-2 sm:h-11 w-auto block [.is-dark_&]:hidden"
+        />
+
+        <!-- Dark Mode Logo (Hidden by default, visible when #main-navbar has .is-dark) -->
+        <img
+          src={`${baseUrl}favicon_dark.svg`}
+          alt="TopSiVi Logo"
+          class="h-10 pt-2 sm:h-11 w-auto hidden [.is-dark_&]:block"
         />
       </div>
     </a>
