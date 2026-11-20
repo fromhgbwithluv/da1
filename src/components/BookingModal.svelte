@@ -4,10 +4,13 @@
     selectedBookingService,
     closeBookingModal
   } from '../stores/services';
-  import { currentUser } from '../stores/auth';
+  import { currentUser, openAuthModal } from '../stores/auth';
   import { showToast } from '../stores/toast';
   import { formatCurrency, isValidVietnamesePhone } from '../utils/formatters';
   import Modal from './Modal.svelte';
+
+  const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+  const qrImageUrl = `${baseUrl}vietqr-demo.png`;
 
   let fullName = $state('');
   let email = $state('');
@@ -36,6 +39,12 @@
 
   function handleSubmit(e: SubmitEvent) {
     e.preventDefault();
+    if (!$currentUser) {
+      showToast('Vui lòng đăng nhập để hoàn tất đặt dịch vụ!', 'remove');
+      closeBookingModal();
+      openAuthModal('login');
+      return;
+    }
     if (!fullName.trim()) {
       showToast('Vui lòng nhập họ và tên của bạn!', 'remove');
       return;
@@ -218,23 +227,15 @@
         <!-- Simulated QR Box when QR is selected -->
         {#if paymentMethod === 'qr'}
           <div class="rounded-lg border-2 border-dashed border-black bg-white p-3.5 flex flex-col sm:flex-row items-center gap-4">
-            <!-- Simulated QR Canvas/Graphic -->
-            <div class="flex h-24 w-24 shrink-0 flex-col items-center justify-center rounded border-2 border-black bg-swiss-50 p-1 font-mono text-[9px] text-center shadow-xs">
-              <div class="grid grid-cols-4 gap-1 p-1 bg-black text-white w-full h-full rounded items-center justify-center">
-                <span class="h-2 w-2 bg-white"></span>
-                <span class="h-2 w-2 bg-black"></span>
-                <span class="h-2 w-2 bg-white"></span>
-                <span class="h-2 w-2 bg-white"></span>
-                <span class="h-2 w-2 bg-black"></span>
-                <span class="h-2 w-2 bg-white"></span>
-                <span class="h-2 w-2 bg-black"></span>
-                <span class="h-2 w-2 bg-white"></span>
-                <span class="h-2 w-2 bg-white"></span>
-                <span class="h-2 w-2 bg-white"></span>
-                <span class="h-2 w-2 bg-black"></span>
-                <span class="h-2 w-2 bg-white"></span>
-              </div>
-              <span class="font-bold mt-0.5 text-black">VIETQR DEMO</span>
+            <!-- VietQR Code Image -->
+            <div class="flex flex-col items-center justify-center rounded-lg border-2 border-black bg-white p-2 shrink-0 shadow-xs">
+              <img
+                src={qrImageUrl}
+                alt="VietQR Demo"
+                class="h-28 w-28 sm:h-32 sm:w-32 object-contain"
+                loading="eager"
+              />
+              <span class="font-mono text-[9px] font-bold mt-1 text-black uppercase tracking-wider">VIETQR DEMO</span>
             </div>
 
             <div class="font-mono text-xs space-y-1 text-swiss-800">

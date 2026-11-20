@@ -11,6 +11,9 @@
   import UniversitySelect from './UniversitySelect.svelte';
   import Modal from './Modal.svelte';
 
+  const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+  const qrImageUrl = `${baseUrl}vietqr-demo.png`;
+
   let step = $state<'form' | 'success'>('form');
   let isSubmitting = $state(false);
 
@@ -330,21 +333,14 @@
             {#if paymentMethod === 'qr_support'}
               <div class="rounded-swiss-sm border border-black bg-swiss-50 p-4">
                 <div class="flex flex-col sm:flex-row items-center gap-4">
-                  <!-- Minimalist QR Code Box -->
-                  <div class="flex flex-col items-center justify-center p-2.5 bg-white border border-black rounded-swiss-sm shrink-0">
-                    <div class="w-24 h-24 bg-black p-1.5 rounded-swiss-sm flex flex-col justify-between">
-                      <div class="flex justify-between">
-                        <div class="w-6 h-6 bg-white border-2 border-black"></div>
-                        <div class="w-6 h-6 bg-white border-2 border-black"></div>
-                      </div>
-                      <div class="text-center font-mono text-[8px] font-bold text-white tracking-widest">
-                        TOPSIVI
-                      </div>
-                      <div class="flex justify-between">
-                        <div class="w-6 h-6 bg-white border-2 border-black"></div>
-                        <div class="w-3 h-3 bg-white"></div>
-                      </div>
-                    </div>
+                  <!-- VietQR Code Image Box -->
+                  <div class="flex flex-col items-center justify-center p-2 bg-white border border-black rounded-swiss-sm shrink-0">
+                    <img
+                      src={qrImageUrl}
+                      alt="VietQR Mock"
+                      class="h-24 w-24 sm:h-28 sm:w-28 object-contain"
+                      loading="eager"
+                    />
                     <span class="font-mono text-[9px] uppercase font-bold text-black mt-1">VIETQR MOCK</span>
                   </div>
 
