@@ -25,7 +25,10 @@ const navItems = [
 ];
 ---
 
-<header class="sticky top-0 z-40 w-full border-b border-obsidian-900/10 bg-alabaster-50/90 backdrop-blur-xl transition-colors">
+<header
+  id="main-navbar"
+  class="sticky top-0 z-40 w-full border-b border-obsidian-900/10 bg-alabaster-50/90 backdrop-blur-xl transition-all duration-350 ease-out"
+>
   <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
     <!-- Left: TopSiVi Logo -->
     <a
@@ -33,11 +36,16 @@ const navItems = [
       class="group flex items-center gap-3 focus-visible:outline-none"
       aria-label="TopSiVi Trang chủ"
     >
-      <img
-        src={`${baseUrl}favicon.svg`}
-        alt="TopSiVi Logo"
-        class="h-12 pt-2 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
-      />
+      <div
+        id="navbar-logo-badge"
+        class="flex items-center rounded-2xl px-2.5 py-1 transition-all duration-300"
+      >
+        <img
+          src={`${baseUrl}favicon.svg`}
+          alt="TopSiVi Logo"
+          class="h-10 sm:h-11 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
+        />
+      </div>
     </a>
 
     <!-- Right-aligned Navigation + Bookmark & Avatar (matching Sketch 1) -->
@@ -52,10 +60,10 @@ const navItems = [
             <a
               href={item.href}
               id={item.id}
-              class={`relative rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200 ${
+              class={`nav-link relative rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200 ${
                 active
-                  ? "bg-obsidian-900 text-mint shadow-xs"
-                  : "text-obsidian-800 hover:text-obsidian-900 hover:bg-obsidian-900/5"
+                  ? "nav-active bg-obsidian-900 text-mint shadow-xs"
+                  : "nav-inactive text-obsidian-800 hover:text-obsidian-900 hover:bg-obsidian-900/5"
               }`}
             >
               {item.label}
@@ -65,7 +73,10 @@ const navItems = [
       </nav>
 
       <!-- Divider on desktop -->
-      <div class="hidden md:block h-5 w-[1px] bg-obsidian-900/15"></div>
+      <div
+        id="navbar-divider"
+        class="hidden md:block h-5 w-[1px] bg-obsidian-900/15 transition-colors duration-300"
+      ></div>
 
       <!-- Bookmark & Circular Avatar -->
       <div class="flex items-center gap-2.5">
@@ -116,7 +127,7 @@ const navItems = [
   <!-- Mobile Navigation Drawer -->
   <div
     id="mobile-nav-menu"
-    class="hidden border-t border-obsidian-900/10 bg-alabaster-50 px-4 py-4 md:hidden shadow-swiss-elevated"
+    class="hidden border-t border-obsidian-900/10 bg-alabaster-50 px-4 py-4 md:hidden shadow-swiss-elevated transition-colors duration-300"
   >
     <div class="space-y-1.5">
       {navItems.map((item) => {
@@ -124,10 +135,10 @@ const navItems = [
         return (
           <a
             href={item.href}
-            class={`flex items-center justify-between rounded-xl px-4 py-3 text-sm font-bold transition-colors ${
+            class={`mobile-nav-link flex items-center justify-between rounded-xl px-4 py-3 text-sm font-bold transition-colors ${
               active
-                ? "bg-obsidian-900 text-mint"
-                : "text-obsidian-900 hover:bg-mint/20"
+                ? "mobile-active bg-obsidian-900 text-mint"
+                : "mobile-inactive text-obsidian-900 hover:bg-mint/20"
             }`}
           >
             <span>{item.label}</span>
@@ -139,7 +150,115 @@ const navItems = [
   </div>
 </header>
 
+<style>
+  /* ========================================================
+     DARK MODE THEME FOR NAVBAR (Triggered when entering dark background)
+     ======================================================== */
+  :global(#main-navbar.is-dark) {
+    background-color: rgba(14, 20, 18, 0.94) !important;
+    border-bottom: 2px solid #70ffaf !important;
+    box-shadow: 0 4px 24px -2px rgba(112, 255, 175, 0.22), 0 1px 0 rgba(112, 255, 175, 0.4) !important;
+  }
+
+  /* Logo badge gets clean white rounded container on dark navbar */
+  :global(#main-navbar.is-dark #navbar-logo-badge) {
+    background-color: #f8faf7;
+    border: 1.5px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.35);
+  }
+
+  /* Nav Links in Dark Mode */
+  :global(#main-navbar.is-dark .nav-link.nav-inactive) {
+    color: #f8faf7 !important;
+  }
+  :global(#main-navbar.is-dark .nav-link.nav-inactive:hover) {
+    color: #70ffaf !important;
+    background-color: rgba(112, 255, 175, 0.12) !important;
+  }
+
+  :global(#main-navbar.is-dark .nav-link.nav-active) {
+    background-color: #70ffaf !important;
+    color: #0e1412 !important;
+    font-weight: 700 !important;
+    box-shadow: 0 0 16px rgba(112, 255, 175, 0.35) !important;
+  }
+
+  /* Divider in Dark Mode */
+  :global(#main-navbar.is-dark #navbar-divider) {
+    background-color: rgba(112, 255, 175, 0.3) !important;
+  }
+
+  /* Saved Jobs / Bookmark Button in Dark Mode */
+  :global(#main-navbar.is-dark #header-saved-jobs-btn) {
+    background-color: #16201c !important;
+    color: #f8faf7 !important;
+    border-color: rgba(112, 255, 175, 0.4) !important;
+  }
+  :global(#main-navbar.is-dark #header-saved-jobs-btn:hover) {
+    border-color: #70ffaf !important;
+    background-color: rgba(112, 255, 175, 0.18) !important;
+    color: #70ffaf !important;
+  }
+  :global(#main-navbar.is-dark #header-saved-jobs-btn svg) {
+    color: #f8faf7 !important;
+  }
+  :global(#main-navbar.is-dark #header-saved-jobs-btn:hover svg) {
+    color: #70ffaf !important;
+  }
+
+  /* Auth / User Profile Button in Dark Mode */
+  :global(#main-navbar.is-dark #header-auth-btn) {
+    background-color: #16201c !important;
+    color: #f8faf7 !important;
+    border-color: rgba(112, 255, 175, 0.4) !important;
+  }
+  :global(#main-navbar.is-dark #header-auth-btn:hover) {
+    border-color: #70ffaf !important;
+    background-color: rgba(112, 255, 175, 0.22) !important;
+  }
+  :global(#main-navbar.is-dark #header-auth-btn svg) {
+    color: #f8faf7 !important;
+  }
+  :global(#main-navbar.is-dark #header-auth-btn:hover svg) {
+    color: #70ffaf !important;
+  }
+
+  :global(#main-navbar.is-dark #user-profile-btn) {
+    border-color: #70ffaf !important;
+    background-color: #16201c !important;
+  }
+
+  /* Mobile Toggle in Dark Mode */
+  :global(#main-navbar.is-dark #mobile-nav-toggle) {
+    background-color: #16201c !important;
+    color: #f8faf7 !important;
+    border-color: rgba(112, 255, 175, 0.4) !important;
+  }
+  :global(#main-navbar.is-dark #mobile-nav-toggle:hover) {
+    border-color: #70ffaf !important;
+    color: #70ffaf !important;
+  }
+
+  /* Mobile Drawer in Dark Mode */
+  :global(#main-navbar.is-dark #mobile-nav-menu) {
+    background-color: #0e1412 !important;
+    border-top-color: rgba(112, 255, 175, 0.35) !important;
+  }
+  :global(#main-navbar.is-dark .mobile-nav-link.mobile-inactive) {
+    color: #f8faf7 !important;
+  }
+  :global(#main-navbar.is-dark .mobile-nav-link.mobile-inactive:hover) {
+    background-color: rgba(112, 255, 175, 0.15) !important;
+    color: #70ffaf !important;
+  }
+  :global(#main-navbar.is-dark .mobile-nav-link.mobile-active) {
+    background-color: #70ffaf !important;
+    color: #0e1412 !important;
+  }
+</style>
+
 <script>
+  // Mobile drawer toggle
   const toggleBtn = document.getElementById("mobile-nav-toggle");
   const menu = document.getElementById("mobile-nav-menu");
   const hamburgerIcon = document.getElementById("hamburger-icon");
@@ -156,4 +275,49 @@ const navItems = [
       }
     });
   }
+
+  // Navbar Dynamic Dark Mode on Homepage dark section transition
+  const navbar = document.getElementById("main-navbar");
+
+  function updateNavbarTheme() {
+    if (!navbar) return;
+    const darkTrigger =
+      document.getElementById("dark-theme-trigger") ||
+      document.getElementById("cau-chuyen-topsivi");
+
+    if (!darkTrigger) {
+      navbar.classList.remove("is-dark");
+      return;
+    }
+
+    const navHeight = navbar.offsetHeight || 64;
+    const rect = darkTrigger.getBoundingClientRect();
+
+    // When the top of dark section or wave boundary meets or passes the navbar
+    if (rect.top <= navHeight) {
+      navbar.classList.add("is-dark");
+    } else {
+      navbar.classList.remove("is-dark");
+    }
+  }
+
+  // Listen to native scroll and resize
+  window.addEventListener("scroll", updateNavbarTheme, { passive: true });
+  window.addEventListener("resize", updateNavbarTheme, { passive: true });
+
+  // Hook into Lenis if active
+  if (window.__lenis) {
+    window.__lenis.on("scroll", updateNavbarTheme);
+  } else {
+    const checkLenis = setInterval(() => {
+      if (window.__lenis) {
+        window.__lenis.on("scroll", updateNavbarTheme);
+        clearInterval(checkLenis);
+      }
+    }, 100);
+    setTimeout(() => clearInterval(checkLenis), 3000);
+  }
+
+  // Initial call on page load
+  updateNavbarTheme();
 </script>
