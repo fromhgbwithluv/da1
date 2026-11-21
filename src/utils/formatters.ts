@@ -57,6 +57,8 @@ export function getCategoryLabel(category: string): string {
       return 'Thực tập';
     case 'fresher':
       return 'Fresher';
+    case 'project':
+      return 'Dự án';
     default:
       return category;
   }
@@ -73,6 +75,8 @@ export function getTargetGroupLabel(category: string): string {
       return 'Năm 3, 4';
     case 'fresher':
       return 'Mới tốt nghiệp';
+    case 'project':
+      return 'Dự án';
     default:
       return 'Sinh viên';
   }

@@ -551,7 +551,7 @@
                 <span
                   class="text-xs text-obsidian-700 mt-0.5 block leading-snug"
                 >
-                  Tìm việc part-time, thực tập, fresher
+                  Tìm việc dự án, part-time, thực tập, fresher & đính kèm CV
                 </span>
               </div>
             </label>

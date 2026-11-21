@@ -7,7 +7,7 @@
     searchQuery = '',
     selectedLocation = 'all',
     selectedWard = 'all',
-    counts = { all: 0, 'part-time': 0, internship: 0, fresher: 0 },
+    counts = { all: 0, 'part-time': 0, internship: 0, fresher: 0, project: 0 },
     activeLocations = [],
     activeWards = [],
     onSelectCategory,
@@ -20,7 +20,7 @@
     searchQuery: string;
     selectedLocation: string;
     selectedWard?: string;
-    counts: { all: number; 'part-time': number; internship: number; fresher: number };
+    counts: { all: number; 'part-time': number; internship: number; fresher: number; project: number };
     activeLocations?: { code: string; name: string; count: number }[];
     activeWards?: { code: string; name: string; count: number }[];
     onSelectCategory: (cat: string) => void;
@@ -54,6 +54,12 @@
       code: 'FR-03',
       title: 'Mới tốt nghiệp',
       sub: 'Fresher Full-time'
+    },
+    {
+      id: 'project',
+      code: 'PRJ-04',
+      title: 'Dự án',
+      sub: 'Thực chiến theo đầu việc'
     }
   ];
 
@@ -194,12 +200,13 @@
   </div>
 
   <!-- Category Segmentation Tabs (Swiss Architectural Tabs) -->
-  <div class="grid grid-cols-2 gap-2 sm:grid-cols-4">
+  <div class="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
     {#each tabs as tab}
       <button
         type="button"
         onclick={() => onSelectCategory(tab.id)}
         class="group relative flex flex-col items-start rounded-swiss-md border p-3.5 text-left transition-all duration-150
+        {tab.id === 'all' ? 'col-span-2 sm:col-span-1' : ''}
         {selectedCategory === tab.id
           ? 'border-black bg-black text-white shadow-swiss-card'
           : 'border-swiss-300 bg-white text-black hover:border-black hover:bg-swiss-50'}"

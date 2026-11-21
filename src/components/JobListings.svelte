@@ -5,13 +5,14 @@
   import FilterTabs from './FilterTabs.svelte';
   import JobCard from './JobCard.svelte';
 
-  const VALID_CATEGORIES = ['part-time', 'internship', 'fresher'] as const;
+  const VALID_CATEGORIES = ['part-time', 'internship', 'fresher', 'project'] as const;
 
   const CATEGORY_TITLES: Record<string, string> = {
     all: 'Tìm việc làm phân tầng sinh viên | TopSiVi',
     'part-time': 'Việc làm Năm 1, 2 • Part-time linh hoạt | TopSiVi',
     internship: 'Việc làm Năm 3, 4 • Thực tập sinh có dấu mộc | TopSiVi',
     fresher: 'Việc làm Mới tốt nghiệp • Fresher Full-time | TopSiVi',
+    project: 'Việc làm theo Dự án • Thực chiến theo đầu việc | TopSiVi',
   };
 
   let { isHomePage = false, maxItems = 3, initialCategory = 'all' } = $props<{
@@ -184,6 +185,7 @@
     'part-time': allJobs.filter((j) => (j.categories && j.categories.length > 0 ? j.categories.includes('part-time') : j.category === 'part-time')).length,
     internship: allJobs.filter((j) => (j.categories && j.categories.length > 0 ? j.categories.includes('internship') : j.category === 'internship')).length,
     fresher: allJobs.filter((j) => (j.categories && j.categories.length > 0 ? j.categories.includes('fresher') : j.category === 'fresher')).length,
+    project: allJobs.filter((j) => (j.categories && j.categories.length > 0 ? j.categories.includes('project') : j.category === 'project')).length,
   });
 
   function handleSelectCategory(cat: string) {
@@ -248,8 +250,10 @@
           Nhóm 01: Việc làm part-time an toàn, thời gian linh hoạt
         {:else if selectedCategory === 'internship'}
           Nhóm 02: Vị trí thực tập sinh có phụ cấp, dấu mộc & mentor
-        {:else}
+        {:else if selectedCategory === 'fresher'}
           Nhóm 03: Cơ hội việc làm Fresher Full-time cho sinh viên mới tốt nghiệp
+        {:else}
+          Nhóm 04: Việc làm theo dự án ngắn hạn — nhận đầu việc rõ ràng, thanh toán theo sản phẩm bàn giao
         {/if}
       </p>
     </div>

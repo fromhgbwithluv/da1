@@ -1,4 +1,4 @@
-export type JobCategory = 'part-time' | 'internship' | 'fresher';
+export type JobCategory = 'part-time' | 'internship' | 'fresher' | 'project';
 
 export interface Job {
   id: string;
@@ -9,7 +9,7 @@ export interface Job {
   category: JobCategory;
   categories?: JobCategory[]; // Multi-category support
   categoryLabel: string;
-  targetGroup: string; // e.g. "Năm 1 - 2", "Năm 3 - 4", "Mới tốt nghiệp"
+  targetGroup: string; // e.g. "Năm 1 - 2", "Năm 3 - 4", "Mới tốt nghiệp", "Dự án"
   salary: string;
   salaryNumber?: number;
   minSalary?: number;
@@ -20,7 +20,7 @@ export interface Job {
   provinceName?: string; // e.g. "Hà Nội", "Hồ Chí Minh", "Đà Nẵng"
   wardCode?: string; // e.g. "00166" (Phường Cầu Giấy)
   wardName?: string; // e.g. "Phường Cầu Giấy"
-  workType: 'Part-time' | 'Thực tập' | 'Full-time' | 'Hybrid' | 'Remote';
+  workType: 'Part-time' | 'Thực tập' | 'Full-time' | 'Theo dự án' | 'Hybrid' | 'Remote';
   schedule: string;
   scheduleGrid?: Record<string, number[]>; // When2Meet-style schedule matrix
   imageUrl: string;

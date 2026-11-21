@@ -16,6 +16,7 @@
   import When2MeetSchedule from './When2MeetSchedule.svelte';
   import DatePicker from './DatePicker.svelte';
   import Modal from './Modal.svelte';
+  import type { Job, JobCategory } from '../types/job';
 
   let stats = $derived(
     $currentUser ? getCompanyMonthlyJobStats($currentUser.id) : null
@@ -27,14 +28,14 @@
 
   // Form State
   let title = $state('');
-  let selectedCategories = $state<('part-time' | 'internship' | 'fresher')[]>(['internship']);
+  let selectedCategories = $state<JobCategory[]>(['internship']);
   let minSalary = $state(5_000_000);
   let maxSalary = $state(15_000_000);
   let isSalaryNegotiable = $state(false);
   let selectedProvinceCode = $state('01'); // Default: Thành phố Hà Nội
   let selectedWardCode = $state('00166'); // Default: Phường Cầu Giấy (00166)
   let detailAddress = $state('Số 10 Phạm Văn Bạch');
-  let workType = $state<'Part-time' | 'Thực tập' | 'Full-time' | 'Hybrid' | 'Remote'>('Thực tập');
+  let workType = $state<Job['workType']>('Thực tập');
   let schedule = $state('T2 - T6 (08:00 - 17:00, linh hoạt)');
   let scheduleGrid = $state<Record<string, number[]>>({});
   let deadline = $state('31/12/2026');
@@ -152,7 +153,7 @@
 
   let renderedPreview = $derived(renderMarkdown(markdownContent));
 
-  function toggleCategory(cat: 'part-time' | 'internship' | 'fresher') {
+  function toggleCategory(cat: JobCategory) {
     if (selectedCategories.includes(cat)) {
       // Keep at least one category selected
       if (selectedCategories.length > 1) {
@@ -246,8 +247,15 @@
     // Format salary string for backward compatibility
     let salaryText = 'Thỏa thuận';
     if (!isSalaryNegotiable) {
+      const isProjectRate =
+        workType === 'Theo dự án' ||
+        (selectedCategories.length === 1 && selectedCategories[0] === 'project');
+      const salaryUnit = isProjectRate ? '/ dự án' : '/ tháng';
       const fmt = (n: number) => new Intl.NumberFormat('vi-VN').format(n) + 'đ';
-      salaryText = minSalary === maxSalary ? `${fmt(minSalary)} / tháng` : `${fmt(minSalary)} - ${fmt(maxSalary)} / tháng`;
+      salaryText =
+        minSalary === maxSalary
+          ? `${fmt(minSalary)} ${salaryUnit}`
+          : `${fmt(minSalary)} - ${fmt(maxSalary)} ${salaryUnit}`;
     }
 
     const payload = {
@@ -355,7 +363,7 @@
             <span class="block font-mono text-[11px] uppercase tracking-wide text-swiss-700">
               Phân tầng sinh viên mục tiêu (Có thể chọn nhiều nhóm) *
             </span>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
               <!-- Nhóm 1 -->
               <button
                 type="button"
@@ -416,6 +424,27 @@
                 <span class="text-xs font-bold uppercase">Nhóm 03: Mới tốt nghiệp</span>
                 <span class="text-[10px] {selectedCategories.includes('fresher') ? 'text-swiss-300' : 'text-swiss-500'}">
                   Fresher Full-time
+                </span>
+              </button>
+
+              <!-- Nhóm 4 -->
+              <button
+                type="button"
+                onclick={() => toggleCategory('project')}
+                class="flex flex-col text-left p-3 rounded-swiss-sm border transition-all
+                  {selectedCategories.includes('project')
+                    ? 'border-black bg-black text-white shadow-swiss-card'
+                    : 'border-swiss-300 bg-white text-black hover:border-black'}"
+              >
+                <div class="flex items-center justify-between w-full mb-1">
+                  <span class="font-mono text-[10px] font-bold tracking-wider {selectedCategories.includes('project') ? 'text-signal-emerald' : 'text-swiss-500'}">
+                    [PRJ-04]
+                  </span>
+                  <span class="text-xs">{selectedCategories.includes('project') ? '✓' : '+'}</span>
+                </div>
+                <span class="text-xs font-bold uppercase">Nhóm 04: Dự án</span>
+                <span class="text-[10px] {selectedCategories.includes('project') ? 'text-swiss-300' : 'text-swiss-500'}">
+                  Nhận đầu việc, trả theo sản phẩm
                 </span>
               </button>
             </div>
@@ -493,6 +522,7 @@
               <option value="Part-time">Part-time</option>
               <option value="Thực tập">Thực tập</option>
               <option value="Full-time">Full-time</option>
+              <option value="Theo dự án">Theo dự án</option>
               <option value="Hybrid">Hybrid</option>
               <option value="Remote">Remote</option>
             </select>

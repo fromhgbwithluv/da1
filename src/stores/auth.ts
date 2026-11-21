@@ -1,7 +1,7 @@
 import { persistentAtom } from '@nanostores/persistent';
 import { atom, computed } from 'nanostores';
 import type { AppDatabase, UserProfile, UserRole, CVAttachment, PortfolioProject } from '../types/user';
-import type { Job } from '../types/job';
+import type { Job, JobCategory } from '../types/job';
 import initialDb from '../data/database.json';
 import { showToast } from './toast';
 import { detectProvinceFromLocation, detectWardFromLocation, normalizeVietnamese } from '../data/provinces';
@@ -623,11 +623,40 @@ export function recordApplication(
   return true;
 }
 
+function resolveCategoryLabels(
+  categories: JobCategory[],
+  fallbackGroup = 'Sinh viên',
+  fallbackLabel = 'Tuyển dụng'
+): { targetGroup: string; categoryLabel: string } {
+  const groupNames: string[] = [];
+  const labelNames: string[] = [];
+  if (categories.includes('part-time')) {
+    groupNames.push('Năm 1, 2');
+    labelNames.push('Part-time');
+  }
+  if (categories.includes('internship')) {
+    groupNames.push('Năm 3, 4');
+    labelNames.push('Thực tập');
+  }
+  if (categories.includes('fresher')) {
+    groupNames.push('Mới tốt nghiệp');
+    labelNames.push('Fresher');
+  }
+  if (categories.includes('project')) {
+    groupNames.push('Dự án');
+    labelNames.push('Dự án');
+  }
+  return {
+    targetGroup: groupNames.join(' • ') || fallbackGroup,
+    categoryLabel: labelNames.join(' • ') || fallbackLabel,
+  };
+}
+
 // Company Job Posting in Markdown
 export function postNewJob(jobData: {
   title: string;
-  category: 'part-time' | 'internship' | 'fresher';
-  categories?: ('part-time' | 'internship' | 'fresher')[];
+  category: JobCategory;
+  categories?: JobCategory[];
   salary: string;
   minSalary?: number;
   maxSalary?: number;
@@ -637,7 +666,7 @@ export function postNewJob(jobData: {
   provinceName?: string;
   wardCode?: string;
   wardName?: string;
-  workType: 'Part-time' | 'Thực tập' | 'Full-time' | 'Hybrid' | 'Remote';
+  workType: Job['workType'];
   schedule: string;
   scheduleGrid?: Record<string, number[]>;
   imageUrl?: string;
@@ -669,25 +698,12 @@ export function postNewJob(jobData: {
     : [jobData.category];
   const primaryCategory = categories[0];
 
-  const groupNames: string[] = [];
-  const labelNames: string[] = [];
-  if (categories.includes('part-time')) {
-    groupNames.push('Năm 1, 2');
-    labelNames.push('Part-time');
-  }
-  if (categories.includes('internship')) {
-    groupNames.push('Năm 3, 4');
-    labelNames.push('Thực tập');
-  }
-  if (categories.includes('fresher')) {
-    groupNames.push('Mới tốt nghiệp');
-    labelNames.push('Fresher');
-  }
-  const targetGroup = groupNames.join(' • ') || 'Sinh viên';
-  const categoryLabel = labelNames.join(' • ') || 'Tuyển dụng';
+  const { targetGroup, categoryLabel } = resolveCategoryLabels(categories);
 
   const defaultImg = jobData.imageUrl?.trim() || 
-    (categories.includes('internship')
+    (categories.includes('project')
+      ? 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80'
+      : categories.includes('internship')
       ? 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80'
       : categories.includes('fresher')
       ? 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80'
@@ -785,22 +801,11 @@ export function updateJob(jobId: string, jobData: Partial<Job>): Job | null {
   let categories = jobData.categories || existingJob.categories || [existingJob.category];
   let primaryCategory = categories[0] || existingJob.category;
 
-  const groupNames: string[] = [];
-  const labelNames: string[] = [];
-  if (categories.includes('part-time')) {
-    groupNames.push('Năm 1, 2');
-    labelNames.push('Part-time');
-  }
-  if (categories.includes('internship')) {
-    groupNames.push('Năm 3, 4');
-    labelNames.push('Thực tập');
-  }
-  if (categories.includes('fresher')) {
-    groupNames.push('Mới tốt nghiệp');
-    labelNames.push('Fresher');
-  }
-  const targetGroup = groupNames.join(' • ') || existingJob.targetGroup;
-  const categoryLabel = labelNames.join(' • ') || existingJob.categoryLabel;
+  const { targetGroup, categoryLabel } = resolveCategoryLabels(
+    categories,
+    existingJob.targetGroup,
+    existingJob.categoryLabel
+  );
 
   const updatedJob: Job = {
     ...existingJob,
