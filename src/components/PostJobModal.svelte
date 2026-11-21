@@ -11,6 +11,7 @@
   } from '../stores/auth';
   import { renderMarkdown } from '../utils/markdown';
   import { PROVINCES, getWardsByProvinceCode } from '../data/provinces';
+  import { url } from '../utils/url';
   import SearchableSelect, { type SelectItem } from './SearchableSelect.svelte';
   import DualRangeSlider from './DualRangeSlider.svelte';
   import When2MeetSchedule from './When2MeetSchedule.svelte';
@@ -25,6 +26,13 @@
   let isEditing = $derived(!!$editingJob);
 
   const sortedProvinces = [...PROVINCES].sort((a, b) => a.name.localeCompare(b.name, 'vi'));
+
+  const categoryOptions: { id: JobCategory; title: string; sub: string }[] = [
+    { id: 'part-time', title: 'Năm 1, 2', sub: 'Part-time linh hoạt' },
+    { id: 'internship', title: 'Năm 3, 4', sub: 'Thực tập chuyên ngành' },
+    { id: 'fresher', title: 'Mới tốt nghiệp', sub: 'Fresher Full-time' },
+    { id: 'project', title: 'Dự án', sub: 'Theo đầu việc' },
+  ];
 
   // Form State
   let title = $state('');
@@ -94,7 +102,6 @@
   let provinceSelectItems = $derived.by(() => {
     const list: SelectItem[] = [];
 
-    // Priority central cities
     for (const p of PROVINCES.filter((item) => priorityCodes.includes(item.code))) {
       list.push({
         value: p.code,
@@ -105,7 +112,6 @@
       });
     }
 
-    // All provinces
     for (const p of sortedProvinces) {
       list.push({
         value: p.code,
@@ -116,7 +122,6 @@
       });
     }
 
-    // Remote option
     list.push({
       value: 'remote',
       label: 'Toàn quốc / Làm việc từ xa (Remote)',
@@ -155,7 +160,6 @@
 
   function toggleCategory(cat: JobCategory) {
     if (selectedCategories.includes(cat)) {
-      // Keep at least one category selected
       if (selectedCategories.length > 1) {
         selectedCategories = selectedCategories.filter((c) => c !== cat);
       }
@@ -292,317 +296,403 @@
 <Modal
   isOpen={$isPostJobModalOpen}
   onClose={closePostJobModal}
-  maxWidth="3xl"
-  iconText="RECRUIT"
-  title={isEditing ? 'Chỉnh sửa bài đăng tuyển dụng' : 'Đăng tin tuyển dụng mới'}
-  subtitle="Tiếp cận sinh viên tài năng 327+ trường Đại học • Cao đẳng"
-  bodyClass="p-0"
+  hideHeader={true}
+  maxWidth="6xl"
+  dialogClass="rounded-3xl border-2 border-obsidian-900 bg-alabaster-50 shadow-[0_24px_60px_rgba(14,20,18,0.22)] max-h-[92vh] flex flex-col !my-0"
+  bodyClass="p-0 flex flex-col flex-1 min-h-0 overflow-hidden"
   ariaLabel={isEditing ? 'Chỉnh sửa bài đăng' : 'Đăng tin tuyển dụng'}
 >
-  <!-- Quota Status Banner (Only for new job posts) -->
-      {#if stats && !isEditing}
-        <div class="px-6 py-2.5 bg-black text-white flex items-center justify-between text-xs font-mono border-b border-black">
-          <div class="flex items-center gap-2">
-            <span class="text-neutral-400">HẠN MỨC ĐĂNG BÀI:</span>
-            <span class="font-bold text-signal-emerald uppercase">
-              {stats.usedCount} / {stats.maxPosts === Infinity ? '∞' : stats.maxPosts} BÀI THÁNG NÀY ({stats.tier === 'enterprise' ? 'Enterprise' : stats.tier === 'premium' ? 'Premium ✦' : 'Gói Free'})
-            </span>
-          </div>
+  <!-- Pinned Branded Organic Header -->
+  <div
+    class="relative shrink-0 border-b border-obsidian-900/10 bg-alabaster-100/90 bg-organic-dots-light px-5 sm:px-6 py-4"
+  >
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3 min-w-0">
+        <img
+          src={url('/favicon.svg')}
+          alt="TopSiVi"
+          class="h-7 w-auto object-contain shrink-0"
+        />
+        <span class="hidden sm:inline-block h-6 w-px bg-obsidian-900/15"></span>
+        <div class="min-w-0">
+          <h2 class="font-display text-lg sm:text-xl font-extrabold tracking-tight text-obsidian-900 truncate">
+            {isEditing ? 'Chỉnh sửa bài đăng tuyển dụng' : 'Đăng tin tuyển dụng mới'}
+          </h2>
+          <p class="text-[11px] sm:text-xs text-obsidian-600 truncate">
+            Tiếp cận sinh viên tài năng từ 327+ trường Đại học & Cao đẳng
+          </p>
+        </div>
+      </div>
 
+      <div class="flex items-center gap-2.5 ml-auto">
+        {#if stats && !isEditing}
+          <div class="hidden md:flex items-center gap-2 rounded-full border border-obsidian-900/15 bg-alabaster-50 pl-3 pr-1.5 py-1 text-xs">
+            <span class="text-obsidian-600 font-medium">Hạn mức:</span>
+            <span class="font-mono font-extrabold text-obsidian-900">
+              {stats.usedCount}/{stats.maxPosts === Infinity ? '∞' : stats.maxPosts}
+            </span>
+            <span class="text-[11px] text-obsidian-600">
+              ({stats.tier === 'enterprise' ? 'Enterprise' : stats.tier === 'premium' ? 'Premium' : 'Free'})
+            </span>
+            <button
+              type="button"
+              onclick={openUpgradeModal}
+              class="rounded-full bg-mint/40 border border-mint-500/40 px-2.5 py-0.5 font-display text-[11px] font-extrabold text-obsidian-900 hover:bg-mint transition-colors cursor-pointer"
+            >
+              Nâng cấp ✦
+            </button>
+          </div>
+        {/if}
+
+        <button
+          type="button"
+          onclick={closePostJobModal}
+          class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-obsidian-900/15 bg-alabaster-50 text-obsidian-800 transition-all duration-150 hover:border-obsidian-900 hover:bg-obsidian-900 hover:text-mint cursor-pointer"
+          aria-label="Đóng"
+        >
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Quota Strip -->
+    {#if stats && !isEditing}
+      <div class="mt-3 flex md:hidden items-center justify-between gap-2 rounded-xl border border-obsidian-900/10 bg-alabaster-50 px-3 py-1.5 text-xs">
+        <span class="text-obsidian-700">
+          Hạn mức: <strong class="font-mono text-obsidian-900">{stats.usedCount}/{stats.maxPosts === Infinity ? '∞' : stats.maxPosts}</strong>
+        </span>
+        <button
+          type="button"
+          onclick={openUpgradeModal}
+          class="rounded-full bg-mint/40 border border-mint-500/40 px-2.5 py-0.5 font-display text-[11px] font-extrabold text-obsidian-900 cursor-pointer"
+        >
+          Nâng cấp ✦
+        </button>
+      </div>
+    {/if}
+  </div>
+
+  <!-- Limit Reached State -->
+  {#if stats && !isEditing && stats.isLimitReached}
+    <div class="flex-1 overflow-y-auto p-6 sm:p-10 flex items-center justify-center bg-alabaster-50">
+      <div class="max-w-lg w-full rounded-3xl border border-signal-crimson/35 bg-red-50/70 p-6 sm:p-8 text-center space-y-3.5">
+        <span class="inline-flex items-center rounded-full bg-signal-crimson/15 px-3 py-1 font-mono text-xs font-bold text-signal-crimson">
+          Đã đạt giới hạn {stats.maxPosts} bài đăng / tháng
+        </span>
+        <h3 class="font-display text-lg font-extrabold text-obsidian-900">
+          Nâng cấp gói để tiếp tục đăng tin tuyển dụng
+        </h3>
+        <p class="text-xs sm:text-sm text-obsidian-700 leading-relaxed">
+          Gói miễn phí cho phép tối đa 10 bài đăng mỗi tháng. Nâng cấp lên <strong class="text-obsidian-900">Premium (50 bài/tháng)</strong> hoặc <strong class="text-obsidian-900">Enterprise (Không giới hạn)</strong> để mở khóa ngay.
+        </p>
+        <div class="pt-2 flex items-center justify-center gap-2.5">
+          <button
+            type="button"
+            onclick={closePostJobModal}
+            class="rounded-full px-4 py-2.5 font-display text-xs font-bold text-obsidian-600 hover:bg-alabaster-200/70 cursor-pointer"
+          >
+            Để sau
+          </button>
           <button
             type="button"
             onclick={openUpgradeModal}
-            class="text-signal-emerald hover:underline font-bold uppercase text-[11px] flex items-center gap-1"
+            class="rounded-full bg-obsidian-900 px-6 py-2.5 font-display text-xs font-extrabold text-alabaster-50 hover:bg-mint hover:text-obsidian-900 transition-colors shadow-sm cursor-pointer"
           >
-            <span>[ Nâng cấp gói ✦ ]</span>
+            Nâng cấp gói Premium ngay →
           </button>
         </div>
-
-        {#if stats.isLimitReached}
-          <div class="m-6 p-5 rounded-swiss-sm border border-signal-crimson bg-red-50 text-center space-y-2.5 shadow-swiss-card">
-            <span class="font-mono text-xs font-black text-signal-crimson block uppercase">
-              [ DOANH NGHIỆP ĐÃ ĐẠT GIỚI HẠN {stats.maxPosts} BÀI ĐĂNG CỦA GÓI FREE ]
-            </span>
-            <p class="font-mono text-xs text-swiss-700 max-w-md mx-auto leading-relaxed">
-              Mặc định gói miễn phí chỉ cho phép tối đa 10 bài đăng mỗi tháng. Để tiếp tục đăng bài tuyển dụng mới, vui lòng nâng cấp lên gói <strong>Premium (50 bài/tháng)</strong> hoặc <strong>Enterprise (Không giới hạn)</strong>.
-            </p>
-            <div class="pt-1">
-              <button
-                type="button"
-                onclick={openUpgradeModal}
-                class="rounded-swiss-sm bg-signal-emerald px-5 py-2 font-mono text-xs font-bold uppercase text-white hover:bg-emerald-700 transition-colors shadow-swiss-card"
-              >
-                Nâng cấp gói Premium ngay →
-              </button>
-            </div>
-          </div>
-        {/if}
-      {/if}
-
-      <!-- Form Body -->
-      {#if isEditing || !stats?.isLimitReached}
-      <form onsubmit={handleSubmit} class="p-6 space-y-5 max-h-[80vh] overflow-y-auto">
-        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <!-- Title -->
-          <div class="sm:col-span-2">
-            <label for="post-title" class="block font-mono text-[11px] uppercase tracking-wide text-swiss-700 mb-1">
-              Tiêu đề công việc *
-            </label>
-            <input
-              type="text"
-              id="post-title"
-              bind:value={title}
-              required
-              placeholder="Ví dụ: Thực tập sinh Lập trình Frontend (React / Svelte)"
-              class="w-full rounded-swiss-sm border border-swiss-300 px-3 py-2 text-xs font-bold text-black focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
-            />
-          </div>
-
-          <!-- Multi-Category Selection (Phân tầng sinh viên - Chọn nhiều nhóm) -->
-          <div class="sm:col-span-2 space-y-1.5">
-            <span class="block font-mono text-[11px] uppercase tracking-wide text-swiss-700">
-              Phân tầng sinh viên mục tiêu (Có thể chọn nhiều nhóm) *
-            </span>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
-              <!-- Nhóm 1 -->
-              <button
-                type="button"
-                onclick={() => toggleCategory('part-time')}
-                class="flex flex-col text-left p-3 rounded-swiss-sm border transition-all
-                  {selectedCategories.includes('part-time')
-                    ? 'border-black bg-black text-white shadow-swiss-card'
-                    : 'border-swiss-300 bg-white text-black hover:border-black'}"
-              >
-                <div class="flex items-center justify-between w-full mb-1">
-                  <span class="font-mono text-[10px] font-bold tracking-wider {selectedCategories.includes('part-time') ? 'text-signal-emerald' : 'text-swiss-500'}">
-                    [PT-01]
-                  </span>
-                  <span class="text-xs">{selectedCategories.includes('part-time') ? '✓' : '+'}</span>
-                </div>
-                <span class="text-xs font-bold uppercase">Nhóm 01: Năm 1 - 2</span>
-                <span class="text-[10px] {selectedCategories.includes('part-time') ? 'text-swiss-300' : 'text-swiss-500'}">
-                  Part-time linh hoạt, an toàn
-                </span>
-              </button>
-
-              <!-- Nhóm 2 -->
-              <button
-                type="button"
-                onclick={() => toggleCategory('internship')}
-                class="flex flex-col text-left p-3 rounded-swiss-sm border transition-all
-                  {selectedCategories.includes('internship')
-                    ? 'border-black bg-black text-white shadow-swiss-card'
-                    : 'border-swiss-300 bg-white text-black hover:border-black'}"
-              >
-                <div class="flex items-center justify-between w-full mb-1">
-                  <span class="font-mono text-[10px] font-bold tracking-wider {selectedCategories.includes('internship') ? 'text-signal-emerald' : 'text-swiss-500'}">
-                    [INT-02]
-                  </span>
-                  <span class="text-xs">{selectedCategories.includes('internship') ? '✓' : '+'}</span>
-                </div>
-                <span class="text-xs font-bold uppercase">Nhóm 02: Năm 3 - 4</span>
-                <span class="text-[10px] {selectedCategories.includes('internship') ? 'text-swiss-300' : 'text-swiss-500'}">
-                  Thực tập chuyên ngành
-                </span>
-              </button>
-
-              <!-- Nhóm 3 -->
-              <button
-                type="button"
-                onclick={() => toggleCategory('fresher')}
-                class="flex flex-col text-left p-3 rounded-swiss-sm border transition-all
-                  {selectedCategories.includes('fresher')
-                    ? 'border-black bg-black text-white shadow-swiss-card'
-                    : 'border-swiss-300 bg-white text-black hover:border-black'}"
-              >
-                <div class="flex items-center justify-between w-full mb-1">
-                  <span class="font-mono text-[10px] font-bold tracking-wider {selectedCategories.includes('fresher') ? 'text-signal-emerald' : 'text-swiss-500'}">
-                    [FR-03]
-                  </span>
-                  <span class="text-xs">{selectedCategories.includes('fresher') ? '✓' : '+'}</span>
-                </div>
-                <span class="text-xs font-bold uppercase">Nhóm 03: Mới tốt nghiệp</span>
-                <span class="text-[10px] {selectedCategories.includes('fresher') ? 'text-swiss-300' : 'text-swiss-500'}">
-                  Fresher Full-time
-                </span>
-              </button>
-
-              <!-- Nhóm 4 -->
-              <button
-                type="button"
-                onclick={() => toggleCategory('project')}
-                class="flex flex-col text-left p-3 rounded-swiss-sm border transition-all
-                  {selectedCategories.includes('project')
-                    ? 'border-black bg-black text-white shadow-swiss-card'
-                    : 'border-swiss-300 bg-white text-black hover:border-black'}"
-              >
-                <div class="flex items-center justify-between w-full mb-1">
-                  <span class="font-mono text-[10px] font-bold tracking-wider {selectedCategories.includes('project') ? 'text-signal-emerald' : 'text-swiss-500'}">
-                    [PRJ-04]
-                  </span>
-                  <span class="text-xs">{selectedCategories.includes('project') ? '✓' : '+'}</span>
-                </div>
-                <span class="text-xs font-bold uppercase">Nhóm 04: Dự án</span>
-                <span class="text-[10px] {selectedCategories.includes('project') ? 'text-swiss-300' : 'text-swiss-500'}">
-                  Nhận đầu việc, trả theo sản phẩm
-                </span>
-              </button>
-            </div>
-          </div>
-
-          <!-- Dual Range Salary Slider (Mức lương slider 2 đầu max 100M) -->
-          <div class="sm:col-span-2 rounded-swiss-sm border border-swiss-300 bg-swiss-50/50 p-3.5">
-            <DualRangeSlider
-              bind:minVal={minSalary}
-              bind:maxVal={maxSalary}
-              bind:isNegotiable={isSalaryNegotiable}
-              label="Mức lương / Phụ cấp sinh viên (Slider 2 đầu, tối đa 100M)"
-            />
-          </div>
-
-          <!-- Province Reusable Searchable Dropdown -->
-          <div>
-            <SearchableSelect
-              items={provinceSelectItems}
-              bind:value={selectedProvinceCode}
-              label="Tỉnh / Thành phố"
-              placeholder="Chọn hoặc tìm kiếm tỉnh thành..."
-              required={true}
-              onSelect={(val) => {
-                const wards = getWardsByProvinceCode(val);
-                selectedWardCode = wards[0]?.code || '';
-              }}
-            />
-          </div>
-
-          <!-- Ward Reusable Searchable Dropdown -->
-          <div>
-            {#if selectedProvinceCode === 'remote'}
-              <label class="block font-mono text-[11px] uppercase tracking-wide text-swiss-700 mb-1">
-                Phường / Xã
-              </label>
-              <div class="w-full rounded-swiss-sm border border-swiss-200 bg-swiss-100 px-3 py-2 text-xs font-mono text-swiss-500">
-                Toàn quốc (Không áp dụng cấp phường)
+      </div>
+    </div>
+  {:else}
+    <!-- Wide 2-Column Workspace Form -->
+    <form onsubmit={handleSubmit} class="flex flex-col flex-1 min-h-0 overflow-hidden">
+      <div class="flex-1 min-h-0 overflow-y-auto px-5 sm:px-6 py-5 bg-alabaster-50" data-lenis-prevent>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+          <!-- LEFT COLUMN (7/12): Basic Info, Location & Markdown JD -->
+          <div class="lg:col-span-7 space-y-5">
+            <!-- Section 1: Basic Info & Target Groups -->
+            <div class="rounded-2xl border border-obsidian-900/12 bg-alabaster-50 p-4 sm:p-5 space-y-4">
+              <div class="flex items-center gap-2 border-b border-obsidian-900/10 pb-2.5">
+                <span class="h-2 w-2 rounded-full bg-mint-500"></span>
+                <h3 class="font-display text-sm font-extrabold text-obsidian-900">
+                  Thông tin vị trí tuyển dụng
+                </h3>
               </div>
-            {:else}
-              <SearchableSelect
-                items={wardSelectItems}
-                bind:value={selectedWardCode}
-                label="Phường / Xã"
-                placeholder="Chọn hoặc tìm kiếm phường/xã..."
-                required={true}
-              />
-            {/if}
-          </div>
 
-          <!-- Detail Address / Street -->
-          <div>
-            <label for="post-detail-address" class="block font-mono text-[11px] uppercase tracking-wide text-swiss-700 mb-1">
-              Địa chỉ chi tiết (Số nhà, Tên đường, Tòa nhà)
-            </label>
-            <input
-              type="text"
-              id="post-detail-address"
-              bind:value={detailAddress}
-              placeholder="Ví dụ: Tòa nhà FPT, Số 10 Phạm Văn Bạch"
-              class="w-full rounded-swiss-sm border border-swiss-300 px-3 py-2 text-xs font-medium text-black focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
-            />
-          </div>
+              <!-- Job Title -->
+              <div>
+                <label for="post-title" class="block text-xs font-bold text-obsidian-800 mb-1.5">
+                  Tiêu đề công việc <span class="text-signal-crimson">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="post-title"
+                  bind:value={title}
+                  required
+                  placeholder="Ví dụ: Thực tập sinh Lập trình Frontend (React / Svelte)"
+                  class="w-full rounded-xl border border-obsidian-900/15 bg-alabaster-100/60 px-3.5 py-2.5 text-xs sm:text-[13px] font-semibold text-obsidian-900 placeholder:text-swiss-400 focus:border-obsidian-900 focus:bg-alabaster-50 focus:outline-none focus:ring-2 focus:ring-mint/50 transition-colors"
+                />
+              </div>
 
-          <!-- Work type -->
-          <div>
-            <label for="post-worktype" class="block font-mono text-[11px] uppercase tracking-wide text-swiss-700 mb-1">
-              Hình thức làm việc *
-            </label>
-            <select
-              id="post-worktype"
-              bind:value={workType}
-              class="w-full rounded-swiss-sm border border-swiss-300 px-3 py-2 text-xs font-semibold text-black focus:border-black focus:outline-none focus:ring-1 focus:ring-black bg-white"
-            >
-              <option value="Part-time">Part-time</option>
-              <option value="Thực tập">Thực tập</option>
-              <option value="Full-time">Full-time</option>
-              <option value="Theo dự án">Theo dự án</option>
-              <option value="Hybrid">Hybrid</option>
-              <option value="Remote">Remote</option>
-            </select>
-          </div>
+              <!-- Multi-Category Selection -->
+              <div class="space-y-2">
+                <span class="block text-xs font-bold text-obsidian-800">
+                  Phân tầng sinh viên mục tiêu (có thể chọn nhiều nhóm) <span class="text-signal-crimson">*</span>
+                </span>
+                <div class="grid grid-cols-2 xl:grid-cols-4 gap-2.5">
+                  {#each categoryOptions as cat (cat.id)}
+                    {@const isChosen = selectedCategories.includes(cat.id)}
+                    <button
+                      type="button"
+                      onclick={() => toggleCategory(cat.id)}
+                      class="flex flex-col text-left p-3 rounded-xl border transition-all cursor-pointer
+                        {isChosen
+                          ? 'border-2 border-mint-500 bg-mint/15 text-obsidian-900 shadow-xs'
+                          : 'border-obsidian-900/15 bg-alabaster-100/40 text-obsidian-900 hover:border-obsidian-900/40 hover:bg-alabaster-100'}"
+                    >
+                      <div class="flex items-center justify-between gap-2 w-full mb-1">
+                        <span class="font-display text-xs font-extrabold text-obsidian-900 leading-tight">
+                          {cat.title}
+                        </span>
+                        <span
+                          class="flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-[10px] font-black
+                          {isChosen
+                            ? 'bg-mint-500 text-alabaster-50'
+                            : 'border border-obsidian-900/20 bg-alabaster-50 text-transparent'}"
+                        >
+                          ✓
+                        </span>
+                      </div>
+                      <span class="text-[11px] text-obsidian-600 leading-snug">
+                        {cat.sub}
+                      </span>
+                    </button>
+                  {/each}
+                </div>
+              </div>
 
-          <!-- When2Meet Interactive Schedule Picker -->
-          <div class="sm:col-span-2">
-            <When2MeetSchedule
-              bind:scheduleText={schedule}
-              bind:scheduleGrid={scheduleGrid}
-            />
-          </div>
+              <!-- Summary description -->
+              <div>
+                <label for="post-summary" class="block text-xs font-bold text-obsidian-800 mb-1.5">
+                  Tóm tắt ngắn gọn (hiển thị trên thẻ việc làm) <span class="text-signal-crimson">*</span>
+                </label>
+                <textarea
+                  id="post-summary"
+                  bind:value={summary}
+                  required
+                  rows="2"
+                  placeholder="Tóm tắt 1-2 câu về vị trí tuyển dụng, quyền lợi nổi bật..."
+                  class="w-full rounded-xl border border-obsidian-900/15 bg-alabaster-100/60 px-3.5 py-2.5 text-xs font-medium text-obsidian-900 placeholder:text-swiss-400 focus:border-obsidian-900 focus:bg-alabaster-50 focus:outline-none focus:ring-2 focus:ring-mint/50 transition-colors resize-none"
+                ></textarea>
+              </div>
+            </div>
 
-          <!-- Deadline Calendar Picker -->
-          <div>
-            <DatePicker
-              bind:value={deadline}
-              label="Hạn nộp hồ sơ *"
-              id="post-deadline"
-              placeholder="Chọn ngày hết hạn (DD/MM/YYYY)"
-              required={true}
-              minDate={new Date()}
-            />
-          </div>
+            <!-- Section 2: Location, Work Type, Deadline & Tags -->
+            <div class="rounded-2xl border border-obsidian-900/12 bg-alabaster-50 p-4 sm:p-5 space-y-3.5">
+              <div class="flex items-center gap-2 border-b border-obsidian-900/10 pb-2.5">
+                <span class="h-2 w-2 rounded-full bg-mint-500"></span>
+                <h3 class="font-display text-sm font-extrabold text-obsidian-900">
+                  Địa điểm, hình thức & thời hạn
+                </h3>
+              </div>
 
-          <!-- Tags -->
-          <div>
-            <label for="post-tags" class="block font-mono text-[11px] uppercase tracking-wide text-swiss-700 mb-1">
-              Kỹ năng & Tags (Phân cách bằng dấu phẩy)
-            </label>
-            <input
-              type="text"
-              id="post-tags"
-              bind:value={tagsStr}
-              placeholder="Ví dụ: React, TypeScript, Mentor, Dấu mộc"
-              class="w-full rounded-swiss-sm border border-swiss-300 px-3 py-2 text-xs font-medium text-black focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
-            />
-          </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                <div>
+                  <SearchableSelect
+                    items={provinceSelectItems}
+                    bind:value={selectedProvinceCode}
+                    label="Tỉnh / Thành phố"
+                    placeholder="Chọn hoặc tìm kiếm tỉnh thành..."
+                    required={true}
+                    onSelect={(val) => {
+                      const wards = getWardsByProvinceCode(val);
+                      selectedWardCode = wards[0]?.code || '';
+                    }}
+                  />
+                </div>
 
-          <!-- Thumbnail Attachment (Đính kèm ảnh thumbnail bài tuyển dụng) -->
-          <div class="sm:col-span-2 space-y-2 rounded-swiss-sm border border-swiss-300 bg-swiss-50/50 p-3.5">
-            <div class="flex items-center justify-between">
-              <span class="block font-mono text-[11px] uppercase tracking-wide text-swiss-700">
-                Ảnh Thumbnail bài tuyển dụng
-              </span>
-              {#if imageUrl}
-                <button
-                  type="button"
-                  onclick={() => (imageUrl = '')}
-                  class="font-mono text-[10px] text-signal-crimson hover:underline"
-                >
-                  [Gỡ ảnh tải lên]
-                </button>
+                <div>
+                  {#if selectedProvinceCode === 'remote'}
+                    <span class="block text-xs font-bold text-obsidian-800 mb-1.5">
+                      Phường / Xã
+                    </span>
+                    <div class="w-full rounded-xl border border-obsidian-900/10 bg-alabaster-100/80 px-3.5 py-2.5 text-xs text-obsidian-600">
+                      Toàn quốc (Không áp dụng cấp phường)
+                    </div>
+                  {:else}
+                    <SearchableSelect
+                      items={wardSelectItems}
+                      bind:value={selectedWardCode}
+                      label="Phường / Xã"
+                      placeholder="Chọn hoặc tìm kiếm phường/xã..."
+                      required={true}
+                    />
+                  {/if}
+                </div>
+
+                <div>
+                  <label for="post-detail-address" class="block text-xs font-bold text-obsidian-800 mb-1.5">
+                    Địa chỉ chi tiết (Số nhà, đường, tòa nhà)
+                  </label>
+                  <input
+                    type="text"
+                    id="post-detail-address"
+                    bind:value={detailAddress}
+                    placeholder="Ví dụ: Tòa nhà FPT, Số 10 Phạm Văn Bạch"
+                    class="w-full rounded-xl border border-obsidian-900/15 bg-alabaster-100/60 px-3.5 py-2.5 text-xs font-medium text-obsidian-900 placeholder:text-swiss-400 focus:border-obsidian-900 focus:bg-alabaster-50 focus:outline-none focus:ring-2 focus:ring-mint/50 transition-colors"
+                  />
+                </div>
+
+                <div>
+                  <label for="post-worktype" class="block text-xs font-bold text-obsidian-800 mb-1.5">
+                    Hình thức làm việc <span class="text-signal-crimson">*</span>
+                  </label>
+                  <select
+                    id="post-worktype"
+                    bind:value={workType}
+                    class="w-full rounded-xl border border-obsidian-900/15 bg-alabaster-100/60 px-3.5 py-2.5 text-xs font-semibold text-obsidian-900 focus:border-obsidian-900 focus:bg-alabaster-50 focus:outline-none focus:ring-2 focus:ring-mint/50 transition-colors"
+                  >
+                    <option value="Part-time">Part-time</option>
+                    <option value="Thực tập">Thực tập</option>
+                    <option value="Full-time">Full-time</option>
+                    <option value="Theo dự án">Theo dự án</option>
+                    <option value="Hybrid">Hybrid</option>
+                    <option value="Remote">Remote</option>
+                  </select>
+                </div>
+
+                <div>
+                  <DatePicker
+                    bind:value={deadline}
+                    label="Hạn nộp hồ sơ *"
+                    id="post-deadline"
+                    placeholder="Chọn ngày hết hạn (DD/MM/YYYY)"
+                    required={true}
+                    minDate={new Date()}
+                  />
+                </div>
+
+                <div>
+                  <label for="post-tags" class="block text-xs font-bold text-obsidian-800 mb-1.5">
+                    Kỹ năng & Từ khóa (cách nhau dấu phẩy)
+                  </label>
+                  <input
+                    type="text"
+                    id="post-tags"
+                    bind:value={tagsStr}
+                    placeholder="Ví dụ: React, TypeScript, Mentor, Dấu mộc"
+                    class="w-full rounded-xl border border-obsidian-900/15 bg-alabaster-100/60 px-3.5 py-2.5 text-xs font-medium text-obsidian-900 placeholder:text-swiss-400 focus:border-obsidian-900 focus:bg-alabaster-50 focus:outline-none focus:ring-2 focus:ring-mint/50 transition-colors"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Section 3: Markdown JD Editor -->
+            <div class="rounded-2xl border border-obsidian-900/12 bg-alabaster-50 p-4 sm:p-5 space-y-3">
+              <div class="flex flex-wrap items-center justify-between gap-2 border-b border-obsidian-900/10 pb-2.5">
+                <div class="flex items-center gap-2">
+                  <span class="h-2 w-2 rounded-full bg-mint-500"></span>
+                  <h3 class="font-display text-sm font-extrabold text-obsidian-900">
+                    Chi tiết tuyển dụng (Markdown) <span class="text-signal-crimson">*</span>
+                  </h3>
+                </div>
+
+                <div class="inline-flex items-center rounded-full border border-obsidian-900/15 bg-alabaster-100 p-0.5 text-[11px] font-bold">
+                  <button
+                    type="button"
+                    onclick={() => (markdownMode = 'write')}
+                    class="rounded-full px-3 py-1 transition-colors cursor-pointer
+                    {markdownMode === 'write'
+                      ? 'bg-obsidian-900 text-alabaster-50'
+                      : 'text-obsidian-600 hover:text-obsidian-900'}"
+                  >
+                    Soạn thảo
+                  </button>
+                  <button
+                    type="button"
+                    onclick={() => (markdownMode = 'preview')}
+                    class="rounded-full px-3 py-1 transition-colors cursor-pointer
+                    {markdownMode === 'preview'
+                      ? 'bg-obsidian-900 text-alabaster-50'
+                      : 'text-obsidian-600 hover:text-obsidian-900'}"
+                  >
+                    Xem trước
+                  </button>
+                </div>
+              </div>
+
+              {#if markdownMode === 'write'}
+                <textarea
+                  id="post-markdown-editor"
+                  bind:value={markdownContent}
+                  required
+                  rows="10"
+                  class="w-full rounded-xl border border-obsidian-900/15 bg-alabaster-100/60 p-3.5 font-mono text-xs leading-relaxed text-obsidian-900 focus:border-obsidian-900 focus:bg-alabaster-50 focus:outline-none focus:ring-2 focus:ring-mint/50 transition-colors"
+                ></textarea>
+              {:else}
+                <div class="max-h-72 overflow-y-auto rounded-xl border border-obsidian-900/10 bg-alabaster-100/50 p-4">
+                  {@html renderedPreview}
+                </div>
               {/if}
             </div>
+          </div>
 
-            <div class="flex flex-col sm:flex-row gap-4 items-center">
-              <!-- Thumbnail Preview Box -->
-              <div class="relative h-28 w-44 shrink-0 rounded-swiss-sm border border-swiss-300 bg-swiss-200 overflow-hidden flex items-center justify-center">
+          <!-- RIGHT COLUMN (5/12): Salary, Thumbnail & Schedule -->
+          <div class="lg:col-span-5 space-y-5">
+            <!-- Section 4: Salary Slider -->
+            <div class="rounded-2xl border border-obsidian-900/12 bg-alabaster-100/60 p-4 sm:p-5">
+              <DualRangeSlider
+                bind:minVal={minSalary}
+                bind:maxVal={maxSalary}
+                bind:isNegotiable={isSalaryNegotiable}
+                label="Mức lương / Phụ cấp sinh viên (tối đa 100M)"
+              />
+            </div>
+
+            <!-- Section 5: Thumbnail Attachment -->
+            <div class="rounded-2xl border border-obsidian-900/12 bg-alabaster-100/60 p-4 sm:p-5 space-y-3">
+              <div class="flex items-center justify-between gap-2">
+                <div class="flex items-center gap-2">
+                  <span class="h-2 w-2 rounded-full bg-mint-500"></span>
+                  <span class="font-display text-sm font-extrabold text-obsidian-900">
+                    Ảnh minh họa bài đăng
+                  </span>
+                </div>
+                {#if imageUrl}
+                  <button
+                    type="button"
+                    onclick={() => (imageUrl = '')}
+                    class="rounded-full px-2.5 py-0.5 text-[11px] font-bold text-signal-crimson hover:bg-signal-crimson/10 transition-colors cursor-pointer"
+                  >
+                    Gỡ ảnh
+                  </button>
+                {/if}
+              </div>
+
+              <!-- Preview Box -->
+              <div class="relative h-36 w-full rounded-xl border border-obsidian-900/10 bg-alabaster-200/80 overflow-hidden flex items-center justify-center">
                 {#if imageUrl}
                   <img src={imageUrl} alt="Thumbnail preview" class="h-full w-full object-cover" />
                 {:else}
-                  <div class="text-center p-2 font-mono text-[10px] text-swiss-400">
-                    Chưa có ảnh (Sử dụng ảnh mặc định)
+                  <div class="text-center px-4 text-xs text-obsidian-600">
+                    Chưa có ảnh — hệ thống sẽ dùng ảnh mặc định
                   </div>
                 {/if}
                 {#if isUploadingThumbnail}
-                  <div class="absolute inset-0 bg-black/60 flex items-center justify-center text-white font-mono text-[10px]">
-                    Đang xử lý ảnh...
+                  <div class="absolute inset-0 bg-obsidian-950/60 flex items-center justify-center text-alabaster-50 font-mono text-xs">
+                    Đang tối ưu hóa ảnh...
                   </div>
                 {/if}
               </div>
 
-              <!-- Upload actions -->
-              <div class="space-y-2 flex-1 w-full text-xs">
-                <label class="inline-flex items-center gap-2 rounded-swiss-sm border border-black bg-white px-3.5 py-1.5 font-mono text-xs font-bold uppercase text-black hover:bg-swiss-100 transition-colors cursor-pointer shadow-xs">
+              <div class="space-y-2">
+                <label class="inline-flex w-full items-center justify-center gap-2 rounded-full border border-obsidian-900/20 bg-alabaster-50 px-4 py-2 font-display text-xs font-bold text-obsidian-900 hover:border-mint-600 hover:bg-mint/20 transition-colors cursor-pointer">
                   <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                   </svg>
-                  <span>Tải ảnh từ máy tính (JPG/PNG)</span>
+                  <span>Tải ảnh từ máy tính (JPG / PNG)</span>
                   <input
                     type="file"
                     accept="image/*"
@@ -611,90 +701,48 @@
                   />
                 </label>
 
-                <div class="flex items-center gap-2">
-                  <span class="font-mono text-[10px] text-swiss-400">hoặc dán URL:</span>
-                  <input
-                    type="url"
-                    bind:value={imageUrl}
-                    placeholder="https://images.unsplash.com/..."
-                    class="flex-1 rounded-swiss-xs border border-swiss-300 px-2.5 py-1 text-xs font-mono text-black focus:border-black focus:outline-none"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Summary description -->
-          <div class="sm:col-span-2">
-            <label for="post-summary" class="block font-mono text-[11px] uppercase tracking-wide text-swiss-700 mb-1">
-              Tóm tắt ngắn gọn (Hiển thị ngoài danh sách việc) *
-            </label>
-            <textarea
-              id="post-summary"
-              bind:value={summary}
-              required
-              rows="2"
-              placeholder="Tóm tắt 1-2 câu về vị trí tuyển dụng, quyền lợi chính..."
-              class="w-full rounded-swiss-sm border border-swiss-300 px-3 py-2 text-xs font-medium text-black focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
-            ></textarea>
-          </div>
-
-          <!-- Markdown Editor Section -->
-          <div class="sm:col-span-2 space-y-2">
-            <div class="flex items-center justify-between border-b border-swiss-300 pb-1.5">
-              <span class="font-mono text-[11px] uppercase tracking-wide text-swiss-700">
-                Chi tiết tuyển dụng (Định dạng Markdown) *
-              </span>
-              <div class="flex items-center gap-1 font-mono text-[10px] font-bold">
-                <button
-                  type="button"
-                  onclick={() => (markdownMode = 'write')}
-                  class="px-2.5 py-0.5 rounded-swiss-xs transition-colors {markdownMode === 'write' ? 'bg-black text-white' : 'text-swiss-500 hover:text-black'}"
-                >
-                  SOẠN THẢO
-                </button>
-                <button
-                  type="button"
-                  onclick={() => (markdownMode = 'preview')}
-                  class="px-2.5 py-0.5 rounded-swiss-xs transition-colors {markdownMode === 'preview' ? 'bg-black text-white' : 'text-swiss-500 hover:text-black'}"
-                >
-                  XEM TRƯỚC
-                </button>
+                <input
+                  type="url"
+                  bind:value={imageUrl}
+                  placeholder="Hoặc dán đường dẫn ảnh (https://...)"
+                  class="w-full rounded-xl border border-obsidian-900/15 bg-alabaster-50 px-3 py-2 text-xs text-obsidian-900 placeholder:text-swiss-400 focus:border-obsidian-900 focus:outline-none focus:ring-2 focus:ring-mint/50 transition-colors"
+                />
               </div>
             </div>
 
-            {#if markdownMode === 'write'}
-              <textarea
-                id="post-markdown-editor"
-                bind:value={markdownContent}
-                required
-                rows="8"
-                class="w-full rounded-swiss-sm border border-swiss-300 p-3 font-mono text-xs leading-relaxed text-black focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
-              ></textarea>
-            {:else}
-              <div class="max-h-60 overflow-y-auto rounded-swiss-sm border border-swiss-300 bg-swiss-50/50 p-4 prose-swiss">
-                {@html renderedPreview}
-              </div>
-            {/if}
+            <!-- Section 6: Interactive Schedule -->
+            <div class="rounded-2xl border border-obsidian-900/12 bg-alabaster-100/60 p-4 sm:p-5">
+              <When2MeetSchedule
+                bind:scheduleText={schedule}
+                bind:scheduleGrid={scheduleGrid}
+              />
+            </div>
           </div>
         </div>
+      </div>
 
-        <!-- Submit Actions -->
-        <div class="flex items-center justify-end gap-3 border-t border-swiss-200 pt-4">
+      <!-- Pinned Action Footer -->
+      <div class="shrink-0 border-t border-obsidian-900/10 bg-alabaster-100/90 px-5 sm:px-6 py-3.5 flex flex-wrap items-center justify-between gap-3">
+        <span class="hidden sm:inline-block text-xs text-obsidian-600">
+          Tin tuyển dụng sẽ hiển thị ngay trên trang Việc làm sau khi xác nhận.
+        </span>
+
+        <div class="flex items-center gap-2.5 ml-auto">
           <button
             type="button"
             onclick={closePostJobModal}
-            class="rounded-swiss-sm border border-swiss-300 px-4 py-2 font-mono text-xs font-bold uppercase text-black hover:border-black transition-colors"
+            class="rounded-full px-4 py-2 font-display text-xs font-bold text-obsidian-600 hover:text-obsidian-900 hover:bg-alabaster-200/70 transition-colors cursor-pointer"
           >
             Hủy bỏ
           </button>
           <button
             type="submit"
-            class="rounded-swiss-sm bg-black px-6 py-2 font-mono text-xs font-bold uppercase tracking-wide text-white hover:bg-neutral-800 transition-colors shadow-swiss-card"
+            class="inline-flex items-center gap-2 rounded-full bg-obsidian-900 px-6 py-2.5 font-display text-xs font-extrabold text-alabaster-50 hover:bg-mint hover:text-obsidian-900 transition-all duration-150 shadow-sm cursor-pointer"
           >
-            {isEditing ? 'Lưu thay đổi bài đăng ✓' : 'Đăng bài tuyển dụng ngay →'}
+            <span>{isEditing ? 'Lưu thay đổi bài đăng ✓' : 'Đăng bài tuyển dụng ngay →'}</span>
           </button>
         </div>
-      </form>
-      {/if}
+      </div>
+    </form>
+  {/if}
 </Modal>

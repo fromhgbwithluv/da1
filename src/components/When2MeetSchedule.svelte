@@ -2,7 +2,7 @@
   let {
     scheduleText = $bindable('Linh hoạt 3 - 4 ca/tuần'),
     scheduleGrid = $bindable<Record<string, number[]>>({}),
-    label = 'Thời gian làm việc / Ca làm (Lịch When2meet)',
+    label = 'Thời gian làm việc / Ca làm',
   }: {
     scheduleText?: string;
     scheduleGrid?: Record<string, number[]>;
@@ -28,7 +28,6 @@
   // Ensure initial structure
   $effect(() => {
     if (!scheduleGrid || Object.keys(scheduleGrid).length === 0) {
-      // Default initial slots: T2 - T6 morning & afternoon (8-17)
       scheduleGrid = {
         mon: [8, 9, 10, 11, 13, 14, 15, 16],
         tue: [8, 9, 10, 11, 13, 14, 15, 16],
@@ -93,8 +92,9 @@
     const minStr = minH < 10 ? `0${minH}:00` : `${minH}:00`;
     const maxStr = maxH < 10 ? `0${maxH}:00` : `${maxH}:00`;
 
-    // Detect if T2-T6
-    const isWeekdaysOnly = activeDays.length === 5 && !activeDays.some((d) => d.key === 'sat' || d.key === 'sun');
+    const isWeekdaysOnly =
+      activeDays.length === 5 &&
+      !activeDays.some((d) => d.key === 'sat' || d.key === 'sun');
     const prefix = isWeekdaysOnly ? 'T2 - T6' : dayLabels;
 
     scheduleText = `${prefix} (${minStr} - ${maxStr}, linh hoạt)`;
@@ -143,73 +143,78 @@
 
 <svelte:window onmouseup={handleWindowMouseUp} />
 
-<div class="space-y-2 select-none">
-  <div class="flex items-center justify-between">
-    <label for="schedule-summary-input" class="block font-mono text-[11px] uppercase tracking-wide text-swiss-700">
-      {label} *
-    </label>
-    <span class="font-mono text-[10px] text-swiss-400">
-      [ Kéo chuột qua các ô để chọn ca ]
+<div class="space-y-3 select-none">
+  <div class="flex flex-wrap items-center justify-between gap-2">
+    <div class="flex items-center gap-2">
+      <span class="h-2 w-2 rounded-full bg-mint-500 shrink-0"></span>
+      <label for="schedule-summary-input" class="font-display text-sm font-extrabold text-obsidian-900">
+        {label} <span class="text-signal-crimson">*</span>
+      </label>
+    </div>
+    <span class="text-[11px] text-obsidian-600">
+      Kéo chuột qua các ô để chọn ca
     </span>
   </div>
 
   <!-- Summary text input (editable or synced) -->
-  <div class="relative">
-    <input
-      type="text"
-      id="schedule-summary-input"
-      bind:value={scheduleText}
-      required
-      placeholder="Ví dụ: T2 - T6 (08:00 - 17:00, linh hoạt)"
-      class="w-full rounded-swiss-sm border border-swiss-300 px-3 py-2 text-xs font-semibold text-black focus:border-black focus:outline-none focus:ring-1 focus:ring-black bg-swiss-50/50"
-    />
-  </div>
+  <input
+    type="text"
+    id="schedule-summary-input"
+    bind:value={scheduleText}
+    required
+    placeholder="Ví dụ: T2 - T6 (08:00 - 17:00, linh hoạt)"
+    class="w-full rounded-xl border border-obsidian-900/15 bg-alabaster-50 px-3.5 py-2.5 text-xs font-semibold text-obsidian-900 placeholder:text-swiss-400 focus:border-obsidian-900 focus:outline-none focus:ring-2 focus:ring-mint/50 transition-colors"
+  />
 
-  <!-- When2Meet Interactive Matrix Container -->
-  <div class="rounded-swiss-sm border border-black bg-white p-3 shadow-swiss-card space-y-2.5 overflow-x-auto">
+  <!-- Interactive Matrix Card (Fluid 100% width — Zero horizontal scroll) -->
+  <div class="rounded-2xl border border-obsidian-900/15 bg-alabaster-50 p-3 sm:p-3.5 space-y-2.5">
     <!-- Presets bar -->
-    <div class="flex flex-wrap items-center justify-between gap-1.5 border-b border-swiss-200 pb-2">
-      <div class="flex flex-wrap items-center gap-1">
-        <span class="font-mono text-[10px] text-swiss-400 uppercase font-bold mr-1">Ca mẫu:</span>
+    <div class="flex flex-wrap items-center justify-between gap-1.5 border-b border-obsidian-900/10 pb-2.5">
+      <div class="flex flex-wrap items-center gap-1.5">
         <button
           type="button"
           onclick={applyOfficeHours}
-          class="font-mono text-[10px] font-bold px-2 py-0.5 rounded-swiss-xs border border-swiss-300 bg-swiss-50 hover:bg-black hover:text-white transition-colors"
+          class="rounded-full border border-obsidian-900/15 bg-alabaster-100/70 px-2.5 py-1 text-[11px] font-bold text-obsidian-800 hover:border-mint-500 hover:bg-mint/20 transition-colors cursor-pointer"
         >
-          Hành chính (T2-T6)
+          Hành chính
         </button>
         <button
           type="button"
           onclick={applyStudentEvening}
-          class="font-mono text-[10px] font-bold px-2 py-0.5 rounded-swiss-xs border border-swiss-300 bg-swiss-50 hover:bg-black hover:text-white transition-colors"
+          class="rounded-full border border-obsidian-900/15 bg-alabaster-100/70 px-2.5 py-1 text-[11px] font-bold text-obsidian-800 hover:border-mint-500 hover:bg-mint/20 transition-colors cursor-pointer"
         >
-          Ca tối sinh viên (18h-22h)
+          Ca tối (18h-22h)
         </button>
         <button
           type="button"
           onclick={applyWeekend}
-          class="font-mono text-[10px] font-bold px-2 py-0.5 rounded-swiss-xs border border-swiss-300 bg-swiss-50 hover:bg-black hover:text-white transition-colors"
+          class="rounded-full border border-obsidian-900/15 bg-alabaster-100/70 px-2.5 py-1 text-[11px] font-bold text-obsidian-800 hover:border-mint-500 hover:bg-mint/20 transition-colors cursor-pointer"
         >
-          Cuối tuần (T7-CN)
+          Cuối tuần
         </button>
       </div>
 
       <button
         type="button"
         onclick={applyClear}
-        class="font-mono text-[10px] text-signal-crimson hover:underline"
+        class="rounded-full px-2.5 py-1 text-[11px] font-bold text-signal-crimson hover:bg-signal-crimson/10 transition-colors cursor-pointer"
       >
-        [Xóa trắng]
+        Xóa trắng
       </button>
     </div>
 
-    <!-- The When2Meet Grid Table -->
-    <div class="min-w-[420px]">
+    <!-- Responsive Fluid Grid (Compact 2.5rem time col + 7 equal flexible day cols) -->
+    <div class="w-full">
       <!-- Header row of days -->
-      <div class="grid grid-cols-8 gap-1 mb-1 font-mono text-[11px] font-bold text-center">
-        <div class="text-swiss-400 text-[10px] flex items-center justify-center">GIỜ \ NGÀY</div>
+      <div class="grid grid-cols-[2.5rem_repeat(7,minmax(0,1fr))] gap-1 mb-1.5 font-mono text-[11px] font-bold text-center">
+        <div class="text-obsidian-600 text-[9px] flex items-center justify-center uppercase">Giờ</div>
         {#each DAYS as day}
-          <div class="py-1 rounded-swiss-xs {day.key === 'sat' || day.key === 'sun' ? 'bg-swiss-100 text-swiss-700' : 'bg-black text-white'}">
+          <div
+            class="py-1 rounded-lg
+            {day.key === 'sat' || day.key === 'sun'
+              ? 'bg-alabaster-100 text-obsidian-600'
+              : 'bg-alabaster-200/80 text-obsidian-900'}"
+          >
             {day.label}
           </div>
         {/each}
@@ -218,9 +223,9 @@
       <!-- Hours rows -->
       <div class="space-y-1">
         {#each HOURS as hour}
-          <div class="grid grid-cols-8 gap-1 items-center font-mono text-[10px]">
+          <div class="grid grid-cols-[2.5rem_repeat(7,minmax(0,1fr))] gap-1 items-center font-mono text-[10px]">
             <!-- Hour label -->
-            <div class="text-right pr-2 text-swiss-400 text-[10px] font-mono leading-none">
+            <div class="text-right pr-1.5 text-obsidian-600 text-[10px] leading-none tabular-nums">
               {hour < 10 ? `0${hour}` : hour}:00
             </div>
 
@@ -233,13 +238,13 @@
                 aria-label="{day.full} {hour}h"
                 onmousedown={(e) => handleCellMouseDown(day.key, hour, e)}
                 onmouseenter={() => handleCellMouseEnter(day.key, hour)}
-                class="h-5 rounded-swiss-xs border transition-all cursor-pointer flex items-center justify-center
+                class="h-5 rounded-md border transition-colors cursor-pointer flex items-center justify-center
                   {selected
-                    ? 'bg-signal-emerald border-emerald-600 shadow-xs'
-                    : 'bg-swiss-50 hover:bg-swiss-200 border-swiss-200'}"
+                    ? 'bg-mint-500/85 border-mint-600 shadow-xs'
+                    : 'bg-alabaster-100/80 border-obsidian-900/10 hover:bg-mint/25 hover:border-mint-500/40'}"
               >
                 {#if selected}
-                  <div class="w-1.5 h-1.5 rounded-full bg-white opacity-80"></div>
+                  <div class="w-1.5 h-1.5 rounded-full bg-alabaster-50"></div>
                 {/if}
               </div>
             {/each}
@@ -248,18 +253,18 @@
       </div>
 
       <!-- Legend -->
-      <div class="mt-2.5 pt-2 border-t border-swiss-200 flex items-center justify-between font-mono text-[10px] text-swiss-500">
+      <div class="mt-2.5 pt-2 border-t border-obsidian-900/10 flex flex-wrap items-center justify-between gap-2 text-[11px] text-obsidian-600">
         <div class="flex items-center gap-3">
-          <div class="flex items-center gap-1">
-            <span class="inline-block w-3 h-3 rounded-swiss-xs bg-signal-emerald border border-emerald-600"></span>
-            <span>Ca làm việc yêu cầu</span>
+          <div class="flex items-center gap-1.5">
+            <span class="inline-block w-3 h-3 rounded bg-mint-500/85 border border-mint-600"></span>
+            <span>Ca làm việc</span>
           </div>
-          <div class="flex items-center gap-1">
-            <span class="inline-block w-3 h-3 rounded-swiss-xs bg-swiss-50 border border-swiss-200"></span>
+          <div class="flex items-center gap-1.5">
+            <span class="inline-block w-3 h-3 rounded bg-alabaster-100 border border-obsidian-900/15"></span>
             <span>Nghỉ</span>
           </div>
         </div>
-        <span class="text-swiss-400">Chuẩn When2Meet grid</span>
+        <span class="font-mono text-[10px] text-obsidian-600">Lịch trực quan</span>
       </div>
     </div>
   </div>

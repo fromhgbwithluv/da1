@@ -34,22 +34,27 @@
   let maxPercent = $derived(Math.min(100, Math.max(0, ((maxVal - min) / (max - min)) * 100)));
 
   function handleMinInput(e: Event) {
-    const val = Number((e.target as HTMLInputElement).value);
-    if (val > maxVal) {
-      minVal = maxVal;
-    } else {
-      minVal = val;
+    const input = e.currentTarget as HTMLInputElement;
+    const raw = Number(input.value);
+    const clamped = Math.min(raw, maxVal);
+    minVal = clamped;
+    if (raw !== clamped) {
+      input.value = String(clamped);
     }
   }
 
   function handleMaxInput(e: Event) {
-    const val = Number((e.target as HTMLInputElement).value);
-    if (val < minVal) {
-      maxVal = minVal;
-    } else {
-      maxVal = val;
+    const input = e.currentTarget as HTMLInputElement;
+    const raw = Number(input.value);
+    const clamped = Math.max(raw, minVal);
+    maxVal = clamped;
+    if (raw !== clamped) {
+      input.value = String(clamped);
     }
   }
+
+  // Ensure min thumb stays reachable when both thumbs meet near the upper bound
+  let minOnTop = $derived(minVal >= maxVal && minVal > (min + max) / 2);
 
   const presets = [
     { label: 'Part-time', min: 2_500_000, max: 5_000_000 },
@@ -67,29 +72,46 @@
   }
 </script>
 
-<div class="space-y-2.5">
-  <div class="flex items-center justify-between">
-    <span class="block font-mono text-[11px] uppercase tracking-wide text-swiss-700">
-      {label} *
+<div class="space-y-3">
+  <div class="flex items-center gap-2">
+    <span class="h-2 w-2 rounded-full bg-mint-500 shrink-0"></span>
+    <span class="font-display text-sm font-extrabold text-obsidian-900">
+      {label}
     </span>
-
-    <!-- Checkbox Thỏa thuận -->
-    <label class="flex items-center gap-1.5 cursor-pointer font-mono text-[11px] text-swiss-700 hover:text-black">
-      <input
-        type="checkbox"
-        bind:checked={isNegotiable}
-        class="h-3.5 w-3.5 rounded-swiss-xs border-swiss-300 text-black focus:ring-black"
-      />
-      <span>[ Thỏa thuận ]</span>
-    </label>
   </div>
 
-  <!-- Salary Value Display Banner (Swiss Monospace Card) -->
-  <div class="flex items-center justify-between rounded-swiss-sm border border-black bg-swiss-50 px-3.5 py-2 font-mono">
-    <span class="text-xs text-swiss-500 uppercase font-bold">LƯƠNG DỰ KIẾN:</span>
-    <span class="text-xs font-black text-black tracking-tight">
+  <!-- Salary Value Display Card with Inline Negotiable Toggle -->
+  <div class="rounded-2xl border border-mint-500/35 bg-mint/15 px-4 py-3 space-y-1.5">
+    <div class="flex items-center justify-between gap-2">
+      <span class="text-xs font-semibold text-obsidian-700">Mức lương dự kiến</span>
+
+      <!-- Toggle Thỏa thuận -->
+      <label
+        class="inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[11px] font-bold transition-colors cursor-pointer shrink-0
+        {isNegotiable
+          ? 'border-mint-600 bg-alabaster-50 text-obsidian-900 shadow-xs'
+          : 'border-obsidian-900/15 bg-alabaster-50/85 text-obsidian-700 hover:border-obsidian-900/40'}"
+      >
+        <input
+          type="checkbox"
+          bind:checked={isNegotiable}
+          class="sr-only"
+        />
+        <span
+          class="flex h-3.5 w-3.5 items-center justify-center rounded-full text-[9px] font-black
+          {isNegotiable
+            ? 'bg-mint-500 text-alabaster-50'
+            : 'border border-obsidian-900/25 bg-alabaster-50 text-transparent'}"
+        >
+          ✓
+        </span>
+        <span>Thỏa thuận</span>
+      </label>
+    </div>
+
+    <div class="font-display text-base sm:text-lg font-extrabold text-obsidian-900 tracking-tight">
       {formattedDisplay}
-    </span>
+    </div>
   </div>
 
   {#if !isNegotiable}
@@ -97,15 +119,15 @@
     <div class="pt-2 pb-1 px-1">
       <div class="relative h-6 flex items-center">
         <!-- Background Track -->
-        <div class="absolute h-2 w-full rounded-full bg-swiss-200 border border-swiss-300"></div>
+        <div class="absolute h-2 w-full rounded-full bg-alabaster-200 border border-obsidian-900/10"></div>
 
         <!-- Highlighted Active Range Track -->
         <div
-          class="absolute h-2 rounded-full bg-black transition-all duration-75"
-          style="left: {minPercent}%; width: {maxPercent - minPercent}%;"
+          class="absolute h-2 rounded-full bg-mint-500 transition-all duration-75"
+          style="left: {minPercent}%; width: {Math.max(0, maxPercent - minPercent)}%;"
         ></div>
 
-        <!-- Invisible Overlapping Range Inputs with Visible Custom Thumbs -->
+        <!-- Overlapping Range Inputs with Clamped DOM Values -->
         <input
           type="range"
           {min}
@@ -113,7 +135,8 @@
           {step}
           value={minVal}
           oninput={handleMinInput}
-          class="dual-slider absolute w-full pointer-events-none appearance-none bg-transparent"
+          aria-label="Mức lương tối thiểu"
+          class="dual-slider absolute w-full pointer-events-none appearance-none bg-transparent {minOnTop ? 'z-20' : 'z-10'}"
         />
         <input
           type="range"
@@ -122,28 +145,33 @@
           {step}
           value={maxVal}
           oninput={handleMaxInput}
-          class="dual-slider absolute w-full pointer-events-none appearance-none bg-transparent"
+          aria-label="Mức lương tối đa"
+          class="dual-slider absolute w-full pointer-events-none appearance-none bg-transparent {minOnTop ? 'z-10' : 'z-20'}"
         />
       </div>
 
-      <!-- Min and Max Indicators -->
-      <div class="flex justify-between text-[10px] font-mono text-swiss-400 mt-1">
+      <!-- Scale Indicators -->
+      <div class="flex justify-between text-[10px] font-mono text-obsidian-600 mt-1.5">
         <span>0đ</span>
         <span>25M</span>
         <span>50M</span>
         <span>75M</span>
-        <span class="font-bold text-black">100.000.000đ (Max)</span>
+        <span class="font-bold text-obsidian-900">100M</span>
       </div>
     </div>
 
-    <!-- Quick Presets Tags -->
-    <div class="flex flex-wrap items-center gap-1.5 pt-1">
-      <span class="font-mono text-[10px] text-swiss-400 uppercase">Mốc gợi ý:</span>
+    <!-- Quick Presets Pills -->
+    <div class="flex flex-wrap items-center gap-1.5 pt-0.5">
+      <span class="text-[11px] font-semibold text-obsidian-600 mr-0.5">Mốc gợi ý:</span>
       {#each presets as p}
+        {@const isPresetActive = !isNegotiable && minVal === p.min && maxVal === p.max}
         <button
           type="button"
           onclick={() => applyPreset(p)}
-          class="font-mono text-[10px] font-bold px-2 py-0.5 rounded-swiss-sm border border-swiss-300 bg-white text-swiss-700 hover:border-black hover:text-black transition-colors"
+          class="rounded-full border px-2.5 py-1 text-[11px] font-bold transition-colors cursor-pointer
+          {isPresetActive
+            ? 'border-mint-500 bg-mint/25 text-obsidian-900'
+            : 'border-obsidian-900/15 bg-alabaster-50 text-obsidian-700 hover:border-obsidian-900/40 hover:text-obsidian-900'}"
         >
           {p.label}
         </button>
@@ -153,7 +181,6 @@
 </div>
 
 <style>
-  /* Dual range slider thumb styling */
   .dual-slider {
     -webkit-appearance: none;
     appearance: none;
@@ -165,33 +192,33 @@
     -webkit-appearance: none;
     appearance: none;
     pointer-events: auto;
-    width: 18px;
-    height: 18px;
-    border-radius: 4px;
-    background: #000;
-    border: 2px solid #fff;
+    width: 20px;
+    height: 20px;
+    border-radius: 9999px;
+    background: #0e1412;
+    border: 3px solid #70ffaf;
     cursor: pointer;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
-    transition: transform 0.1s ease;
+    box-shadow: 0 2px 6px rgba(14, 20, 18, 0.25);
+    transition: transform 0.12s ease;
   }
 
   .dual-slider::-webkit-slider-thumb:hover {
-    transform: scale(1.15);
+    transform: scale(1.12);
   }
 
   .dual-slider::-moz-range-thumb {
     pointer-events: auto;
-    width: 18px;
-    height: 18px;
-    border-radius: 4px;
-    background: #000;
-    border: 2px solid #fff;
+    width: 20px;
+    height: 20px;
+    border-radius: 9999px;
+    background: #0e1412;
+    border: 3px solid #70ffaf;
     cursor: pointer;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
-    transition: transform 0.1s ease;
+    box-shadow: 0 2px 6px rgba(14, 20, 18, 0.25);
+    transition: transform 0.12s ease;
   }
 
   .dual-slider::-moz-range-thumb:hover {
-    transform: scale(1.15);
+    transform: scale(1.12);
   }
 </style>
