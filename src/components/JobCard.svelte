@@ -3,11 +3,24 @@
   import { favoriteJobs, toggleFavorite, openJobDetail, openCheckout } from '../stores/favorites';
   import { currentUser, openPostJobModal, deleteJob } from '../stores/auth';
   import { getCategoryLabel } from '../utils/formatters';
+  import { shareJob } from '../utils/share';
   import { url } from '../utils/url';
 
   let { job } = $props<{ job: Job }>();
 
   let isSaved = $derived($favoriteJobs.some((item) => item.id === job.id));
+  let justShared = $state(false);
+
+  async function handleShare(e: MouseEvent) {
+    e.stopPropagation();
+    const result = await shareJob(job);
+    if (result === 'copied' || result === 'shared') {
+      justShared = true;
+      setTimeout(() => {
+        justShared = false;
+      }, 1800);
+    }
+  }
 
   let isAuthor = $derived(
     !!$currentUser && (
@@ -87,12 +100,33 @@
               e.stopPropagation();
               openPostJobModal(job);
             }}
-            class="flex h-8 items-center gap-1 rounded-full bg-alabaster-50/95 backdrop-blur-md px-3 font-mono text-[10px] font-bold uppercase text-obsidian-900 border border-obsidian-900/15 hover:bg-obsidian-900 hover:text-mint transition-colors shadow-sm"
+            class="flex h-8 items-center gap-1 rounded-full bg-alabaster-50/95 backdrop-blur-md px-3 font-mono text-[10px] font-bold uppercase text-obsidian-900 border border-obsidian-900/15 hover:bg-obsidian-900 hover:text-mint transition-colors shadow-sm cursor-pointer"
             title="Chỉnh sửa bài đăng này"
           >
             <span>Sửa</span>
           </button>
         {/if}
+
+        <button
+          type="button"
+          onclick={handleShare}
+          class="flex h-9 w-9 items-center justify-center rounded-full backdrop-blur-md border shadow-sm transition-all cursor-pointer
+          {justShared
+            ? 'bg-mint text-obsidian-900 border-obsidian-900'
+            : 'bg-alabaster-50/95 text-obsidian-900 border-obsidian-900/15 hover:bg-mint hover:border-obsidian-900'}"
+          title={justShared ? 'Đã sao chép liên kết' : 'Chia sẻ tin tuyển dụng'}
+          aria-label={`Chia sẻ ${job.title}`}
+        >
+          {#if justShared}
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+            </svg>
+          {:else}
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+            </svg>
+          {/if}
+        </button>
 
         {#if $currentUser?.role !== 'company'}
           <button

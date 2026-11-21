@@ -7,22 +7,73 @@
     clearFavorites,
     openCheckout,
     openJobDetail,
+    selectedJobDetail,
   } from "../stores/favorites";
   import { url } from "../utils/url";
-  import Badge from "./Badge.svelte";
 
   const FALLBACK_IMAGE =
     "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=400&q=80";
 
+  // Multi-select state for bulk apply
+  let selectedIds = $state<string[]>([]);
+  let knownIds = new Set<string>();
+
+  $effect(() => {
+    const currentIds = $favoriteJobs.map((j) => j.id);
+    const currentSet = new Set(currentIds);
+
+    // Keep existing selections that are still in favorites
+    const nextSelected = selectedIds.filter((id) => currentSet.has(id));
+
+    // Auto-select any newly pinned jobs
+    for (const id of currentIds) {
+      if (!knownIds.has(id)) {
+        nextSelected.push(id);
+      }
+    }
+
+    knownIds = currentSet;
+
+    if (
+      nextSelected.length !== selectedIds.length ||
+      nextSelected.some((id, idx) => id !== selectedIds[idx])
+    ) {
+      selectedIds = nextSelected;
+    }
+  });
+
+  let selectedJobs = $derived(
+    $favoriteJobs.filter((j) => selectedIds.includes(j.id)),
+  );
+  let allSelected = $derived(
+    $favoriteJobs.length > 0 && selectedJobs.length === $favoriteJobs.length,
+  );
+
+  function toggleSelect(jobId: string) {
+    if (selectedIds.includes(jobId)) {
+      selectedIds = selectedIds.filter((id) => id !== jobId);
+    } else {
+      selectedIds = [...selectedIds, jobId];
+    }
+  }
+
+  function toggleSelectAll() {
+    if (allSelected) {
+      selectedIds = [];
+    } else {
+      selectedIds = $favoriteJobs.map((j) => j.id);
+    }
+  }
+
   function handleKeydown(event: KeyboardEvent) {
-    if (event.key === "Escape" && $isDrawerOpen) {
+    if (event.key === "Escape" && $isDrawerOpen && !$selectedJobDetail) {
       closeDrawer();
     }
   }
 
-  function handleApplyAll() {
-    if ($favoriteJobs.length === 0) return;
-    openCheckout($favoriteJobs);
+  function handleApplySelected() {
+    if (selectedJobs.length === 0) return;
+    openCheckout(selectedJobs);
   }
 </script>
 
@@ -67,7 +118,7 @@
         <button
           type="button"
           onclick={closeDrawer}
-          class="flex h-9 w-9 items-center justify-center rounded-full border border-obsidian-900/15 bg-alabaster-50 text-obsidian-800 transition-all duration-150 hover:border-obsidian-900 hover:bg-obsidian-900 hover:text-mint"
+          class="flex h-9 w-9 items-center justify-center rounded-full border border-obsidian-900/15 bg-alabaster-50 text-obsidian-800 transition-all duration-150 hover:border-obsidian-900 hover:bg-obsidian-900 hover:text-mint cursor-pointer"
           aria-label="Đóng bảng việc đã ghim"
         >
           <svg
@@ -102,7 +153,7 @@
         </h2>
         <p class="mt-0.5 text-xs text-obsidian-600">
           {#if $favoriteJobs.length > 0}
-            Đang chọn {$favoriteJobs.length} vị trí sẵn sàng ứng tuyển đồng loạt.
+            Đang chọn {selectedJobs.length} / {$favoriteJobs.length} vị trí sẵn sàng ứng tuyển đồng loạt.
           {:else}
             Ghim các cơ hội phù hợp để nộp hồ sơ đồng loạt chỉ trong 1 chạm.
           {/if}
@@ -150,7 +201,7 @@
           <button
             type="button"
             onclick={closeDrawer}
-            class="group mt-6 inline-flex items-center gap-2.5 rounded-full bg-obsidian-900 px-6 py-3 font-display text-sm font-bold text-alabaster-50 hover:bg-obsidian-800 hover:shadow-mint-glow transition-all"
+            class="group mt-6 inline-flex items-center gap-2.5 rounded-full bg-obsidian-900 px-6 py-3 font-display text-sm font-bold text-alabaster-50 hover:bg-obsidian-800 hover:shadow-mint-glow transition-all cursor-pointer"
           >
             <span>Khám phá việc làm</span>
             <span
@@ -161,23 +212,37 @@
           </button>
         </div>
       {:else}
+        <!-- Select All & Clear All Toolbar -->
         <div
-          class="flex items-center justify-between pb-2.5 border-b border-obsidian-900/10"
+          class="flex items-center justify-between gap-2 pb-2.5 border-b border-obsidian-900/10"
         >
-          <div
-            class="text-xs font-bold text-obsidian-800 flex items-center gap-2"
+          <button
+            type="button"
+            onclick={toggleSelectAll}
+            class="inline-flex items-center gap-2 text-xs font-bold text-obsidian-800 hover:text-obsidian-900 transition-colors cursor-pointer"
           >
-            <span>Danh sách chờ nộp</span>
+            <span
+              class="flex h-5 w-5 shrink-0 items-center justify-center rounded-md border text-[11px] font-black transition-colors
+              {allSelected
+                ? 'border-mint-500 bg-mint-500 text-alabaster-50'
+                : selectedJobs.length > 0
+                  ? 'border-mint-500 bg-mint/30 text-obsidian-900'
+                  : 'border-obsidian-900/25 bg-alabaster-50 text-transparent'}"
+            >
+              {allSelected ? "✓" : selectedJobs.length > 0 ? "–" : "✓"}
+            </span>
+            <span>{allSelected ? "Bỏ chọn tất cả" : "Chọn tất cả"}</span>
             <span
               class="rounded-full bg-obsidian-900/5 px-2 py-0.5 font-mono text-[11px] font-bold text-obsidian-800"
             >
-              {$favoriteJobs.length}
+              {selectedJobs.length}/{$favoriteJobs.length}
             </span>
-          </div>
+          </button>
+
           <button
             type="button"
             onclick={clearFavorites}
-            class="inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-bold text-signal-crimson hover:bg-signal-crimson/10 transition-colors"
+            class="inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-bold text-signal-crimson hover:bg-signal-crimson/10 transition-colors cursor-pointer"
           >
             <svg
               class="h-3.5 w-3.5"
@@ -198,29 +263,60 @@
 
         <div class="space-y-3">
           {#each $favoriteJobs as job (job.id)}
+            {@const isSelected = selectedIds.includes(job.id)}
             <div
-              class="group relative flex gap-3.5 rounded-2xl border border-obsidian-900/15 bg-alabaster-50 p-3.5 shadow-swiss-card transition-all duration-200 hover:-translate-y-0.5 hover:border-obsidian-900 hover:shadow-swiss-hover"
+              class="group relative flex items-start gap-3 rounded-2xl border p-3.5 shadow-swiss-card transition-all duration-200
+              {isSelected
+                ? 'border-mint-500/80 bg-mint/10 hover:border-mint-600'
+                : 'border-obsidian-900/15 bg-alabaster-50 hover:border-obsidian-900/40'}"
             >
-              <!-- Thumbnail -->
-              <div
-                class="h-16 w-16 sm:h-20 sm:w-20 shrink-0 overflow-hidden rounded-xl border border-obsidian-900/10 bg-alabaster-200"
+              <!-- Select checkbox for bulk apply -->
+              <button
+                type="button"
+                onclick={() => toggleSelect(job.id)}
+                class="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-md border text-[11px] font-black transition-all cursor-pointer
+                {isSelected
+                  ? 'border-mint-500 bg-mint-500 text-alabaster-50 shadow-xs'
+                  : 'border-obsidian-900/25 bg-alabaster-50 text-transparent hover:border-mint-500'}"
+                aria-label={isSelected
+                  ? `Bỏ chọn ${job.title}`
+                  : `Chọn ${job.title} để ứng tuyển`}
+                aria-pressed={isSelected}
+              >
+                ✓
+              </button>
+
+              <!-- Clickable Thumbnail (opens JD without closing drawer) -->
+              <button
+                type="button"
+                onclick={() => openJobDetail(job)}
+                class="group/thumb relative h-16 w-16 sm:h-20 sm:w-20 shrink-0 overflow-hidden rounded-xl border border-obsidian-900/10 bg-alabaster-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mint-500"
+                aria-label={`Xem chi tiết ${job.title}`}
               >
                 <img
                   src={job.imageUrl?.trim() || FALLBACK_IMAGE}
                   alt={job.title}
-                  class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  class="h-full w-full object-cover transition-transform duration-300 group-hover/thumb:scale-105"
                 />
-              </div>
+                <span
+                  class="pointer-events-none absolute inset-0 bg-obsidian-950/0 group-hover/thumb:bg-obsidian-950/20 transition-colors"
+                ></span>
+              </button>
 
               <!-- Info -->
               <div class="flex flex-1 flex-col justify-between min-w-0">
                 <div>
                   <div class="flex items-start justify-between gap-2">
-                    <Badge variant="black" size="xs">{job.targetGroup}</Badge>
+                    <span
+                      class="inline-flex items-center gap-1.5 rounded-full bg-alabaster-50 border border-obsidian-900/10 px-2.5 py-0.5 font-display text-[11px] font-bold text-obsidian-800"
+                    >
+                      <span class="h-1.5 w-1.5 rounded-full bg-mint-500 shrink-0"></span>
+                      <span class="truncate">{job.targetGroup}</span>
+                    </span>
                     <button
                       type="button"
                       onclick={() => removeFavorite(job.id)}
-                      class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-swiss-400 hover:bg-signal-crimson/10 hover:text-signal-crimson transition-colors"
+                      class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-swiss-400 hover:bg-signal-crimson/10 hover:text-signal-crimson transition-colors cursor-pointer"
                       title="Xóa khỏi danh sách"
                       aria-label="Xóa"
                     >
@@ -242,11 +338,8 @@
 
                   <button
                     type="button"
-                    onclick={() => {
-                      closeDrawer();
-                      openJobDetail(job);
-                    }}
-                    class="mt-1.5 text-left font-display text-sm font-extrabold text-obsidian-900 line-clamp-2 leading-snug hover:text-obsidian-700 transition-colors block w-full"
+                    onclick={() => openJobDetail(job)}
+                    class="mt-1.5 text-left font-display text-sm font-extrabold text-obsidian-900 line-clamp-2 leading-snug hover:text-obsidian-700 transition-colors block w-full cursor-pointer"
                   >
                     {job.title}
                   </button>
@@ -267,11 +360,8 @@
                   </span>
                   <button
                     type="button"
-                    onclick={() => {
-                      closeDrawer();
-                      openJobDetail(job);
-                    }}
-                    class="shrink-0 text-xs font-bold text-obsidian-900 underline decoration-mint decoration-2 underline-offset-4 hover:text-obsidian-700 transition-colors"
+                    onclick={() => openJobDetail(job)}
+                    class="shrink-0 text-xs font-bold text-obsidian-900 underline decoration-mint decoration-2 underline-offset-4 hover:text-obsidian-700 transition-colors cursor-pointer"
                   >
                     Xem JD →
                   </button>
@@ -298,7 +388,7 @@
               >Số lượng việc đã chọn</span
             >
             <span class="font-display font-extrabold text-obsidian-900"
-              >{$favoriteJobs.length} vị trí</span
+              >{selectedJobs.length} / {$favoriteJobs.length} vị trí</span
             >
           </div>
           <div
@@ -325,15 +415,25 @@
         <button
           type="button"
           id="drawer-checkout-btn"
-          onclick={handleApplyAll}
-          class="group w-full flex items-center justify-center gap-3 rounded-full bg-obsidian-900 py-3.5 px-6 font-display text-sm font-bold text-alabaster-50 transition-all duration-200 hover:bg-obsidian-800 hover:shadow-mint-glow"
+          disabled={selectedJobs.length === 0}
+          onclick={handleApplySelected}
+          class="group w-full flex items-center justify-center gap-3 rounded-full bg-obsidian-900 py-3.5 px-6 font-display text-sm font-bold text-alabaster-50 transition-all duration-200
+          {selectedJobs.length === 0
+            ? 'opacity-45 cursor-not-allowed'
+            : 'hover:bg-obsidian-800 hover:shadow-mint-glow cursor-pointer'}"
         >
-          <span>Tiến hành ứng tuyển ({$favoriteJobs.length})</span>
-          <span
-            class="flex h-6 w-6 items-center justify-center rounded-full bg-mint text-obsidian-900 font-mono text-xs font-black transition-transform duration-200 group-hover:translate-x-0.5"
-          >
-            →
+          <span>
+            {selectedJobs.length === 0
+              ? "Chọn ít nhất 1 việc để ứng tuyển"
+              : `Tiến hành ứng tuyển (${selectedJobs.length})`}
           </span>
+          {#if selectedJobs.length > 0}
+            <span
+              class="flex h-6 w-6 items-center justify-center rounded-full bg-mint text-obsidian-900 font-mono text-xs font-black transition-transform duration-200 group-hover:translate-x-0.5"
+            >
+              →
+            </span>
+          {/if}
         </button>
 
         <p class="text-center font-mono text-[11px] font-medium text-swiss-500">

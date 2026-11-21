@@ -1,19 +1,60 @@
 <script lang="ts">
   import {
     selectedJobDetail,
+    openJobDetail,
     closeJobDetail,
     favoriteJobs,
     toggleFavorite,
     openCheckout
   } from '../stores/favorites';
-  import { currentUser, openPostJobModal, deleteJob } from '../stores/auth';
+  import { currentUser, databaseJobs, openPostJobModal, deleteJob } from '../stores/auth';
   import { renderMarkdown } from '../utils/markdown';
   import { getCategoryLabel } from '../utils/formatters';
+  import { shareJob } from '../utils/share';
   import { url } from '../utils/url';
   import Modal from './Modal.svelte';
 
   const FALLBACK_IMAGE =
     'https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=1000&q=80';
+
+  let justShared = $state(false);
+  let handledSharedJobId = '';
+
+  // Auto-open JobDetailModal when visiting a shared ?job=<id> deep-link
+  $effect(() => {
+    if (typeof window === 'undefined') return;
+    const jobId = new URLSearchParams(window.location.search).get('job');
+    if (!jobId || handledSharedJobId === jobId) return;
+    const matched = $databaseJobs.find((j) => j.id === jobId);
+    if (matched) {
+      handledSharedJobId = jobId;
+      openJobDetail(matched);
+    }
+  });
+
+  function handleCloseModal() {
+    if (typeof window !== 'undefined') {
+      const currentUrl = new URL(window.location.href);
+      if (currentUrl.searchParams.has('job')) {
+        currentUrl.searchParams.delete('job');
+        const nextUrl = currentUrl.pathname + (currentUrl.search ? currentUrl.search : '') + currentUrl.hash;
+        window.history.replaceState({}, '', nextUrl);
+      }
+    }
+    justShared = false;
+    closeJobDetail();
+  }
+
+  async function handleShareJob() {
+    if (!$selectedJobDetail) return;
+    const result = await shareJob($selectedJobDetail);
+    if (result === 'copied' || result === 'shared') {
+      justShared = true;
+      setTimeout(() => {
+        justShared = false;
+      }, 2000);
+    }
+  }
 
   let isSaved = $derived(
     $selectedJobDetail ? $favoriteJobs.some((j) => j.id === $selectedJobDetail?.id) : false
@@ -55,7 +96,7 @@
 
 <Modal
   isOpen={!!$selectedJobDetail}
-  onClose={closeJobDetail}
+  onClose={handleCloseModal}
   maxWidth="3xl"
   hideHeader={true}
   dialogClass="rounded-3xl border-2 border-obsidian-900 bg-alabaster-50 shadow-[0_24px_60px_rgba(14,20,18,0.22)] max-h-[90vh] flex flex-col !my-0"
@@ -81,7 +122,7 @@
 
       <button
         type="button"
-        onclick={closeJobDetail}
+        onclick={handleCloseModal}
         class="flex h-8 w-8 sm:h-9 sm:w-9 shrink-0 items-center justify-center rounded-full border border-obsidian-900/15 bg-alabaster-50 text-obsidian-800 transition-all duration-150 hover:border-obsidian-900 hover:bg-obsidian-900 hover:text-mint cursor-pointer"
         aria-label="Đóng"
       >
@@ -335,6 +376,27 @@
           </button>
         {/if}
 
+        <button
+          type="button"
+          onclick={handleShareJob}
+          class="inline-flex items-center gap-1.5 rounded-full border px-4 py-2 font-display text-xs font-bold transition-all duration-150 cursor-pointer
+          {justShared
+            ? 'border-mint-500 bg-mint/25 text-obsidian-900 shadow-sm'
+            : 'border-obsidian-900/15 bg-alabaster-50 text-obsidian-900 hover:border-obsidian-900 hover:bg-alabaster-100'}"
+        >
+          {#if justShared}
+            <svg class="h-3.5 w-3.5 text-mint-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+            </svg>
+            <span>Đã sao chép link</span>
+          {:else}
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+            </svg>
+            <span>Chia sẻ</span>
+          {/if}
+        </button>
+
         {#if isAuthor}
           <button
             type="button"
@@ -359,7 +421,7 @@
       <div class="flex items-center gap-2 ml-auto">
         <button
           type="button"
-          onclick={closeJobDetail}
+          onclick={handleCloseModal}
           class="rounded-full px-4 py-2 font-display text-xs font-bold text-obsidian-600 hover:text-obsidian-900 hover:bg-alabaster-200/70 transition-colors cursor-pointer"
         >
           Đóng
