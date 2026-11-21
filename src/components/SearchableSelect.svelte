@@ -241,7 +241,7 @@
             bind:value={searchQuery}
             onkeydown={handleKeyDown}
             placeholder="Gõ để tìm nhanh..."
-            class="w-full rounded-xl border border-obsidian-900/15 bg-alabaster-50 py-2 pl-8.5 pr-8 text-xs font-medium text-obsidian-900 placeholder:text-swiss-400 focus:border-obsidian-900 focus:outline-none focus:ring-2 focus:ring-mint/50 transition-colors"
+            class="w-full rounded-xl border border-obsidian-900/15 bg-alabaster-50 py-2 pl-9 pr-8 text-xs font-medium text-obsidian-900 placeholder:text-swiss-400 focus:border-obsidian-900 focus:outline-none focus:ring-2 focus:ring-mint/50 transition-colors"
           />
           {#if searchQuery}
             <button
@@ -329,7 +329,7 @@
                   </div>
 
                   {#if isSelected}
-                    <span class="flex h-4.5 w-4.5 shrink-0 items-center justify-center rounded-full bg-mint-500 text-[10px] font-black text-alabaster-50">
+                    <span class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-mint-500 text-[10px] font-black text-alabaster-50">
                       ✓
                     </span>
                   {/if}
