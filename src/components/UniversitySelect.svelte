@@ -8,12 +8,14 @@
     placeholder = 'Chọn hoặc tìm kiếm trường ĐH / CĐ (327 cơ sở)...',
     label = 'Trường Đại học / Cao đẳng',
     required = false,
+    triggerClass = '',
   }: {
     value?: string;
     id?: string;
     placeholder?: string;
     label?: string;
     required?: boolean;
+    triggerClass?: string;
   } = $props();
 
   const universityItems: SelectItem[] = (universities as Array<{ id: number; name: string; code: string }>).map((u) => ({
@@ -31,5 +33,6 @@
   {placeholder}
   {label}
   {required}
+  {triggerClass}
   allowClear={true}
 />

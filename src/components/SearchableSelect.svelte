@@ -18,6 +18,7 @@
     disabled = false,
     allowClear = false,
     required = false,
+    triggerClass = '',
     onSelect
   }: {
     items: SelectItem[];
@@ -28,6 +29,7 @@
     disabled?: boolean;
     allowClear?: boolean;
     required?: boolean;
+    triggerClass?: string;
     onSelect?: (val: string) => void;
   } = $props();
 
@@ -149,18 +151,24 @@
     onclick={toggleOpen}
     onkeydown={handleKeyDown}
     {disabled}
-    class="w-full flex items-center justify-between rounded-swiss-sm border px-3 py-2 text-xs font-semibold text-black transition-colors text-left
-      {disabled ? 'bg-swiss-100 text-swiss-400 cursor-not-allowed border-swiss-200' : 'bg-white hover:border-black cursor-pointer border-swiss-300'}
-      {isOpen ? 'border-black ring-1 ring-black' : ''}"
+    class={triggerClass
+      ? `w-full flex items-center justify-between text-left transition-all ${triggerClass} ${
+          disabled ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'
+        } ${isOpen ? 'border-obsidian-900 bg-alabaster-50 ring-2 ring-mint/50' : ''}`
+      : `w-full flex items-center justify-between rounded-swiss-sm border px-3 py-2 text-xs font-semibold text-black transition-colors text-left ${
+          disabled
+            ? 'bg-swiss-100 text-swiss-400 cursor-not-allowed border-swiss-200'
+            : 'bg-white hover:border-black cursor-pointer border-swiss-300'
+        } ${isOpen ? 'border-black ring-1 ring-black' : ''}`}
   >
     <div class="flex items-center gap-2 truncate">
       {#if selectedItem}
         {#if selectedItem.badge}
-          <span class="font-mono text-[10px] font-bold uppercase bg-black text-white px-1.5 py-0.2 rounded-swiss-xs shrink-0">
+          <span class="font-mono text-[10px] font-bold uppercase bg-obsidian-900 text-mint px-1.5 py-0.5 rounded-md shrink-0">
             {selectedItem.badge}
           </span>
         {/if}
-        <span class="truncate font-bold text-black">{selectedItem.label}</span>
+        <span class="truncate font-semibold text-obsidian-900">{selectedItem.label}</span>
         {#if selectedItem.subLabel}
           <span class="text-swiss-500 font-normal truncate text-[11px]">({selectedItem.subLabel})</span>
         {/if}
@@ -174,15 +182,15 @@
         <button
           type="button"
           onclick={handleClear}
-          class="text-swiss-400 hover:text-black p-0.5 rounded-swiss-xs"
+          class="text-swiss-400 hover:text-obsidian-900 p-0.5 rounded-md"
           title="Xóa lựa chọn"
         >
-          <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
       {/if}
-      <svg class="h-4 w-4 text-swiss-400 transition-transform duration-150 {isOpen ? 'rotate-180 text-black' : ''}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg class="h-4 w-4 text-swiss-400 transition-transform duration-150 {isOpen ? 'rotate-180 text-obsidian-900' : ''}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
       </svg>
     </div>
@@ -190,11 +198,11 @@
 
   <!-- Dropdown Popover -->
   {#if isOpen}
-    <div class="absolute left-0 right-0 z-50 mt-1 rounded-swiss-sm border border-black bg-white shadow-swiss-elevated overflow-hidden animate-in fade-in-0 zoom-in-95 duration-100">
+    <div class="absolute left-0 right-0 z-50 mt-1.5 rounded-2xl border border-obsidian-900/20 bg-alabaster-50 shadow-swiss-elevated overflow-hidden animate-fade-in">
       <!-- Search Box inside Popover -->
-      <div class="p-2 border-b border-swiss-200 bg-swiss-50">
+      <div class="p-2 border-b border-obsidian-900/10 bg-alabaster-100/80">
         <div class="relative">
-          <svg class="pointer-events-none absolute left-2.5 top-2.5 h-3.5 w-3.5 text-swiss-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="pointer-events-none absolute left-3 top-2.5 h-3.5 w-3.5 text-swiss-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
           <input
@@ -203,13 +211,13 @@
             bind:value={searchQuery}
             onkeydown={handleKeyDown}
             placeholder="Gõ để lọc tìm kiếm..."
-            class="w-full rounded-swiss-xs border border-swiss-300 bg-white py-1.5 pl-8 pr-3 text-xs font-medium text-black focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
+            class="w-full rounded-xl border border-obsidian-900/20 bg-alabaster-50 py-1.5 pl-8 pr-3 text-xs font-medium text-obsidian-900 focus:border-obsidian-900 focus:outline-none focus:ring-2 focus:ring-mint/50"
           />
         </div>
       </div>
 
       <!-- Items List -->
-      <div class="max-h-60 overflow-y-auto p-1 divide-y divide-swiss-100">
+      <div class="max-h-60 overflow-y-auto p-1.5 space-y-0.5">
         {#if filteredItems.length === 0}
           <div class="p-4 text-center font-mono text-xs text-swiss-400">
             Không tìm thấy kết quả khớp "{searchQuery}"
@@ -218,7 +226,7 @@
           {#each Array.from(groupedItems.entries()) as [groupName, groupList]}
             <div>
               {#if groupName}
-                <div class="px-2 py-1 font-mono text-[10px] font-bold uppercase tracking-wider text-swiss-500 bg-swiss-50/80 sticky top-0">
+                <div class="px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-wider text-swiss-500 bg-alabaster-100/90 sticky top-0 rounded-lg">
                   {groupName} ({groupList.length})
                 </div>
               {/if}
@@ -231,26 +239,26 @@
                   data-index={itemIndex}
                   onclick={() => handleSelect(item.value)}
                   onmouseenter={() => (highlightedIndex = itemIndex)}
-                  class="w-full flex items-center justify-between px-2.5 py-1.5 text-xs text-left rounded-swiss-xs transition-colors
-                    {isSelected ? 'bg-black text-white font-bold' : isHighlighted ? 'bg-swiss-100 text-black' : 'text-swiss-800'}"
+                  class="w-full flex items-center justify-between px-3 py-2 text-xs text-left rounded-xl transition-colors
+                    {isSelected ? 'bg-obsidian-900 text-mint font-bold' : isHighlighted ? 'bg-mint/20 text-obsidian-900' : 'text-obsidian-800'}"
                 >
                   <div class="flex items-center gap-2 truncate">
                     {#if item.badge}
-                      <span class="font-mono text-[9px] font-bold uppercase px-1 py-0.2 rounded-swiss-xs shrink-0
-                        {isSelected ? 'bg-white text-black' : 'bg-black text-white'}">
+                      <span class="font-mono text-[9px] font-bold uppercase px-1.5 py-0.5 rounded-md shrink-0
+                        {isSelected ? 'bg-mint text-obsidian-900' : 'bg-obsidian-900 text-mint'}">
                         {item.badge}
                       </span>
                     {/if}
                     <span class="truncate">{item.label}</span>
                     {#if item.subLabel}
-                      <span class="text-[10px] shrink-0 {isSelected ? 'text-neutral-300' : 'text-swiss-500'}">
+                      <span class="text-[10px] shrink-0 {isSelected ? 'text-mint/80' : 'text-swiss-500'}">
                         {item.subLabel}
                       </span>
                     {/if}
                   </div>
 
                   {#if isSelected}
-                    <span class="font-mono text-xs shrink-0 text-signal-emerald">✓</span>
+                    <span class="font-mono text-xs shrink-0 text-mint">✓</span>
                   {/if}
                 </button>
               {/each}

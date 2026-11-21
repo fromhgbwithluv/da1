@@ -1,16 +1,17 @@
 <script lang="ts">
-  import type { Snippet } from 'svelte';
+  import type { Snippet } from "svelte";
 
   let {
     isOpen = false,
     onClose = () => {},
-    title = '',
-    subtitle = '',
-    iconText = '',
-    maxWidth = '2xl',
+    title = "",
+    subtitle = "",
+    iconText = "",
+    maxWidth = "2xl",
     hideHeader = false,
-    bodyClass = 'p-6',
-    ariaLabel = '',
+    bodyClass = "p-6",
+    dialogClass = "",
+    ariaLabel = "",
     children,
     headerExtra,
     footer,
@@ -20,9 +21,10 @@
     title?: string;
     subtitle?: string;
     iconText?: string;
-    maxWidth?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
+    maxWidth?: "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl";
     hideHeader?: boolean;
     bodyClass?: string;
+    dialogClass?: string;
     ariaLabel?: string;
     children?: Snippet;
     headerExtra?: Snippet;
@@ -30,17 +32,17 @@
   }>();
 
   const maxWidthClasses = {
-    sm: 'max-w-sm',
-    md: 'max-w-md',
-    lg: 'max-w-lg',
-    xl: 'max-w-xl',
-    '2xl': 'max-w-2xl',
-    '3xl': 'max-w-3xl',
-    '4xl': 'max-w-4xl',
+    sm: "max-w-sm",
+    md: "max-w-md",
+    lg: "max-w-lg",
+    xl: "max-w-xl",
+    "2xl": "max-w-2xl",
+    "3xl": "max-w-3xl",
+    "4xl": "max-w-4xl",
   };
 
   function handleKeydown(e: KeyboardEvent) {
-    if (e.key === 'Escape' && isOpen) {
+    if (e.key === "Escape" && isOpen) {
       onClose();
     }
   }
@@ -49,38 +51,50 @@
 <svelte:window onkeydown={handleKeydown} />
 
 {#if isOpen}
-  <div class="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
+  <div
+    class="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto"
+    data-lenis-prevent
+  >
     <!-- Backdrop button -->
     <button
       type="button"
-      class="fixed inset-0 bg-black/60 backdrop-blur-xs cursor-default w-full h-full border-none transition-opacity"
+      class="fixed inset-0 bg-obsidian-950/65 backdrop-blur-sm cursor-default w-full h-full border-none transition-opacity"
       onclick={onClose}
       aria-label="Đóng cửa sổ"
     ></button>
 
-    <!-- Modal Dialog (Swiss Architectural Box) -->
+    <!-- Modal Dialog -->
     <div
-      class="relative my-8 w-full {maxWidthClasses[maxWidth]} rounded-swiss-md bg-white shadow-swiss-elevated border border-black overflow-hidden transition-all duration-200 z-10"
+      class="relative my-8 w-full {maxWidthClasses[maxWidth]} {dialogClass ||
+        'rounded-swiss-md bg-white shadow-swiss-elevated border border-black'} overflow-hidden transition-all duration-200 z-10"
       role="dialog"
       aria-modal="true"
-      aria-label={ariaLabel || title || 'Hộp thoại'}
+      aria-label={ariaLabel || title || "Hộp thoại"}
       tabindex="-1"
     >
       {#if !hideHeader && (title || iconText)}
         <!-- Modal Header -->
-        <div class="flex items-center justify-between border-b border-black px-6 py-4 bg-swiss-50">
+        <div
+          class="flex items-center justify-between border-b border-black px-6 py-4 bg-swiss-50"
+        >
           <div class="flex items-center gap-3">
             {#if iconText}
-              <div class="flex h-8 w-8 items-center justify-center rounded-swiss-sm bg-black text-white font-mono font-bold text-xs shrink-0">
+              <div
+                class="flex h-8 w-8 items-center justify-center rounded-swiss-sm bg-black text-white font-mono font-bold text-xs shrink-0"
+              >
                 {iconText}
               </div>
             {/if}
             <div>
-              <h2 class="text-sm font-black uppercase tracking-tight text-black">
+              <h2
+                class="text-sm font-black uppercase tracking-tight text-black"
+              >
                 {title}
               </h2>
               {#if subtitle}
-                <p class="font-mono text-[11px] text-swiss-500 uppercase tracking-wide">
+                <p
+                  class="font-mono text-[11px] text-swiss-500 uppercase tracking-wide"
+                >
                   {subtitle}
                 </p>
               {/if}
@@ -98,8 +112,18 @@
               class="rounded-swiss-sm p-1.5 text-black hover:bg-swiss-200 transition-colors border border-transparent hover:border-black"
               aria-label="Đóng"
             >
-              <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              <svg
+                class="h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </button>
           </div>
@@ -107,7 +131,7 @@
       {/if}
 
       <!-- Modal Body -->
-      <div class="{bodyClass}">
+      <div class={bodyClass}>
         {#if children}
           {@render children()}
         {/if}
