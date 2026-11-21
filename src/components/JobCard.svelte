@@ -4,7 +4,6 @@
   import { currentUser, openPostJobModal, deleteJob } from '../stores/auth';
   import { getCategoryLabel } from '../utils/formatters';
   import { url } from '../utils/url';
-  import Badge from './Badge.svelte';
 
   let { job } = $props<{ job: Job }>();
 
@@ -30,29 +29,56 @@
   }
 </script>
 
-<div class="group relative flex flex-col justify-between rounded-3xl border border-obsidian-900/15 bg-alabaster-50 p-5 shadow-swiss-card transition-all duration-200 hover:-translate-y-0.5 hover:border-obsidian-900 hover:shadow-swiss-hover">
+<article
+  class="group relative flex flex-col justify-between rounded-3xl border border-obsidian-900/15 bg-alabaster-50 p-4 sm:p-5 shadow-swiss-card transition-all duration-200 hover:-translate-y-1 hover:border-obsidian-900 hover:shadow-swiss-hover"
+>
   <div>
-    <!-- Image Box -->
+    <!-- Clickable Thumbnail Image Container (No dark gradient smothering image, no black overlays) -->
     <div class="relative mb-4 h-44 w-full overflow-hidden rounded-2xl border border-obsidian-900/10 bg-alabaster-200">
-      <img
-        src={displayImage}
-        alt={job.title}
-        loading="lazy"
-        class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-      />
-      <div class="absolute inset-0 bg-gradient-to-t from-obsidian-950/85 via-obsidian-950/20 to-transparent"></div>
+      <button
+        type="button"
+        onclick={() => openJobDetail(job)}
+        class="block h-full w-full text-left cursor-pointer focus-visible:outline-none"
+        aria-label={`Xem chi tiết ${job.title}`}
+      >
+        <img
+          src={displayImage}
+          alt={job.title}
+          loading="lazy"
+          class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+        <!-- Subtle hover-only scrim & pill affordance -->
+        <div
+          class="pointer-events-none absolute inset-0 bg-obsidian-950/0 group-hover:bg-obsidian-950/20 transition-colors flex items-center justify-center"
+        >
+          <span
+            class="opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-200 rounded-full bg-alabaster-50/95 backdrop-blur-md px-3.5 py-1 font-display text-[11px] font-extrabold text-obsidian-900 shadow-sm"
+          >
+            Xem chi tiết →
+          </span>
+        </div>
+      </button>
 
-      <!-- Category & Target Group -->
-      <div class="absolute top-3 left-3 flex flex-wrap gap-1.5 max-w-[68%]">
-        <Badge variant="black" text={job.targetGroup} size="sm" />
-        {#if job.categories && job.categories.length > 1}
-          {#each job.categories as cat}
-            <Badge variant="white" text={getCategoryLabel(cat)} size="xs" />
-          {/each}
-        {/if}
+      <!-- Top-left Year / Target Group Frosted Badge (Pass clicks through to image button) -->
+      <div class="pointer-events-none absolute top-3 left-3 flex flex-wrap gap-1.5 max-w-[70%]">
+        <span
+          class="inline-flex items-center gap-1.5 rounded-full bg-alabaster-50/95 backdrop-blur-md border border-obsidian-900/15 px-3 py-1 font-display text-[11px] font-extrabold text-obsidian-900 shadow-sm"
+        >
+          <span class="h-2 w-2 rounded-full bg-mint-500 shrink-0"></span>
+          <span>{job.targetGroup}</span>
+        </span>
       </div>
 
-      <!-- Top-right Actions -->
+      <!-- Bottom-left Salary Frosted Pill (Soft Mint — No Black Background!) -->
+      <div class="pointer-events-none absolute bottom-3 left-3 max-w-[calc(100%-1.5rem)]">
+        <span
+          class="inline-flex items-center rounded-full bg-mint/95 backdrop-blur-md border border-obsidian-900/15 px-3 py-1 font-mono text-xs font-extrabold text-obsidian-900 shadow-sm truncate max-w-full"
+        >
+          {job.salary}
+        </span>
+      </div>
+
+      <!-- Top-right Sibling Floating Actions -->
       <div class="absolute top-3 right-3 flex items-center gap-1.5">
         {#if isAuthor}
           <button
@@ -61,7 +87,7 @@
               e.stopPropagation();
               openPostJobModal(job);
             }}
-            class="flex h-8 items-center gap-1 rounded-full bg-alabaster-50/95 px-2.5 font-mono text-[10px] font-bold uppercase text-obsidian-900 border border-obsidian-900/20 hover:bg-obsidian-900 hover:text-mint transition-colors shadow-xs"
+            class="flex h-8 items-center gap-1 rounded-full bg-alabaster-50/95 backdrop-blur-md px-3 font-mono text-[10px] font-bold uppercase text-obsidian-900 border border-obsidian-900/15 hover:bg-obsidian-900 hover:text-mint transition-colors shadow-sm"
             title="Chỉnh sửa bài đăng này"
           >
             <span>Sửa</span>
@@ -72,86 +98,99 @@
           <button
             type="button"
             onclick={() => toggleFavorite(job)}
-            class="flex h-8 w-8 items-center justify-center rounded-full border transition-all shadow-xs
+            class="flex h-9 w-9 items-center justify-center rounded-full backdrop-blur-md border shadow-sm transition-all
             {isSaved
-              ? 'bg-obsidian-900 text-mint border-obsidian-900'
-              : 'bg-alabaster-50/90 text-obsidian-900 border-obsidian-900/20 hover:bg-mint'}"
+              ? 'bg-mint text-obsidian-900 border-obsidian-900'
+              : 'bg-alabaster-50/95 text-obsidian-900 border-obsidian-900/15 hover:bg-mint hover:border-obsidian-900'}"
             title={isSaved ? 'Bỏ ghim' : 'Ghim việc'}
             aria-label={isSaved ? 'Bỏ ghim' : 'Ghim việc'}
           >
-            <svg class="h-4 w-4 {isSaved ? 'fill-mint text-mint' : ''}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="h-4 w-4 {isSaved ? 'fill-obsidian-900 text-obsidian-900' : ''}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
             </svg>
           </button>
         {/if}
       </div>
-
-      <!-- Salary & Verified -->
-      <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between">
-        <span class="font-mono text-xs font-extrabold tracking-tight bg-obsidian-900/95 text-mint px-3 py-1 rounded-full border border-mint/30">
-          {job.salary}
-        </span>
-
-        {#if job.verified}
-          <Badge variant="emerald" text="Xác thực ✓" size="xs" />
-        {/if}
-      </div>
     </div>
 
-    <!-- Company & Posted Time -->
-    <div class="mb-1.5 flex items-center justify-between text-xs text-obsidian-600 font-mono">
-      {#if job.companyUsername}
-        <a
-          href={url(`/profile/${job.companyUsername}`)}
-          class="font-bold text-obsidian-900 truncate max-w-[72%] hover:underline flex items-center gap-1"
-          title={`Xem hồ sơ doanh nghiệp ${job.company}`}
+    <!-- Company & Verified Header Row -->
+    <div class="flex items-center justify-between gap-2 text-xs">
+      <div class="flex items-center gap-1.5 min-w-0">
+        {#if job.companyUsername}
+          <a
+            href={url(`/profile/${job.companyUsername}`)}
+            class="font-bold text-obsidian-800 hover:text-obsidian-900 hover:underline truncate"
+            title={`Xem hồ sơ doanh nghiệp ${job.company}`}
+          >
+            {job.company}
+          </a>
+        {:else}
+          <span class="font-bold text-obsidian-800 truncate">{job.company}</span>
+        {/if}
+        <span class="text-swiss-400 shrink-0">•</span>
+        <span class="text-[11px] text-swiss-500 shrink-0">{job.postedAt}</span>
+      </div>
+
+      {#if job.verified}
+        <span
+          class="inline-flex items-center gap-1 rounded-full bg-mint-50 border border-mint-500/30 px-2.5 py-0.5 font-mono text-[10px] font-bold text-mint-800 whitespace-nowrap shrink-0"
         >
-          <span class="truncate">{job.company}</span>
-          <span class="text-[10px] font-normal text-obsidian-500 shrink-0">({job.companyUsername})</span>
-        </a>
-      {:else}
-        <span class="font-bold text-obsidian-900 truncate max-w-[72%]">{job.company}</span>
+          <span>✓</span>
+          <span>Xác thực</span>
+        </span>
       {/if}
-      <span class="text-[10px] text-obsidian-500 shrink-0">{job.postedAt}</span>
     </div>
 
     <!-- Job Title -->
-    <h3 class="mb-2 font-display text-base font-extrabold tracking-tight text-obsidian-900 line-clamp-2 leading-snug">
+    <h3 class="mt-1.5 mb-2.5 font-display text-base sm:text-[17px] font-extrabold tracking-tight text-obsidian-900 line-clamp-2 leading-snug">
       <button
         type="button"
-        class="text-left hover:text-signal-emerald transition-colors focus-visible:outline-none"
+        class="text-left hover:text-mint-700 transition-colors focus-visible:outline-none"
         onclick={() => openJobDetail(job)}
       >
         {job.title}
       </button>
     </h3>
 
+
     <!-- Summary -->
-    <p class="mb-3.5 text-xs leading-relaxed text-obsidian-700 line-clamp-2">
+    <p class="mb-3 text-xs leading-relaxed text-obsidian-600 line-clamp-2">
       {job.summary}
     </p>
 
-    <!-- Location & Schedule -->
-    <div class="mb-3.5 space-y-1.5 text-xs text-obsidian-800 border-t border-b border-obsidian-900/10 py-2.5">
-      <div class="flex items-center gap-2 truncate text-xs">
-        <span class="font-mono text-[10px] font-bold uppercase text-obsidian-500 shrink-0">Địa điểm:</span>
+    <!-- Location & Schedule Metadata -->
+    <div class="mb-3 space-y-1.5 text-xs text-obsidian-700 border-t border-b border-obsidian-900/10 py-2.5">
+      <div class="flex items-center gap-2 min-w-0">
+        <svg class="h-3.5 w-3.5 text-mint-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
         <span class="truncate font-medium">{job.location}</span>
         {#if job.wardName}
-          <span class="text-[10px] font-mono bg-alabaster-100 text-obsidian-900 px-2 py-0.5 rounded-full border border-obsidian-900/10 shrink-0 font-semibold">
+          <span class="text-[10px] font-mono bg-alabaster-100 text-obsidian-800 px-2 py-0.5 rounded-full border border-obsidian-900/10 shrink-0 font-semibold">
             {job.wardName}
           </span>
         {/if}
       </div>
-      <div class="flex items-center gap-2 truncate text-xs">
-        <span class="font-mono text-[10px] font-bold uppercase text-obsidian-500 shrink-0">Lịch làm:</span>
+      <div class="flex items-center gap-2 min-w-0">
+        <svg class="h-3.5 w-3.5 text-mint-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
         <span class="truncate font-medium">{job.schedule}</span>
       </div>
     </div>
 
-    <!-- Tags -->
+    <!-- Tags & Multi-Category Chips -->
     <div class="mb-4 flex flex-wrap gap-1.5">
+      {#if job.categories && job.categories.length > 1}
+        {#each job.categories as cat}
+          <span class="font-mono text-[10px] font-bold text-obsidian-900 bg-mint/30 px-2.5 py-0.5 rounded-full border border-mint-500/30">
+            {getCategoryLabel(cat)}
+          </span>
+        {/each}
+      {/if}
       {#each job.tags.slice(0, 3) as tag}
-        <span class="font-mono text-[10px] text-obsidian-700 bg-alabaster-100 px-2.5 py-0.5 rounded-full border border-obsidian-900/10">
+        <span class="rounded-full bg-alabaster-100 border border-obsidian-900/10 px-2.5 py-0.5 text-[11px] font-medium text-obsidian-700">
           #{tag}
         </span>
       {/each}
@@ -164,7 +203,7 @@
       <button
         type="button"
         onclick={() => openJobDetail(job)}
-        class="flex-1 rounded-full border border-obsidian-900/20 bg-alabaster-100 py-2 text-xs font-bold text-obsidian-900 hover:border-obsidian-900 hover:bg-alabaster-200 transition-colors text-center"
+        class="flex-1 rounded-full border border-obsidian-900/15 bg-alabaster-100/80 py-2.5 px-4 font-display text-xs font-bold text-obsidian-900 hover:border-obsidian-900 hover:bg-alabaster-200/70 transition-all text-center"
       >
         Chi tiết
       </button>
@@ -172,24 +211,11 @@
       {#if $currentUser?.role !== 'company'}
         <button
           type="button"
-          onclick={() => toggleFavorite(job)}
-          class="inline-flex items-center justify-center gap-1 rounded-full border px-3 py-2 text-xs font-bold transition-colors
-          {isSaved
-            ? 'border-obsidian-900 bg-obsidian-900 text-mint'
-            : 'border-obsidian-900/20 bg-alabaster-50 text-obsidian-900 hover:border-obsidian-900'}"
-        >
-          <svg class="h-3.5 w-3.5 {isSaved ? 'fill-mint text-mint' : ''}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
-          </svg>
-          <span class="text-[11px]">{isSaved ? 'Đã ghim' : 'Ghim'}</span>
-        </button>
-
-        <button
-          type="button"
           onclick={() => openCheckout([job])}
-          class="rounded-full bg-mint border border-obsidian-900/20 px-4 py-2 text-xs font-extrabold text-obsidian-900 hover:bg-mint-400 transition-colors"
+          class="group/apply flex-[1.2] inline-flex items-center justify-center gap-1.5 rounded-full bg-obsidian-900 py-2.5 px-4 font-display text-xs font-bold text-alabaster-50 hover:bg-obsidian-800 hover:shadow-mint-glow transition-all"
         >
-          Ứng tuyển
+          <span>Ứng tuyển</span>
+          <span class="text-mint font-mono font-black transition-transform duration-200 group-hover/apply:translate-x-0.5">→</span>
         </button>
       {/if}
     </div>
@@ -220,4 +246,4 @@
       </div>
     {/if}
   </div>
-</div>
+</article>

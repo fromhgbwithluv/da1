@@ -1,10 +1,12 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { rankedDatabaseJobs, openPostJobModal, openAuthModal, currentUser } from '../stores/auth';
+  import { getLenis } from '../utils/smoothScroll';
   import type { Job } from '../types/job';
   import FilterTabs from './FilterTabs.svelte';
   import JobCard from './JobCard.svelte';
 
+  const ITEMS_PER_PAGE = 12;
   const VALID_CATEGORIES = ['part-time', 'internship', 'fresher', 'project'] as const;
 
   const CATEGORY_TITLES: Record<string, string> = {
@@ -25,6 +27,8 @@
   let searchQuery = $state<string>('');
   let selectedLocation = $state<string>('all');
   let selectedWard = $state<string>('all');
+  let currentPage = $state<number>(1);
+  let listingsTopEl = $state<HTMLDivElement | null>(null);
 
   function getCategoryFromPathname(pathname: string): string {
     const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -65,6 +69,7 @@
     const onPopState = () => {
       const cat = getCategoryFromPathname(window.location.pathname);
       selectedCategory = cat;
+      currentPage = 1;
       if (CATEGORY_TITLES[cat]) {
         document.title = CATEGORY_TITLES[cat];
       }
@@ -172,12 +177,56 @@
     })
   );
 
-  let displayedJobs = $derived.by(() => {
-    if (isHomePage) {
-      return filteredJobs.slice(0, maxItems);
-    }
-    return filteredJobs;
+  let totalPages = $derived(Math.max(1, Math.ceil(filteredJobs.length / ITEMS_PER_PAGE)));
+
+  let paginatedJobs = $derived.by(() => {
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
+    return filteredJobs.slice(start, start + ITEMS_PER_PAGE);
   });
+
+  let displayedJobs = $derived(isHomePage ? filteredJobs.slice(0, maxItems) : paginatedJobs);
+
+  let pageRangeStart = $derived(
+    filteredJobs.length === 0 ? 0 : (currentPage - 1) * ITEMS_PER_PAGE + 1
+  );
+  let pageRangeEnd = $derived(Math.min(currentPage * ITEMS_PER_PAGE, filteredJobs.length));
+
+  let visiblePages = $derived.by<(number | '...')[]>(() => {
+    if (totalPages <= 7) {
+      return Array.from({ length: totalPages }, (_, i) => i + 1);
+    }
+    const pages: (number | '...')[] = [1];
+    const start = Math.max(2, currentPage - 1);
+    const end = Math.min(totalPages - 1, currentPage + 1);
+
+    if (start > 2) pages.push('...');
+    for (let p = start; p <= end; p++) {
+      pages.push(p);
+    }
+    if (end < totalPages - 1) pages.push('...');
+    pages.push(totalPages);
+    return pages;
+  });
+
+  $effect(() => {
+    if (currentPage > totalPages) {
+      currentPage = totalPages;
+    }
+  });
+
+  function goToPage(page: number) {
+    const clamped = Math.min(Math.max(1, page), totalPages);
+    currentPage = clamped;
+    if (listingsTopEl && typeof window !== 'undefined') {
+      const lenis = getLenis();
+      if (lenis) {
+        lenis.scrollTo(listingsTopEl, { offset: -96 });
+      } else {
+        const y = listingsTopEl.getBoundingClientRect().top + window.scrollY - 96;
+        window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+      }
+    }
+  }
 
   // Tab counts
   let counts = $derived({
@@ -190,20 +239,24 @@
 
   function handleSelectCategory(cat: string) {
     selectedCategory = cat;
+    currentPage = 1;
     syncUrlWithCategory(cat);
   }
 
   function handleSearchChange(query: string) {
     searchQuery = query;
+    currentPage = 1;
   }
 
   function handleSelectLocation(loc: string) {
     selectedLocation = loc;
     selectedWard = 'all'; // Reset ward filter when changing city
+    currentPage = 1;
   }
 
   function handleSelectWard(w: string) {
     selectedWard = w;
+    currentPage = 1;
   }
 
   function handleReset() {
@@ -211,6 +264,7 @@
     searchQuery = '';
     selectedLocation = 'all';
     selectedWard = 'all';
+    currentPage = 1;
     syncUrlWithCategory('all');
   }
 </script>
@@ -232,18 +286,26 @@
     onReset={handleReset}
   />
 
-  <!-- Results Count Header (Swiss Typographic Bar) -->
-  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-black pb-3 pt-2">
+  <!-- Results Header Bar -->
+  <div
+    bind:this={listingsTopEl}
+    class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-obsidian-900/10 pb-4 pt-1"
+  >
     <div>
-      <div class="flex items-center gap-2">
-        <h2 class="text-base font-black uppercase tracking-tight text-black">
+      <div class="flex flex-wrap items-center gap-2.5">
+        <h2 class="font-display text-lg sm:text-xl font-extrabold tracking-tight text-obsidian-900">
           Vị trí phù hợp
         </h2>
-        <span class="font-mono text-xs font-bold text-white bg-black px-2 py-0.5 rounded-swiss-sm">
-          {filteredJobs.length} KẾT QUẢ
+        <span class="inline-flex items-center rounded-full bg-mint px-3 py-0.5 font-mono text-xs font-extrabold text-obsidian-900">
+          {filteredJobs.length} kết quả
         </span>
+        {#if !isHomePage && filteredJobs.length > 0}
+          <span class="font-mono text-xs font-medium text-swiss-500">
+            Hiển thị {pageRangeStart}–{pageRangeEnd} / {filteredJobs.length} • Trang {currentPage}/{totalPages}
+          </span>
+        {/if}
       </div>
-      <p class="font-mono text-[11px] text-swiss-500 mt-0.5 uppercase tracking-wide">
+      <p class="text-xs sm:text-sm text-obsidian-600 mt-1">
         {#if selectedCategory === 'all'}
           Hiển thị toàn bộ cơ hội việc làm đã qua kiểm định TopSiVi
         {:else if selectedCategory === 'part-time'}
@@ -262,9 +324,12 @@
       <button
         type="button"
         onclick={handleReset}
-        class="inline-flex items-center gap-1.5 font-mono text-xs font-bold uppercase tracking-wider text-black bg-white px-3 py-1.5 rounded-swiss-sm border border-black hover:bg-swiss-100 transition-colors self-start sm:self-auto"
+        class="inline-flex items-center gap-1.5 rounded-full border border-obsidian-900/20 bg-alabaster-50 px-4 py-2 text-xs font-bold text-obsidian-900 hover:border-obsidian-900 hover:bg-mint/25 transition-all self-start sm:self-auto"
       >
-        <span>[ ĐẶT LẠI LỌC ]</span>
+        <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+        </svg>
+        <span>Đặt lại bộ lọc</span>
       </button>
     {/if}
   </div>
@@ -277,50 +342,103 @@
       {/each}
     </div>
 
+    <!-- Pagination Controls Bar (12 items per page) -->
+    {#if !isHomePage && totalPages > 1}
+      <nav
+        aria-label="Phân trang danh sách việc làm"
+        class="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 rounded-3xl border border-obsidian-900/15 bg-alabaster-50 px-5 py-4 shadow-swiss-card"
+      >
+        <p class="font-mono text-xs text-obsidian-600">
+          Hiển thị <strong class="text-obsidian-900">{pageRangeStart}–{pageRangeEnd}</strong> trong
+          <strong class="text-obsidian-900">{filteredJobs.length}</strong> việc làm (Trang {currentPage}/{totalPages})
+        </p>
+
+        <div class="flex flex-wrap items-center justify-center gap-1.5">
+          <button
+            type="button"
+            disabled={currentPage === 1}
+            onclick={() => goToPage(currentPage - 1)}
+            class="inline-flex items-center gap-1.5 rounded-full border border-obsidian-900/15 bg-alabaster-100/70 px-3.5 py-1.5 text-xs font-bold text-obsidian-800 transition-all hover:border-obsidian-900 hover:bg-mint/25 disabled:opacity-40 disabled:pointer-events-none"
+          >
+            <span>←</span>
+            <span>Trang trước</span>
+          </button>
+
+          {#each visiblePages as item}
+            {#if item === '...'}
+              <span class="px-2 font-mono text-xs text-swiss-500">...</span>
+            {:else}
+              <button
+                type="button"
+                onclick={() => goToPage(item)}
+                aria-current={currentPage === item ? 'page' : undefined}
+                class="flex h-8 min-w-[2rem] items-center justify-center rounded-full px-2.5 font-mono text-xs transition-all
+                  {currentPage === item
+                    ? 'bg-obsidian-900 text-mint font-extrabold shadow-xs'
+                    : 'border border-obsidian-900/15 bg-alabaster-100/70 text-obsidian-800 font-bold hover:border-obsidian-900 hover:bg-mint/25'}"
+              >
+                {item}
+              </button>
+            {/if}
+          {/each}
+
+          <button
+            type="button"
+            disabled={currentPage === totalPages}
+            onclick={() => goToPage(currentPage + 1)}
+            class="inline-flex items-center gap-1.5 rounded-full border border-obsidian-900/15 bg-alabaster-100/70 px-3.5 py-1.5 text-xs font-bold text-obsidian-800 transition-all hover:border-obsidian-900 hover:bg-mint/25 disabled:opacity-40 disabled:pointer-events-none"
+          >
+            <span>Trang sau</span>
+            <span>→</span>
+          </button>
+        </div>
+      </nav>
+    {/if}
+
     {#if isHomePage && filteredJobs.length > maxItems}
       <!-- Call to Action Banner on Homepage -->
-      <div class="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 rounded-swiss-md border border-black bg-swiss-50 p-6 shadow-swiss-card">
+      <div class="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 rounded-3xl border border-obsidian-900/15 bg-alabaster-50 p-6 shadow-swiss-card">
         <div>
-          <div class="flex items-center gap-2">
-            <span class="font-mono text-[10px] font-bold uppercase tracking-wider bg-black text-white px-2 py-0.5 rounded-swiss-sm">
-              GỢI Ý {displayedJobs.length} / {allJobs.length} VIỆC LÀM ƯU TIÊN
-            </span>
-          </div>
-          <h3 class="text-sm font-black uppercase tracking-tight text-black mt-1.5 sm:text-base">
+          <span class="inline-flex items-center rounded-full bg-mint px-3 py-0.5 font-mono text-[11px] font-extrabold text-obsidian-900">
+            Gợi ý {displayedJobs.length} / {allJobs.length} việc làm ưu tiên
+          </span>
+          <h3 class="font-display text-base sm:text-lg font-extrabold tracking-tight text-obsidian-900 mt-2">
             Khám phá thêm hàng chục cơ hội việc làm tuyển chọn khác
           </h3>
-          <p class="font-mono text-xs text-swiss-600 mt-0.5">
+          <p class="text-xs sm:text-sm text-obsidian-600 mt-0.5">
             Xem toàn bộ việc làm với đầy đủ bộ lọc phân tầng, tỉnh thành, phường xã và tìm kiếm chuyên sâu.
           </p>
         </div>
 
         <a
           href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/jobs`}
-          class="inline-flex items-center gap-2 rounded-swiss-sm bg-black px-6 py-3 font-mono text-xs font-bold uppercase tracking-wider text-white hover:bg-neutral-800 transition-colors shadow-swiss-card shrink-0"
+          class="group inline-flex items-center gap-2.5 rounded-full bg-obsidian-900 px-6 py-3 font-display text-xs sm:text-sm font-bold text-alabaster-50 hover:bg-obsidian-800 hover:shadow-mint-glow transition-all shrink-0"
         >
           <span>Xem tất cả công việc ({allJobs.length} việc)</span>
-          <span class="text-signal-emerald font-bold">→</span>
+          <span class="flex h-5 w-5 items-center justify-center rounded-full bg-mint text-obsidian-900 font-mono text-xs font-black transition-transform duration-200 group-hover:translate-x-0.5">→</span>
         </a>
       </div>
     {/if}
   {:else if allJobs.length === 0}
     <!-- Empty Database State -->
-    <div class="rounded-swiss-md border border-dashed border-black bg-white p-12 text-center shadow-swiss-card">
-      <div class="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-swiss-sm bg-black text-white font-mono text-sm font-bold">
-        00
+    <div class="rounded-3xl border border-dashed border-obsidian-900/20 bg-alabaster-50 p-12 text-center shadow-swiss-card">
+      <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-obsidian-900/15 bg-alabaster-100 text-obsidian-700">
+        <svg class="h-6 w-6 text-mint-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        </svg>
       </div>
-      <span class="font-mono text-sm font-black text-black uppercase tracking-wider block mb-2">
-        [ CHƯA CÓ BÀI TUYỂN DỤNG NÀO TRÊN HỆ THỐNG ]
-      </span>
-      <p class="font-mono text-xs text-swiss-600 max-w-md mx-auto leading-relaxed mb-6">
-        Dữ liệu mẫu đã được làm mới hoàn toàn. Doanh nghiệp có thể đăng ký tài khoản Doanh nghiệp và đăng bài tuyển dụng mới bằng Markdown ngay bây giờ.
+      <h3 class="font-display text-base sm:text-lg font-extrabold text-obsidian-900 mb-2">
+        Chưa có bài tuyển dụng nào trên hệ thống
+      </h3>
+      <p class="text-xs sm:text-sm text-obsidian-600 max-w-md mx-auto leading-relaxed mb-6">
+        Doanh nghiệp có thể đăng ký tài khoản Doanh nghiệp và đăng bài tuyển dụng mới bằng Markdown ngay bây giờ.
       </p>
       <div class="flex flex-wrap items-center justify-center gap-3">
         {#if $currentUser?.role === 'company'}
           <button
             type="button"
             onclick={() => openPostJobModal()}
-            class="rounded-swiss-sm bg-signal-emerald px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-wide text-white hover:bg-emerald-700 transition-colors shadow-swiss-card"
+            class="rounded-full bg-obsidian-900 px-6 py-3 font-display text-xs font-bold text-mint hover:bg-obsidian-800 hover:shadow-mint-glow transition-all"
           >
             + Đăng tin tuyển dụng (Markdown)
           </button>
@@ -328,7 +446,7 @@
           <button
             type="button"
             onclick={() => openAuthModal('register')}
-            class="rounded-swiss-sm bg-black px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-wide text-white hover:bg-neutral-800 transition-colors shadow-swiss-card"
+            class="rounded-full bg-obsidian-900 px-6 py-3 font-display text-xs font-bold text-mint hover:bg-obsidian-800 hover:shadow-mint-glow transition-all"
           >
             Đăng ký tài khoản mới →
           </button>
@@ -336,12 +454,17 @@
       </div>
     </div>
   {:else}
-    <!-- Empty Search State (Swiss Geometric Box) -->
-    <div class="rounded-swiss-md border border-dashed border-black bg-white p-12 text-center shadow-swiss-card">
-      <span class="font-mono text-sm font-black text-black uppercase tracking-wider block mb-2">
-        [ KHÔNG TÌM THẤY KẾT QUẢ ]
-      </span>
-      <p class="font-mono text-xs text-swiss-600 max-w-sm mx-auto leading-relaxed">
+    <!-- Empty Search State -->
+    <div class="rounded-3xl border border-dashed border-obsidian-900/20 bg-alabaster-50 p-12 text-center shadow-swiss-card">
+      <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-obsidian-900/15 bg-alabaster-100 text-obsidian-700">
+        <svg class="h-6 w-6 text-mint-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+      </div>
+      <h3 class="font-display text-base sm:text-lg font-extrabold text-obsidian-900 mb-2">
+        Không tìm thấy kết quả phù hợp
+      </h3>
+      <p class="text-xs sm:text-sm text-obsidian-600 max-w-md mx-auto leading-relaxed">
         {#if selectedLocation !== 'all'}
           Hiện chưa có bài tuyển dụng nào tại địa điểm này (hoặc khớp với bộ lọc hiện tại). Vui lòng thử chọn địa điểm khác hoặc đặt lại bộ lọc.
         {:else if searchQuery.trim() !== ''}
@@ -353,7 +476,7 @@
       <button
         type="button"
         onclick={handleReset}
-        class="mt-5 rounded-swiss-sm bg-black px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-wide text-white hover:bg-neutral-800 transition-colors"
+        class="mt-6 rounded-full bg-obsidian-900 px-6 py-2.5 font-display text-xs font-bold text-mint hover:bg-obsidian-800 hover:shadow-mint-glow transition-all"
       >
         Đặt lại bộ lọc
       </button>
