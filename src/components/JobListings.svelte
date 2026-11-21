@@ -1,18 +1,79 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import { rankedDatabaseJobs, openPostJobModal, openAuthModal, currentUser } from '../stores/auth';
   import type { Job } from '../types/job';
   import FilterTabs from './FilterTabs.svelte';
   import JobCard from './JobCard.svelte';
 
-  let { isHomePage = false, maxItems = 3 } = $props<{
+  const VALID_CATEGORIES = ['part-time', 'internship', 'fresher'] as const;
+
+  const CATEGORY_TITLES: Record<string, string> = {
+    all: 'Tìm việc làm phân tầng sinh viên | TopSiVi',
+    'part-time': 'Việc làm Năm 1, 2 • Part-time linh hoạt | TopSiVi',
+    internship: 'Việc làm Năm 3, 4 • Thực tập sinh có dấu mộc | TopSiVi',
+    fresher: 'Việc làm Mới tốt nghiệp • Fresher Full-time | TopSiVi',
+  };
+
+  let { isHomePage = false, maxItems = 3, initialCategory = 'all' } = $props<{
     isHomePage?: boolean;
     maxItems?: number;
+    initialCategory?: string;
   }>();
 
-  let selectedCategory = $state<string>('all');
+  let selectedCategory = $state<string>(initialCategory);
   let searchQuery = $state<string>('');
   let selectedLocation = $state<string>('all');
   let selectedWard = $state<string>('all');
+
+  function getCategoryFromPathname(pathname: string): string {
+    const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+    const normalized = pathname.replace(/\/$/, '');
+    const prefix = `${base}/jobs/`;
+    if (normalized.startsWith(prefix)) {
+      const segment = normalized.slice(prefix.length).split('/')[0];
+      if ((VALID_CATEGORIES as readonly string[]).includes(segment)) {
+        return segment;
+      }
+    }
+    return 'all';
+  }
+
+  function syncUrlWithCategory(cat: string) {
+    if (isHomePage || typeof window === 'undefined') return;
+    const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+    const targetPath = cat === 'all' ? `${base}/jobs` : `${base}/jobs/${cat}`;
+    const currentNormalized = window.location.pathname.replace(/\/$/, '');
+
+    if (currentNormalized !== targetPath) {
+      window.history.pushState({ category: cat }, '', targetPath);
+    }
+
+    if (CATEGORY_TITLES[cat]) {
+      document.title = CATEGORY_TITLES[cat];
+    }
+  }
+
+  onMount(() => {
+    if (isHomePage) return;
+
+    const urlCat = getCategoryFromPathname(window.location.pathname);
+    if (urlCat !== selectedCategory) {
+      selectedCategory = urlCat;
+    }
+
+    const onPopState = () => {
+      const cat = getCategoryFromPathname(window.location.pathname);
+      selectedCategory = cat;
+      if (CATEGORY_TITLES[cat]) {
+        document.title = CATEGORY_TITLES[cat];
+      }
+    };
+
+    window.addEventListener('popstate', onPopState);
+    return () => {
+      window.removeEventListener('popstate', onPopState);
+    };
+  });
 
   let allJobs = $derived($rankedDatabaseJobs);
 
@@ -127,6 +188,7 @@
 
   function handleSelectCategory(cat: string) {
     selectedCategory = cat;
+    syncUrlWithCategory(cat);
   }
 
   function handleSearchChange(query: string) {
@@ -147,6 +209,7 @@
     searchQuery = '';
     selectedLocation = 'all';
     selectedWard = 'all';
+    syncUrlWithCategory('all');
   }
 </script>
 
