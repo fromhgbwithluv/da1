@@ -1,12 +1,21 @@
 <script lang="ts">
   import { PROVINCES } from '../data/provinces';
   import SearchableSelect, { type SelectItem } from './SearchableSelect.svelte';
+  import When2MeetSchedule from './When2MeetSchedule.svelte';
+  import {
+    EMPTY_SCHEDULE_GRID,
+    countSelectedSlots,
+    hasActiveScheduleGrid,
+    summarizeScheduleGrid,
+    type ScheduleGrid,
+  } from '../utils/scheduleFilter';
 
   let {
     selectedCategory = 'all',
     searchQuery = '',
     selectedLocation = 'all',
     selectedWard = 'all',
+    scheduleGrid = EMPTY_SCHEDULE_GRID,
     counts = { all: 0, 'part-time': 0, internship: 0, fresher: 0, project: 0 },
     activeLocations = [],
     activeWards = [],
@@ -14,12 +23,14 @@
     onSearchChange,
     onSelectLocation,
     onSelectWard,
+    onScheduleGridChange,
     onReset
   } = $props<{
     selectedCategory: string;
     searchQuery: string;
     selectedLocation: string;
     selectedWard?: string;
+    scheduleGrid?: ScheduleGrid;
     counts: { all: number; 'part-time': number; internship: number; fresher: number; project: number };
     activeLocations?: { code: string; name: string; count: number }[];
     activeWards?: { code: string; name: string; count: number }[];
@@ -27,8 +38,31 @@
     onSearchChange: (query: string) => void;
     onSelectLocation: (loc: string) => void;
     onSelectWard?: (ward: string) => void;
+    onScheduleGridChange?: (next: ScheduleGrid) => void;
     onReset: () => void;
   }>();
+
+  let isScheduleOpen = $state(false);
+  let selectedSlotCount = $derived(countSelectedSlots(scheduleGrid));
+  let isScheduleActive = $derived(hasActiveScheduleGrid(scheduleGrid));
+  let scheduleSummary = $derived(summarizeScheduleGrid(scheduleGrid));
+
+  function handleScheduleChange(nextGrid: ScheduleGrid) {
+    onScheduleGridChange?.(nextGrid);
+  }
+
+  function clearScheduleFilter(e?: MouseEvent) {
+    e?.stopPropagation();
+    onScheduleGridChange?.({
+      mon: [],
+      tue: [],
+      wed: [],
+      thu: [],
+      fri: [],
+      sat: [],
+      sun: [],
+    });
+  }
 
   const tabs = [
     {
@@ -194,6 +228,69 @@
         </div>
       {/if}
     </div>
+
+    <!-- Free Time / Job Schedule Grid Filter (When2MeetSchedule) -->
+    {#if onScheduleGridChange}
+      <div class="mt-3 pt-3 border-t border-obsidian-900/10 space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <button
+            type="button"
+            onclick={() => (isScheduleOpen = !isScheduleOpen)}
+            class="inline-flex items-center gap-2 rounded-2xl border px-3.5 py-2 text-xs font-bold transition-all cursor-pointer
+            {isScheduleActive || isScheduleOpen
+              ? 'border-mint-500 bg-mint/20 text-obsidian-900 shadow-xs'
+              : 'border-obsidian-900/15 bg-alabaster-100/70 text-obsidian-800 hover:border-obsidian-900/40'}"
+          >
+            <svg class="h-4 w-4 text-mint-700 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>
+              {#if isScheduleActive}
+                Thời gian rảnh: {scheduleSummary}
+              {:else}
+                Lọc theo thời gian rảnh (Bảng chọn giờ)
+              {/if}
+            </span>
+            {#if isScheduleActive}
+              <span class="rounded-full bg-alabaster-50 border border-mint-500/35 px-2 py-0.5 font-mono text-[10px] font-extrabold text-obsidian-900">
+                {selectedSlotCount} giờ
+              </span>
+            {/if}
+            <svg
+              class="h-3.5 w-3.5 text-obsidian-600 transition-transform duration-150 {isScheduleOpen ? 'rotate-180' : ''}"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          {#if isScheduleActive}
+            <button
+              type="button"
+              onclick={clearScheduleFilter}
+              class="rounded-full px-3 py-1.5 text-xs font-bold text-signal-crimson hover:bg-signal-crimson/10 transition-colors cursor-pointer"
+            >
+              Xóa lọc giờ
+            </button>
+          {/if}
+        </div>
+
+        {#if isScheduleOpen}
+          <div class="rounded-2xl border border-obsidian-900/15 bg-alabaster-100/60 p-4">
+            <When2MeetSchedule
+              {scheduleGrid}
+              label="Chọn khung giờ rảnh của bạn"
+              showSummaryInput={false}
+              autoInitDefault={false}
+              selectedLabel="Giờ rảnh của bạn"
+              onChange={handleScheduleChange}
+            />
+          </div>
+        {/if}
+      </div>
+    {/if}
   </div>
 
   <!-- Category Segmentation Tabs (Soft Mint & Obsidian Pills) -->

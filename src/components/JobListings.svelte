@@ -2,6 +2,12 @@
   import { onMount } from 'svelte';
   import { rankedDatabaseJobs, openPostJobModal, openAuthModal, currentUser } from '../stores/auth';
   import { getLenis } from '../utils/smoothScroll';
+  import {
+    EMPTY_SCHEDULE_GRID,
+    hasActiveScheduleGrid,
+    matchesScheduleGrid,
+    type ScheduleGrid,
+  } from '../utils/scheduleFilter';
   import type { Job } from '../types/job';
   import FilterTabs from './FilterTabs.svelte';
   import JobCard from './JobCard.svelte';
@@ -27,6 +33,7 @@
   let searchQuery = $state<string>('');
   let selectedLocation = $state<string>('all');
   let selectedWard = $state<string>('all');
+  let scheduleGrid = $state<ScheduleGrid>({ ...EMPTY_SCHEDULE_GRID });
   let currentPage = $state<number>(1);
   let listingsTopEl = $state<HTMLDivElement | null>(null);
 
@@ -161,6 +168,11 @@
         return false;
       }
 
+      // Free-time / Job schedule grid match
+      if (!matchesScheduleGrid(job, scheduleGrid)) {
+        return false;
+      }
+
       // Keyword match (title, company, description, tags)
       if (searchQuery.trim() !== '') {
         const q = normalizeVietnamese(searchQuery);
@@ -259,11 +271,17 @@
     currentPage = 1;
   }
 
+  function handleScheduleGridChange(next: ScheduleGrid) {
+    scheduleGrid = next;
+    currentPage = 1;
+  }
+
   function handleReset() {
     selectedCategory = 'all';
     searchQuery = '';
     selectedLocation = 'all';
     selectedWard = 'all';
+    scheduleGrid = { ...EMPTY_SCHEDULE_GRID };
     currentPage = 1;
     syncUrlWithCategory('all');
   }
@@ -276,6 +294,7 @@
     {searchQuery}
     {selectedLocation}
     {selectedWard}
+    {scheduleGrid}
     {counts}
     {activeLocations}
     {activeWards}
@@ -283,6 +302,7 @@
     onSearchChange={handleSearchChange}
     onSelectLocation={handleSelectLocation}
     onSelectWard={handleSelectWard}
+    onScheduleGridChange={handleScheduleGridChange}
     onReset={handleReset}
   />
 
@@ -320,7 +340,7 @@
       </p>
     </div>
 
-    {#if searchQuery || selectedCategory !== 'all' || selectedLocation !== 'all' || selectedWard !== 'all'}
+    {#if searchQuery || selectedCategory !== 'all' || selectedLocation !== 'all' || selectedWard !== 'all' || hasActiveScheduleGrid(scheduleGrid)}
       <button
         type="button"
         onclick={handleReset}
