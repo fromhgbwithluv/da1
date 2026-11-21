@@ -568,18 +568,23 @@
   onMount(() => {
     initSmoothScroll();
 
-    const handleResize = () => {
-      viewportWidth = window.innerWidth;
-      viewportHeight = window.innerHeight;
-      isMobile = window.innerWidth < 768;
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize, { passive: true });
-
     let st: ScrollTrigger | null = null;
     let tickerCallback: (() => void) | null = null;
 
-    if (trackEl) {
+    const teardownParallax = () => {
+      if (st) {
+        st.kill();
+        st = null;
+      }
+      if (tickerCallback) {
+        gsap.ticker.remove(tickerCallback);
+        tickerCallback = null;
+      }
+    };
+
+    const setupParallax = () => {
+      if (!trackEl || st) return;
+
       const computeProgress = (self: ScrollTrigger) => {
         const H = trackEl ? trackEl.offsetHeight : 5000;
         const V = window.innerHeight || 900;
@@ -617,21 +622,35 @@
       };
 
       gsap.ticker.add(tickerCallback);
-    }
+    };
+
+    const handleResize = () => {
+      viewportWidth = window.innerWidth;
+      viewportHeight = window.innerHeight;
+      isMobile = window.innerWidth < 768;
+
+      if (isMobile) {
+        teardownParallax();
+      } else {
+        setupParallax();
+      }
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize, { passive: true });
 
     return () => {
       window.removeEventListener("resize", handleResize);
-      if (st) st.kill();
-      if (tickerCallback) gsap.ticker.remove(tickerCallback);
+      teardownParallax();
     };
   });
 </script>
 
-<!-- STICKY PARALLAX SCROLL TRACK (~580vh = ~1.8 viewports per stage) -->
+<!-- STICKY PARALLAX SCROLL TRACK (~580vh = ~1.8 viewports per stage) — Hidden on mobile (<768px) -->
 <section
   id="cau-chuyen-topsivi"
   bind:this={trackEl}
-  class="relative w-full bg-obsidian-900 text-alabaster-50 select-none"
+  class="hidden md:block relative w-full bg-obsidian-900 text-alabaster-50 select-none"
   style="height: 580vh;"
 >
   <!-- Sticky Viewport Canvas -->
