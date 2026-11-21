@@ -16,11 +16,6 @@
     isDropdownOpen = !isDropdownOpen;
   }
 
-  function handleOpenProfileSettings() {
-    isDropdownOpen = false;
-    openAuthModal('profile');
-  }
-
   function handleLogout() {
     isDropdownOpen = false;
     logout();
@@ -130,20 +125,6 @@
           {/if}
 
           {#if $currentUser.role === 'company'}
-            <button
-              type="button"
-              onclick={() => { isDropdownOpen = false; openPostJobModal(); }}
-              class="flex w-full items-center justify-between rounded-xl px-3.5 py-2.5 text-xs font-bold text-obsidian-900 bg-mint/30 hover:bg-mint/50 transition-colors"
-              role="menuitem"
-            >
-              <div class="flex items-center gap-2.5">
-                <svg class="h-4 w-4 text-obsidian-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                </svg>
-                <span>Đăng tin tuyển dụng mới</span>
-              </div>
-            </button>
-
             {@const stats = getCompanyMonthlyJobStats($currentUser.id)}
             <div class="mx-2 my-1.5 p-3 rounded-xl bg-alabaster-100 border border-obsidian-900/10 font-mono text-[11px] space-y-1.5">
               <div class="flex items-center justify-between">
@@ -175,9 +156,9 @@
             </div>
           {/if}
 
-          <button
-            type="button"
-            onclick={handleOpenProfileSettings}
+          <a
+            href={url(`/profile/@${$currentUser.username}?tab=settings`)}
+            onclick={() => (isDropdownOpen = false)}
             class="flex w-full items-center justify-between rounded-xl px-3.5 py-2.5 text-xs font-semibold text-obsidian-800 hover:bg-mint/25 hover:text-obsidian-900 transition-colors"
             role="menuitem"
           >
@@ -186,9 +167,10 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
-              <span>Thiết lập hồ sơ & CV</span>
+              <span>{$currentUser.role === 'company' ? 'Cài đặt doanh nghiệp' : 'Cài đặt hồ sơ & CV'}</span>
             </div>
-          </button>
+            <span class="font-mono text-xs text-swiss-500 font-bold">→</span>
+          </a>
         </div>
 
         <div class="border-t border-obsidian-900/10 pt-1.5">

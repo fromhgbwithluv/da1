@@ -3,6 +3,8 @@ import type { Job } from './job';
 export type UserRole = 'student' | 'company';
 
 export interface CVAttachment {
+  id?: string;
+  label?: string;
   name: string;
   size: number;
   type: string;
@@ -32,6 +34,7 @@ export interface AppliedJobRecord {
   applicationCode: string; // e.g. "TSV-8492"
   status: 'submitted' | 'reviewing' | 'interview' | 'accepted' | 'rejected';
   paymentMethod: 'free' | 'qr_support';
+  cvId?: string;
   cvName?: string;
   note?: string;
 }
@@ -51,6 +54,7 @@ export interface UserProfile {
   academicYear?: string; // 'Năm 1' | 'Năm 2' | 'Năm 3' | 'Năm 4' | 'Mới tốt nghiệp'
   major?: string;
   cvFile?: CVAttachment | null;
+  cvFiles?: CVAttachment[];
   portfolioLink?: string;
   portfolioProjects?: PortfolioProject[];
   savedJobIds?: string[]; // IDs of jobs saved/pinned by this user

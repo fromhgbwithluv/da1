@@ -5,9 +5,10 @@
     checkoutJobs,
     favoriteJobs
   } from '../stores/favorites';
-  import { currentUser, openAuthModal, recordApplication } from '../stores/auth';
+  import { currentUser, openAuthModal, recordApplication, getUserCVs, uploadCVFile } from '../stores/auth';
   import { showToast } from '../stores/toast';
   import { isValidVietnamesePhone } from '../utils/formatters';
+  import { url } from '../utils/url';
   import UniversitySelect from './UniversitySelect.svelte';
   import Modal from './Modal.svelte';
 
@@ -26,6 +27,15 @@
   let major = $state('');
   let cvLink = $state('');
   let note = $state('');
+
+  // Multi-CV Vault selection & inline upload
+  let userCVs = $derived(getUserCVs($currentUser));
+  let selectedCvId = $state<string>('');
+  let selectedCv = $derived(userCVs.find((c) => c.id === selectedCvId) || null);
+  let newCvLabel = $state('');
+  let isUploadingCv = $state(false);
+  let hasUserDeselectedCv = $state(false);
+  let submittedCvName = $state('');
   
   // Payment / Support Plan
   let paymentMethod = $state<'free' | 'qr_support'>('free');
@@ -39,15 +49,50 @@
       fullName = $currentUser.fullName;
       email = $currentUser.email;
       phone = $currentUser.phone;
-      university = $currentUser.university;
-      academicYear = $currentUser.academicYear;
-      major = $currentUser.major;
-      cvLink = $currentUser.portfolioLink || ($currentUser.cvFile ? `[CV ĐÍNH KÈM: ${$currentUser.cvFile.name}]` : cvLink);
+      university = $currentUser.university || '';
+      academicYear = $currentUser.academicYear || 'Năm 1';
+      major = $currentUser.major || '';
+      cvLink = $currentUser.portfolioLink || '';
       if ($currentUser.bio) {
         note = $currentUser.bio;
       }
     }
   });
+
+  // Auto-select default CV from user's vault unless explicitly deselected
+  $effect(() => {
+    if ($isCheckoutOpen && userCVs.length > 0 && !hasUserDeselectedCv) {
+      if (!selectedCvId || !userCVs.some((c) => c.id === selectedCvId)) {
+        selectedCvId = userCVs[0].id || '';
+      }
+    }
+  });
+
+  async function handleCheckoutCVUpload(e: Event) {
+    const input = e.target as HTMLInputElement;
+    if (!input.files || !input.files[0]) return;
+    const file = input.files[0];
+    isUploadingCv = true;
+    const uploaded = await uploadCVFile(file, newCvLabel);
+    if (uploaded?.id) {
+      hasUserDeselectedCv = false;
+      selectedCvId = uploaded.id;
+    }
+    newCvLabel = '';
+    input.value = '';
+    isUploadingCv = false;
+  }
+
+  function getFileExt(name: string): string {
+    const ext = name.split('.').pop()?.toUpperCase();
+    return ext && ext.length <= 5 ? ext : 'FILE';
+  }
+
+  function formatFileSize(bytes: number): string {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+  }
 
   function generateAppCode() {
     return 'TSV-' + Math.floor(1000 + Math.random() * 9000);
@@ -55,6 +100,9 @@
 
   function handleClose() {
     step = 'form';
+    hasUserDeselectedCv = false;
+    newCvLabel = '';
+    selectedCvId = '';
     closeCheckout();
   }
 
@@ -64,6 +112,17 @@
       showToast('Số điện thoại không đúng chuẩn di động Việt Nam (gồm 10 số, bắt đầu bằng 03, 05, 07, 08, 09)!', 'remove');
       return;
     }
+
+    const chosenCvName = selectedCv
+      ? selectedCv.label
+        ? `${selectedCv.label} (${selectedCv.name})`
+        : selectedCv.name
+      : cvLink.trim()
+        ? `Link: ${cvLink.trim()}`
+        : $currentUser?.fullName
+          ? `Hồ sơ ${$currentUser.fullName}`
+          : 'Hồ sơ trực tuyến';
+    submittedCvName = chosenCvName;
 
     isSubmitting = true;
 
@@ -77,7 +136,8 @@
       recordApplication($checkoutJobs, {
         applicationCode,
         paymentMethod,
-        cvName: $currentUser?.cvFile?.name || ($currentUser?.fullName ? `Hồ sơ ${$currentUser.fullName}` : 'Hồ sơ trực tuyến'),
+        cvId: selectedCv?.id,
+        cvName: chosenCvName,
         note: note.trim() || undefined,
       });
     }, 500);
@@ -106,17 +166,17 @@
                     Tự động điền từ Hồ sơ: {$currentUser.fullName}
                   </h4>
                   <p class="font-mono text-[11px] text-swiss-600 mt-0.5 leading-relaxed">
-                    Dữ liệu cá nhân & file CV ({$currentUser.cvFile?.name || 'Đã liên kết'}) đã được nạp sẵn từ Database JSON.
+                    Dữ liệu cá nhân & kho CV ({userCVs.length} file) đã được nạp sẵn từ hệ thống.
                   </p>
                 </div>
               </div>
-              <button
-                type="button"
-                onclick={() => openAuthModal('profile')}
+              <a
+                href={url(`/profile/@${$currentUser.username}?tab=settings`)}
+                onclick={closeCheckout}
                 class="font-mono text-[10px] uppercase font-bold text-black hover:underline shrink-0 bg-white border border-swiss-300 px-2 py-1 rounded-swiss-sm"
               >
                 Chỉnh sửa
-              </button>
+              </a>
             </div>
           {:else}
             <div class="rounded-swiss-sm border border-swiss-300 bg-swiss-50 p-3 flex items-center justify-between gap-2">
@@ -210,6 +270,7 @@
                 </label>
                 <UniversitySelect
                   id="checkout-university"
+                  label=""
                   bind:value={university}
                   placeholder="Tìm hoặc chọn từ 327 trường ĐH / CĐ..."
                 />
@@ -242,21 +303,120 @@
               </div>
             </div>
 
-            <!-- Attached CV file row -->
-            {#if $currentUser?.cvFile}
-              <div class="rounded-swiss-sm border border-black bg-swiss-50 p-2.5 flex items-center justify-between text-xs font-mono">
-                <div class="flex items-center gap-2 truncate">
-                  <span class="bg-black text-white px-1.5 py-0.5 rounded-swiss-sm text-[10px] font-bold">PDF</span>
-                  <span class="font-bold text-black truncate">{$currentUser.cvFile.name}</span>
-                  <span class="text-signal-emerald text-[10px]">[ĐÍNH KÈM TỰ ĐỘNG]</span>
+            <!-- Multi-CV Picker + Inline Upload to CV Vault -->
+            {#if $currentUser}
+              <div class="rounded-2xl border border-obsidian-900/15 bg-alabaster-100/60 p-4 space-y-3">
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                  <span class="text-xs font-extrabold text-obsidian-900">
+                    Chọn file CV ứng tuyển ({userCVs.length} file trong kho)
+                  </span>
+                  <div class="flex items-center gap-3">
+                    {#if selectedCvId !== ''}
+                      <button
+                        type="button"
+                        onclick={() => {
+                          hasUserDeselectedCv = true;
+                          selectedCvId = '';
+                        }}
+                        class="text-[11px] font-semibold text-swiss-600 hover:text-obsidian-900 underline"
+                      >
+                        Không đính kèm file
+                      </button>
+                    {/if}
+                    <a
+                      href={url(`/profile/@${$currentUser.username}?tab=settings`)}
+                      onclick={handleClose}
+                      class="text-[11px] font-bold text-obsidian-900 underline decoration-mint decoration-2 underline-offset-4 hover:text-obsidian-700"
+                    >
+                      Quản lý kho CV →
+                    </a>
+                  </div>
                 </div>
-                <button
-                  type="button"
-                  onclick={() => openAuthModal('profile')}
-                  class="text-[10px] uppercase font-bold text-black hover:underline shrink-0 ml-2"
-                >
-                  Đổi file
-                </button>
+
+                {#if userCVs.length > 0}
+                  <div class="space-y-2 max-h-48 overflow-y-auto pr-1">
+                    {#each userCVs as cv, idx (cv.id)}
+                      {@const isChosen = selectedCvId === cv.id}
+                      <button
+                        type="button"
+                        onclick={() => {
+                          hasUserDeselectedCv = false;
+                          selectedCvId = cv.id || '';
+                        }}
+                        class="w-full text-left flex items-center justify-between gap-3 rounded-xl p-3 transition-all
+                          {isChosen
+                            ? 'border-2 border-obsidian-900 bg-mint/25 shadow-xs'
+                            : 'border border-obsidian-900/15 bg-alabaster-50 hover:border-obsidian-900/50'}"
+                      >
+                        <div class="flex items-center gap-2.5 min-w-0">
+                          <span
+                            class="font-mono text-[10px] font-bold px-2 py-1 rounded-lg shrink-0
+                              {isChosen ? 'bg-obsidian-900 text-mint' : 'bg-alabaster-200 text-obsidian-900'}"
+                          >
+                            {getFileExt(cv.name)}
+                          </span>
+                          <div class="min-w-0">
+                            <div class="flex flex-wrap items-center gap-1.5">
+                              <span class="text-xs font-bold text-obsidian-900 truncate">{cv.name}</span>
+                              {#if cv.label}
+                                <span class="rounded-full bg-alabaster-50 border border-obsidian-900/15 px-2 py-0.5 font-mono text-[10px] font-bold text-obsidian-900">
+                                  {cv.label}
+                                </span>
+                              {/if}
+                              {#if idx === 0}
+                                <span class="rounded-full bg-obsidian-900 px-2 py-0.5 font-mono text-[10px] font-bold text-mint">
+                                  Mặc định
+                                </span>
+                              {/if}
+                            </div>
+                            <span class="font-mono text-[10px] text-swiss-500 block mt-0.5">
+                              {formatFileSize(cv.size)} • {new Date(cv.uploadedAt).toLocaleDateString('vi-VN')}
+                            </span>
+                          </div>
+                        </div>
+
+                        <span
+                          class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] font-black
+                            {isChosen ? 'bg-obsidian-900 text-mint' : 'border border-obsidian-900/25 bg-alabaster-50 text-transparent'}"
+                        >
+                          ✓
+                        </span>
+                      </button>
+                    {/each}
+                  </div>
+                {:else}
+                  <p class="text-xs text-swiss-500 italic">
+                    Kho CV đang trống. Bạn có thể tải file CV mới ngay bên dưới để đính kèm và lưu cho các lần sau.
+                  </p>
+                {/if}
+
+                <!-- Inline Upload New CV & Save to Vault -->
+                <div class="pt-2.5 border-t border-obsidian-900/10 space-y-2">
+                  <div class="flex flex-col sm:flex-row gap-2">
+                    <input
+                      type="text"
+                      bind:value={newCvLabel}
+                      placeholder="Nhãn gợi nhớ (VD: CV Marketing...)"
+                      class="flex-1 rounded-xl border border-obsidian-900/20 bg-alabaster-50 px-3 py-2 text-xs text-obsidian-900 placeholder:text-swiss-400 focus:border-obsidian-900 focus:outline-none focus:ring-2 focus:ring-mint/50"
+                    />
+                    <label
+                      class="inline-flex items-center justify-center gap-1.5 rounded-full bg-obsidian-900 px-4 py-2 text-xs font-bold text-mint transition-colors shrink-0
+                        {isUploadingCv ? 'opacity-60 cursor-wait' : 'cursor-pointer hover:bg-obsidian-800'}"
+                    >
+                      <span>{isUploadingCv ? 'Đang tải lên...' : '+ Tải CV mới & lưu vào kho'}</span>
+                      <input
+                        type="file"
+                        accept=".pdf,.doc,.docx"
+                        disabled={isUploadingCv}
+                        onchange={handleCheckoutCVUpload}
+                        class="sr-only"
+                      />
+                    </label>
+                  </div>
+                  <p class="font-mono text-[10px] text-swiss-500">
+                    File tải lên sẽ được chọn cho đơn này và lưu tự động vào Kho CV của bạn.
+                  </p>
+                </div>
               </div>
             {/if}
 
@@ -411,7 +571,7 @@
             </div>
             <div class="flex justify-between border-b border-swiss-200 pb-1.5">
               <span class="text-swiss-500 uppercase">File CV đính kèm:</span>
-              <span class="font-bold text-signal-emerald">{$currentUser?.cvFile?.name || 'CV TRỰC TUYẾN'}</span>
+              <span class="font-bold text-signal-emerald">{submittedCvName || 'CV TRỰC TUYẾN'}</span>
             </div>
             <div class="flex justify-between border-b border-swiss-200 pb-1.5">
               <span class="text-swiss-500 uppercase">Số lượng vị trí:</span>

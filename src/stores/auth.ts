@@ -27,7 +27,7 @@ export const localActiveUserId = persistentAtom<string | null>('topsivi_device_s
 
 // UI Modal state
 export const isAuthModalOpen = atom<boolean>(false);
-export const authModalTab = atom<'login' | 'register' | 'forgot' | 'profile'>('login');
+export const authModalTab = atom<'login' | 'register' | 'forgot'>('login');
 export const isPostJobModalOpen = atom<boolean>(false);
 export const editingJob = atom<Job | null>(null);
 export const isUpgradeModalOpen = atom<boolean>(false);
@@ -48,7 +48,7 @@ export function closeApplicationHistoryModal() {
   isApplicationHistoryOpen.set(false);
 }
 
-export function openAuthModal(tab: 'login' | 'register' | 'forgot' | 'profile' = 'login') {
+export function openAuthModal(tab: 'login' | 'register' | 'forgot' = 'login') {
   authModalTab.set(tab);
   isAuthModalOpen.set(true);
 }
@@ -342,6 +342,7 @@ export function register(userData: {
     academicYear: userData.academicYear || (userData.role === 'student' ? 'Năm 1' : ''),
     major: userData.major || '',
     cvFile: null,
+    cvFiles: [],
     portfolioProjects: [],
     portfolioLink: '',
     industry: userData.industry || '',
@@ -384,7 +385,7 @@ export function updateProfile(fields: Partial<UserProfile>): boolean {
   }
 
   const db = databaseStore.get();
-  const activeId = db.activeUserId;
+  const activeId = localActiveUserId.get() || db.activeUserId;
   if (!activeId) return false;
 
   const now = new Date().toISOString();
@@ -410,12 +411,48 @@ export function updateProfile(fields: Partial<UserProfile>): boolean {
   return true;
 }
 
-export async function uploadCVFile(file: File): Promise<boolean> {
+const MAX_CV_SIZE_BYTES = 5 * 1024 * 1024;
+
+export function getUserCVs(user: UserProfile | null | undefined): CVAttachment[] {
+  if (!user) return [];
+  if (Array.isArray(user.cvFiles) && user.cvFiles.length > 0) {
+    return user.cvFiles.map((cv, idx) => ({
+      ...cv,
+      id: cv.id || `cv-legacy-${idx}`,
+    }));
+  }
+  if (user.cvFile) {
+    return [
+      {
+        ...user.cvFile,
+        id: user.cvFile.id || 'cv-legacy-0',
+      },
+    ];
+  }
+  return [];
+}
+
+export async function uploadCVFile(file: File, label?: string): Promise<CVAttachment | null> {
   return new Promise((resolve) => {
+    const activeUser = currentUser.get();
+    if (!activeUser) {
+      showToast('Vui lòng đăng nhập để tải CV lên kho hồ sơ!', 'remove');
+      resolve(null);
+      return;
+    }
+
+    if (file.size > MAX_CV_SIZE_BYTES) {
+      showToast('File CV vượt quá 5MB, vui lòng nén nhỏ hơn để lưu trữ nhanh chóng!', 'remove');
+      resolve(null);
+      return;
+    }
+
     const reader = new FileReader();
     reader.onload = () => {
       const dataUrl = reader.result as string;
       const cvAttachment: CVAttachment = {
+        id: 'cv-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6),
+        label: label?.trim() || '',
         name: file.name,
         size: file.size,
         type: file.type || 'application/pdf',
@@ -423,23 +460,51 @@ export async function uploadCVFile(file: File): Promise<boolean> {
         dataUrl,
       };
 
-      updateProfile({ cvFile: cvAttachment });
-      showToast(`Đã upload CV "${file.name}" vào hồ sơ!`, 'success');
-      resolve(true);
+      const latestUser = currentUser.get() || activeUser;
+      const updatedCVs = [cvAttachment, ...getUserCVs(latestUser)];
+      updateProfile({
+        cvFiles: updatedCVs,
+        cvFile: updatedCVs[0] || null,
+      });
+      showToast(`Đã thêm CV "${file.name}" vào kho CV!`, 'success');
+      resolve(cvAttachment);
     };
 
     reader.onerror = () => {
       showToast('Lỗi khi đọc file CV, vui lòng thử lại', 'remove');
-      resolve(false);
+      resolve(null);
     };
 
     reader.readAsDataURL(file);
   });
 }
 
-export function removeCVFile() {
-  updateProfile({ cvFile: null });
-  showToast('Đã gỡ bỏ file CV khỏi hồ sơ', 'info');
+export function removeCVFile(cvId?: string) {
+  const user = currentUser.get();
+  if (!user) return;
+
+  const filtered = cvId ? getUserCVs(user).filter((cv) => cv.id !== cvId) : [];
+  updateProfile({
+    cvFiles: filtered,
+    cvFile: filtered[0] || null,
+  });
+  showToast('Đã gỡ bỏ file CV khỏi kho CV', 'info');
+}
+
+export function setPrimaryCV(cvId: string) {
+  const user = currentUser.get();
+  if (!user) return;
+
+  const existing = getUserCVs(user);
+  const target = existing.find((cv) => cv.id === cvId);
+  if (!target) return;
+
+  const reordered = [target, ...existing.filter((cv) => cv.id !== cvId)];
+  updateProfile({
+    cvFiles: reordered,
+    cvFile: reordered[0] || null,
+  });
+  showToast(`Đã đặt "${target.name}" làm CV mặc định!`, 'success');
 }
 
 export async function uploadAvatar(file: File): Promise<string | null> {
@@ -584,6 +649,7 @@ export function recordApplication(
   details: {
     applicationCode: string;
     paymentMethod: 'free' | 'qr_support';
+    cvId?: string;
     cvName?: string;
     note?: string;
   }
@@ -609,6 +675,7 @@ export function recordApplication(
     applicationCode: details.applicationCode,
     status: 'submitted',
     paymentMethod: details.paymentMethod,
+    cvId: details.cvId,
     cvName: details.cvName,
     note: details.note,
   }));
