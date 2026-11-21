@@ -430,26 +430,29 @@
   ];
 
   let trackEl: HTMLElement | undefined = $state();
-  let viewportWidth = $state(1440);
-  let viewportHeight = $state(900);
-  let isMobile = $state(false);
+  let viewportWidth = $state(1920);
+  let viewportHeight = $state(1080);
+  let isParallaxDisabled = $state(false);
 
   let targetProgress = $state(0);
   let smoothProgress = $state(0);
 
+  // Reference design canvas (1920x1080) — uniformly scaled to fit any landscape desktop viewport
+  const REF_WIDTH = 1920;
+  const REF_HEIGHT = 1080;
+
+  // Uniform scale factor preserving exact 1920x1080 proportions on every screen size
+  let stageScale = $derived(
+    Math.min(viewportWidth / REF_WIDTH, viewportHeight / REF_HEIGHT),
+  );
+
   // Total angular rotation across the entire scroll track (in degrees)
   const TOTAL_ROTATION_DEG = 450;
 
-  // Center of orbital motion
-  let originX = $derived(isMobile ? 24 : viewportWidth / 2);
-  let originY = $derived(isMobile ? viewportHeight - 10 : viewportHeight + 35);
-
-  // Expanded baseRadius to fill vertical space and spread the orbits far apart
-  let baseRadius = $derived(
-    isMobile
-      ? Math.min(viewportWidth * 0.88, viewportHeight * 0.62)
-      : Math.min(viewportWidth * 0.52, viewportHeight * 0.86),
-  );
+  // Fixed orbital coordinates inside the 1920x1080 reference stage
+  const originX = REF_WIDTH / 2;
+  const originY = REF_HEIGHT + 35;
+  const baseRadius = Math.min(REF_WIDTH * 0.52, REF_HEIGHT * 0.86);
 
   // Compute live polar coordinates, opacity, scale for each node
   interface RenderNode extends OrbitNode {
@@ -474,15 +477,15 @@
       const y = originY - r * Math.sin(rad);
 
       // Visibility & opacity along the celestial horizon
-      const minAngle = isMobile ? 4 : 8;
-      const maxAngle = isMobile ? 86 : 172;
+      const minAngle = 8;
+      const maxAngle = 172;
 
       let opacity = 0;
       let scale = 1;
 
       if (angleDeg >= minAngle && angleDeg <= maxAngle) {
-        const inFadeSpan = isMobile ? 12 : 20;
-        const outFadeSpan = isMobile ? 12 : 20;
+        const inFadeSpan = 20;
+        const outFadeSpan = 20;
 
         if (angleDeg < minAngle + inFadeSpan) {
           opacity = (angleDeg - minAngle) / inFadeSpan;
@@ -546,7 +549,7 @@
   // Which stage is currently dominant at zenith?
   let activeStage = $derived.by(() => {
     const rot = smoothProgress * TOTAL_ROTATION_DEG;
-    const targetApex = isMobile ? 45 : 90;
+    const targetApex = 90;
 
     const diff0 = Math.abs(45 + rot - targetApex);
     const diff1 = Math.abs(-140 + rot - targetApex);
@@ -622,40 +625,49 @@
       };
 
       gsap.ticker.add(tickerCallback);
+      ScrollTrigger.refresh();
     };
 
     const handleResize = () => {
       viewportWidth = window.innerWidth;
       viewportHeight = window.innerHeight;
-      isMobile = window.innerWidth < 768;
+      // Disable on phones and portrait tablets (e.g., iPad portrait 768x1024, 820x1180, 1024x1366)
+      isParallaxDisabled =
+        window.innerWidth < 1024 || window.innerHeight > window.innerWidth;
 
-      if (isMobile) {
+      if (isParallaxDisabled) {
         teardownParallax();
+      } else if (st) {
+        ScrollTrigger.refresh();
       } else {
-        setupParallax();
+        requestAnimationFrame(() => {
+          setupParallax();
+        });
       }
     };
 
     handleResize();
     window.addEventListener("resize", handleResize, { passive: true });
+    window.addEventListener("orientationchange", handleResize, { passive: true });
 
     return () => {
       window.removeEventListener("resize", handleResize);
+      window.removeEventListener("orientationchange", handleResize);
       teardownParallax();
     };
   });
 </script>
 
-<!-- STICKY PARALLAX SCROLL TRACK (~580vh = ~1.8 viewports per stage) — Hidden on mobile (<768px) -->
+<!-- STICKY PARALLAX SCROLL TRACK — Shown only on landscape desktop screens (>=1024px & width >= height) -->
 <section
   id="cau-chuyen-topsivi"
   bind:this={trackEl}
-  class="hidden md:block relative w-full bg-obsidian-900 text-alabaster-50 select-none"
-  style="height: 580vh;"
+  class="{isParallaxDisabled ? 'hidden' : 'hidden lg:block'} relative w-full bg-obsidian-900 text-alabaster-50 select-none"
+  style="height: 520vh; max-height: 5600px;"
 >
-  <!-- Sticky Viewport Canvas -->
+  <!-- Sticky Viewport Canvas (strictly position: sticky without conflicting 'relative') -->
   <div
-    class="sticky top-0 h-screen w-full overflow-hidden bg-obsidian-900 bg-organic-grid-dark relative"
+    class="sticky top-0 h-screen w-full overflow-hidden bg-obsidian-900 bg-organic-grid-dark"
   >
     <!-- Ambient Orbital Background Glows -->
     <div
@@ -672,118 +684,183 @@
       ></div>
     </div>
 
-    <!-- Background Concentric Orbital Guides (Widely spaced tracks) -->
-    <svg
-      class="pointer-events-none absolute inset-0 h-full w-full"
-      style="opacity: 0.18;"
+    <!-- PROPORTIONALLY SCALED 1920x1080 ORBITAL STAGE (Anchored bottom-center) -->
+    <div
+      class="absolute bottom-0 left-1/2 overflow-visible"
+      style="
+        width: {REF_WIDTH}px;
+        height: {REF_HEIGHT}px;
+        transform: translateX(-50%) scale({stageScale});
+        transform-origin: bottom center;
+      "
     >
-      <circle
-        cx={originX}
-        cy={originY}
-        r={baseRadius * 0.46}
-        fill="none"
-        stroke="#70ffaf"
-        stroke-width="1.2"
-      />
-      <circle
-        cx={originX}
-        cy={originY}
-        r={baseRadius * 0.65}
-        fill="none"
-        stroke="#70ffaf"
-        stroke-width="1.2"
-      />
-      <circle
-        cx={originX}
-        cy={originY}
-        r={baseRadius * 0.82}
-        fill="none"
-        stroke="#70ffaf"
-        stroke-width="1.2"
-      />
-      <circle
-        cx={originX}
-        cy={originY}
-        r={baseRadius * 1.0}
-        fill="none"
-        stroke="#70ffaf"
-        stroke-width="1.2"
-      />
-    </svg>
-
-    <!-- MAIN ORBITAL CANVAS: SVG CONNECTIONS + UPRIGHT EXPANDED CARDS -->
-    <div class="pointer-events-none absolute inset-0 z-20 h-full w-full">
-      <!-- Thin, Open Connecting Lines -->
-      <svg class="h-full w-full">
-        {#each renderedLines as line}
-          <line
-            x1={line.x1}
-            y1={line.y1}
-            x2={line.x2}
-            y2={line.y2}
-            stroke="#70ffaf"
-            stroke-width="1.3"
-            stroke-opacity={line.opacity}
-          />
-        {/each}
+      <!-- Background Concentric Orbital Guides (Widely spaced tracks) -->
+      <svg
+        class="pointer-events-none absolute inset-0 h-full w-full"
+        style="opacity: 0.18;"
+      >
+        <circle
+          cx={originX}
+          cy={originY}
+          r={baseRadius * 0.46}
+          fill="none"
+          stroke="#70ffaf"
+          stroke-width="1.2"
+        />
+        <circle
+          cx={originX}
+          cy={originY}
+          r={baseRadius * 0.65}
+          fill="none"
+          stroke="#70ffaf"
+          stroke-width="1.2"
+        />
+        <circle
+          cx={originX}
+          cy={originY}
+          r={baseRadius * 0.82}
+          fill="none"
+          stroke="#70ffaf"
+          stroke-width="1.2"
+        />
+        <circle
+          cx={originX}
+          cy={originY}
+          r={baseRadius * 1.0}
+          fill="none"
+          stroke="#70ffaf"
+          stroke-width="1.2"
+        />
       </svg>
 
-      <!-- ALL CARDS: STRICTLY ALWAYS UPRIGHT (rotate(0deg)), LARGER BOUNDS -->
-      {#each renderedNodes as node (node.id)}
-        {#if node.visible}
-          <div
-            class="pointer-events-auto absolute w-max flex-shrink-0 select-none"
-            style="
-              left: {node.x}px;
-              top: {node.y}px;
-              opacity: {node.opacity};
-              transform: translate(-50%, -50%) scale({node.scale});
-              will-change: transform, opacity;
-              width: max-content;
-            "
-          >
-            <!-- 1. JOB POST IMAGE CARD -->
-            {#if node.kind === "post"}
-              <!-- If real image provided (e.g. Facebook post image) -->
-              {#if node.image}
-                <div
-                  class="w-64 sm:w-72 lg:w-80 flex-shrink-0 max-w-none rounded-3xl border-2 border-alabaster-100 bg-obsidian-800 p-2 shadow-2xl overflow-hidden hover:border-mint transition-all duration-200 hover:scale-103"
-                >
+      <!-- MAIN ORBITAL CANVAS: SVG CONNECTIONS + UPRIGHT EXPANDED CARDS -->
+      <div class="pointer-events-none absolute inset-0 z-20 h-full w-full">
+        <!-- Thin, Open Connecting Lines -->
+        <svg class="h-full w-full">
+          {#each renderedLines as line}
+            <line
+              x1={line.x1}
+              y1={line.y1}
+              x2={line.x2}
+              y2={line.y2}
+              stroke="#70ffaf"
+              stroke-width="1.3"
+              stroke-opacity={line.opacity}
+            />
+          {/each}
+        </svg>
+
+        <!-- ALL CARDS: STRICTLY ALWAYS UPRIGHT (rotate(0deg)), FIXED TO 1920x1080 STAGE -->
+        {#each renderedNodes as node (node.id)}
+          {#if node.visible}
+            <div
+              class="pointer-events-auto absolute w-max flex-shrink-0 select-none"
+              style="
+                left: {node.x}px;
+                top: {node.y}px;
+                opacity: {node.opacity};
+                transform: translate(-50%, -50%) scale({node.scale});
+                will-change: transform, opacity;
+                width: max-content;
+              "
+            >
+              <!-- 1. JOB POST IMAGE CARD -->
+              {#if node.kind === "post"}
+                {#if node.image}
                   <div
-                    class="relative overflow-hidden rounded-2xl border border-obsidian-700/60 bg-obsidian-900"
+                    class="w-80 flex-shrink-0 max-w-none rounded-3xl border-2 border-alabaster-100 bg-obsidian-800 p-2 shadow-2xl overflow-hidden hover:border-mint transition-all duration-200 hover:scale-103"
                   >
-                    <img
-                      src={url(node.image)}
-                      alt={node.title}
-                      class="w-full h-auto object-cover block"
-                      loading="lazy"
-                    />
-                  </div>
-                </div>
-              {:else}
-                <!-- Placeholder Frame for other posts (Threads, Job portal, Zalo) -->
-                <div
-                  class="w-64 sm:w-72 lg:w-80 flex-shrink-0 max-w-none rounded-3xl border-2 border-alabaster-200/90 bg-obsidian-800/95 p-4 sm:p-5 shadow-2xl backdrop-blur-md transition-all hover:border-mint hover:shadow-mint-glow"
-                >
-                  <!-- Header -->
-                  <div
-                    class="flex items-center justify-between border-b border-obsidian-600/80 pb-2.5 mb-3"
-                  >
-                    <span
-                      class="font-mono text-xs font-bold text-mint uppercase tracking-wider truncate max-w-[180px] whitespace-nowrap"
+                    <div
+                      class="relative overflow-hidden rounded-2xl border border-obsidian-700/60 bg-obsidian-900"
                     >
-                      {node.postSource || node.sub}
+                      <img
+                        src={url(node.image)}
+                        alt={node.title}
+                        class="w-full h-auto object-cover block"
+                        loading="lazy"
+                      />
+                    </div>
+                  </div>
+                {:else}
+                  <div
+                    class="w-80 flex-shrink-0 max-w-none rounded-3xl border-2 border-alabaster-200/90 bg-obsidian-800/95 p-5 shadow-2xl backdrop-blur-md transition-all hover:border-mint hover:shadow-mint-glow"
+                  >
+                    <div
+                      class="flex items-center justify-between border-b border-obsidian-600/80 pb-2.5 mb-3"
+                    >
+                      <span
+                        class="font-mono text-xs font-bold text-mint uppercase tracking-wider truncate max-w-[180px] whitespace-nowrap"
+                      >
+                        {node.postSource || node.sub}
+                      </span>
+                      <span class="h-2.5 w-2.5 rounded-full bg-mint flex-shrink-0"
+                      ></span>
+                    </div>
+
+                    <div
+                      class="relative mb-3 h-32 w-full overflow-hidden rounded-2xl border border-dashed border-mint/40 bg-obsidian-900/90 flex flex-col items-center justify-center text-center p-3"
+                    >
+                      <svg
+                        class="h-7 w-7 text-mint/70 mb-1.5 flex-shrink-0"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="1.8"
+                          d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                        />
+                      </svg>
+                      <span
+                        class="font-mono text-sm font-extrabold text-alabaster-50 tracking-tight whitespace-nowrap"
+                      >
+                        {node.title}
+                      </span>
+                      <span
+                        class="font-mono text-[10px] text-alabaster-400 mt-0.5 whitespace-nowrap"
+                      >
+                        [ Placeholder ảnh ]
+                      </span>
+                    </div>
+
+                    <p
+                      class="text-sm leading-relaxed text-alabaster-200 line-clamp-3"
+                    >
+                      {node.postSnippet}
+                    </p>
+                  </div>
+                {/if}
+
+                <!-- 2. PLACEHOLDER WEB SCREENSHOT CARD (Stage 3) -->
+              {:else if node.kind === "screenshot"}
+                <a
+                  href={url(node.link || "/jobs")}
+                  class="block w-80 flex-shrink-0 max-w-none rounded-3xl border-2 border-mint/80 bg-obsidian-800/95 p-5 shadow-mint-glow backdrop-blur-md transition-all hover:scale-104 hover:border-mint"
+                >
+                  <div
+                    class="flex items-center justify-between border-b border-obsidian-600/80 pb-2 mb-2.5"
+                  >
+                    <div class="flex items-center gap-1.5 flex-shrink-0">
+                      <span class="h-2.5 w-2.5 rounded-full bg-mint"></span>
+                      <span class="h-2.5 w-2.5 rounded-full bg-obsidian-600"
+                      ></span>
+                      <span class="h-2.5 w-2.5 rounded-full bg-obsidian-600"
+                      ></span>
+                    </div>
+                    <span
+                      class="font-mono text-xs text-mint font-semibold truncate max-w-[150px] whitespace-nowrap"
+                    >
+                      {node.sub}
                     </span>
-                    <span class="h-2.5 w-2.5 rounded-full bg-mint flex-shrink-0"
-                    ></span>
                   </div>
 
-                  <!-- Placeholder Image Box -->
                   <div
-                    class="relative mb-3 h-28 sm:h-32 w-full overflow-hidden rounded-2xl border border-dashed border-mint/40 bg-obsidian-900/90 flex flex-col items-center justify-center text-center p-3"
+                    class="relative mb-2.5 h-32 w-full overflow-hidden rounded-2xl border border-dashed border-mint/40 bg-obsidian-900/90 flex flex-col items-center justify-center text-center p-3"
                   >
                     <svg
-                      class="h-7 w-7 text-mint/70 mb-1.5 flex-shrink-0"
+                      class="h-7 w-7 text-mint mb-1.5 flex-shrink-0"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -792,283 +869,221 @@
                         stroke-linecap="round"
                         stroke-linejoin="round"
                         stroke-width="1.8"
-                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                        d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                       />
                     </svg>
                     <span
-                      class="font-mono text-xs sm:text-sm font-extrabold text-alabaster-50 tracking-tight whitespace-nowrap"
+                      class="font-display text-sm font-extrabold text-alabaster-50 whitespace-nowrap"
                     >
                       {node.title}
                     </span>
                     <span
-                      class="font-mono text-[9px] sm:text-[10px] text-alabaster-400 mt-0.5 whitespace-nowrap"
+                      class="font-mono text-[10px] text-mint mt-0.5 whitespace-nowrap"
                     >
-                      [ Placeholder ảnh ]
+                      [ Giao diện TopSiVi ]
                     </span>
                   </div>
 
-                  <!-- Snippet -->
                   <p
-                    class="text-xs sm:text-sm leading-relaxed text-alabaster-200 line-clamp-3"
+                    class="font-display text-base font-bold text-alabaster-100 truncate whitespace-nowrap"
                   >
-                    {node.postSnippet}
+                    {node.tag || node.sub}
                   </p>
-                </div>
-              {/if}
+                </a>
 
-              <!-- 2. PLACEHOLDER WEB SCREENSHOT CARD (Stage 3) -->
-            {:else if node.kind === "screenshot"}
-              <a
-                href={url(node.link || "/jobs")}
-                class="block w-64 sm:w-72 lg:w-80 flex-shrink-0 max-w-none rounded-3xl border-2 border-mint/80 bg-obsidian-800/95 p-4 sm:p-5 shadow-mint-glow backdrop-blur-md transition-all hover:scale-104 hover:border-mint"
-              >
-                <!-- Browser mockup header -->
+                <!-- 3. CENTRAL TOPSIVI LOGO EMBLEM (Stage 3 Center) -->
+              {:else if node.kind === "logo"}
                 <div
-                  class="flex items-center justify-between border-b border-obsidian-600/80 pb-2 mb-2.5"
-                >
-                  <div class="flex items-center gap-1.5 flex-shrink-0">
-                    <span class="h-2.5 w-2.5 rounded-full bg-mint"></span>
-                    <span class="h-2.5 w-2.5 rounded-full bg-obsidian-600"
-                    ></span>
-                    <span class="h-2.5 w-2.5 rounded-full bg-obsidian-600"
-                    ></span>
-                  </div>
-                  <span
-                    class="font-mono text-xs text-mint font-semibold truncate max-w-[150px] whitespace-nowrap"
-                  >
-                    {node.sub}
-                  </span>
-                </div>
-
-                <!-- Preview Box -->
-                <div
-                  class="relative mb-2.5 h-28 sm:h-32 w-full overflow-hidden rounded-2xl border border-dashed border-mint/40 bg-obsidian-900/90 flex flex-col items-center justify-center text-center p-3"
+                  class="flex flex-col items-center justify-center w-max flex-shrink-0 rounded-3xl border-2 border-mint bg-obsidian-900 px-8 py-5 shadow-mint-glow-lg pulse-mint backdrop-blur-md"
                 >
                   <svg
-                    class="h-7 w-7 text-mint mb-1.5 flex-shrink-0"
+                    class="h-11 w-20"
+                    viewBox="0 0 88 44"
                     fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
                   >
+                    <path d="M4 6H38V14H25V38H16V14H4V6Z" fill="#70ffaf" />
                     <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="1.8"
-                      d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                      d="M45 12C36 12 31 16.5 31 22C31 27.5 37 29.8 43.5 31.5C48.5 32.8 51 34.2 51 37C51 39.8 47.5 41.5 42 41.5C36.5 41.5 32.5 39 31 35.5L24 39.5C27 44.5 33.5 44 42 44C52.5 44 59.5 39 59.5 32C59.5 26 53.5 23 46 21C40.5 19.5 39 18.2 39 16.5C39 14.5 41.5 13.5 45 13.5C48.5 13.5 51.5 15 53.5 17.5L59.5 13C56 10.5 51 12 45 12Z"
+                      fill="#f8faf7"
+                    />
+                    <path
+                      d="M50 6L62 36L74 6H83L66 42H58L41 6H50Z"
+                      fill="#70ffaf"
                     />
                   </svg>
                   <span
-                    class="font-display text-xs sm:text-sm font-extrabold text-alabaster-50 whitespace-nowrap"
+                    class="font-display text-base font-black text-mint tracking-tight mt-1.5 whitespace-nowrap"
                   >
-                    {node.title}
-                  </span>
-                  <span
-                    class="font-mono text-[9px] sm:text-[10px] text-mint mt-0.5 whitespace-nowrap"
-                  >
-                    [ Giao diện TopSiVi ]
+                    TopSiVi Hub
                   </span>
                 </div>
 
-                <p
-                  class="font-display text-sm sm:text-base font-bold text-alabaster-100 truncate whitespace-nowrap"
+                <!-- 4. CIRCLE HUB (Dịch vụ hỗ trợ) -->
+              {:else if node.kind === "circle"}
+                <a
+                  href={url(node.link || "/services")}
+                  class="flex h-36 w-36 flex-shrink-0 flex-col items-center justify-center rounded-full border-2 border-mint bg-obsidian-800 p-3 text-center shadow-mint-glow hover:bg-mint hover:text-obsidian-900 transition-all"
                 >
-                  {node.tag || node.sub}
-                </p>
-              </a>
-
-              <!-- 3. CENTRAL TOPSIVI LOGO EMBLEM (Stage 3 Center) -->
-            {:else if node.kind === "logo"}
-              <div
-                class="flex flex-col items-center justify-center w-max flex-shrink-0 rounded-3xl border-2 border-mint bg-obsidian-900 px-6 py-4 sm:px-8 sm:py-5 shadow-mint-glow-lg pulse-mint backdrop-blur-md"
-              >
-                <svg
-                  class="h-9 w-16 sm:h-11 sm:w-20"
-                  viewBox="0 0 88 44"
-                  fill="none"
-                >
-                  <path d="M4 6H38V14H25V38H16V14H4V6Z" fill="#70ffaf" />
-                  <path
-                    d="M45 12C36 12 31 16.5 31 22C31 27.5 37 29.8 43.5 31.5C48.5 32.8 51 34.2 51 37C51 39.8 47.5 41.5 42 41.5C36.5 41.5 32.5 39 31 35.5L24 39.5C27 44.5 33.5 44 42 44C52.5 44 59.5 39 59.5 32C59.5 26 53.5 23 46 21C40.5 19.5 39 18.2 39 16.5C39 14.5 41.5 13.5 45 13.5C48.5 13.5 51.5 15 53.5 17.5L59.5 13C56 10.5 51 12 45 12Z"
-                    fill="#f8faf7"
-                  />
-                  <path
-                    d="M50 6L62 36L74 6H83L66 42H58L41 6H50Z"
-                    fill="#70ffaf"
-                  />
-                </svg>
-                <span
-                  class="font-display text-sm sm:text-base font-black text-mint tracking-tight mt-1.5 whitespace-nowrap"
-                >
-                  TopSiVi Hub
-                </span>
-              </div>
-
-              <!-- 4. CIRCLE HUB (Dịch vụ hỗ trợ) -->
-            {:else if node.kind === "circle"}
-              <a
-                href={url(node.link || "/services")}
-                class="flex h-28 w-28 sm:h-36 sm:w-36 flex-shrink-0 flex-col items-center justify-center rounded-full border-2 border-mint bg-obsidian-800 p-3 text-center shadow-mint-glow hover:bg-mint hover:text-obsidian-900 transition-all"
-              >
-                <span
-                  class="font-display text-sm sm:text-base font-black leading-tight whitespace-nowrap"
-                  >Dịch vụ</span
-                >
-                <span
-                  class="font-display text-sm sm:text-base font-black leading-tight whitespace-nowrap"
-                  >hỗ trợ</span
-                >
-              </a>
-
-              <!-- 5. MIND-MAP QUESTION / SOLUTION HUB -->
-            {:else if node.kind === "hub"}
-              <div
-                class="w-max flex-shrink-0 rounded-2xl sm:rounded-3xl border-2 border-mint bg-obsidian-800/95 px-6 py-3.5 sm:px-8 sm:py-4 shadow-mint-glow backdrop-blur-md"
-              >
-                <span
-                  class="font-display text-sm sm:text-lg font-black text-mint whitespace-nowrap"
-                >
-                  {node.title}
-                </span>
-              </div>
-
-              <!-- 6. PAIN POINT PROBLEM NODE -->
-            {:else if node.kind === "problem"}
-              <div
-                class="w-max flex-shrink-0 rounded-2xl sm:rounded-3xl border-2 border-mint/80 bg-obsidian-800/95 px-5 py-3.5 sm:px-6 sm:py-4 shadow-xl backdrop-blur-md"
-              >
-                <span
-                  class="font-display text-sm sm:text-base font-extrabold text-mint block leading-tight whitespace-nowrap"
-                >
-                  {node.title}
-                </span>
-                {#if node.sub}
                   <span
-                    class="text-xs sm:text-sm text-alabaster-200 block leading-snug mt-1 whitespace-nowrap"
+                    class="font-display text-base font-black leading-tight whitespace-nowrap"
+                    >Dịch vụ</span
                   >
-                    {node.sub}
-                  </span>
-                {/if}
-              </div>
+                  <span
+                    class="font-display text-base font-black leading-tight whitespace-nowrap"
+                    >hỗ trợ</span
+                  >
+                </a>
 
-              <!-- 7. PLATFORM BADGE -->
-            {:else if node.kind === "badge"}
-              {#if node.logo}
-                <!-- Khung trắng bo tròn với logo, tên trang bên dưới -->
+                <!-- 5. MIND-MAP QUESTION / SOLUTION HUB -->
+              {:else if node.kind === "hub"}
                 <div
-                  class="flex flex-col items-center group w-max flex-shrink-0"
+                  class="w-max flex-shrink-0 rounded-3xl border-2 border-mint bg-obsidian-800/95 px-8 py-4 shadow-mint-glow backdrop-blur-md"
                 >
+                  <span
+                    class="font-display text-lg font-black text-mint whitespace-nowrap"
+                  >
+                    {node.title}
+                  </span>
+                </div>
+
+                <!-- 6. PAIN POINT PROBLEM NODE -->
+              {:else if node.kind === "problem"}
+                <div
+                  class="w-max flex-shrink-0 rounded-3xl border-2 border-mint/80 bg-obsidian-800/95 px-6 py-4 shadow-xl backdrop-blur-md"
+                >
+                  <span
+                    class="font-display text-base font-extrabold text-mint block leading-tight whitespace-nowrap"
+                  >
+                    {node.title}
+                  </span>
+                  {#if node.sub}
+                    <span
+                      class="text-sm text-alabaster-200 block leading-snug mt-1 whitespace-nowrap"
+                    >
+                      {node.sub}
+                    </span>
+                  {/if}
+                </div>
+
+                <!-- 7. PLATFORM BADGE -->
+              {:else if node.kind === "badge"}
+                {#if node.logo}
                   <div
-                    class="flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-2xl sm:rounded-3xl border-2 border-alabaster-100 bg-white p-2.5 sm:p-3 shadow-2xl transition-all duration-200 group-hover:scale-108 group-hover:border-mint group-hover:shadow-mint-glow"
+                    class="flex flex-col items-center group w-max flex-shrink-0"
                   >
-                    <img
-                      src={url(node.logo)}
-                      alt={node.title}
-                      class="h-full w-full object-contain"
-                      loading="lazy"
-                    />
+                    <div
+                      class="flex h-20 w-20 items-center justify-center rounded-3xl border-2 border-alabaster-100 bg-white p-3 shadow-2xl transition-all duration-200 group-hover:scale-108 group-hover:border-mint group-hover:shadow-mint-glow"
+                    >
+                      <img
+                        src={url(node.logo)}
+                        alt={node.title}
+                        class="h-full w-full object-contain"
+                        loading="lazy"
+                      />
+                    </div>
+                    <span
+                      class="font-display text-sm font-extrabold text-alabaster-100 tracking-tight block text-center mt-2 group-hover:text-mint transition-colors whitespace-nowrap"
+                    >
+                      {node.title}
+                    </span>
                   </div>
-                  <span
-                    class="font-display text-xs sm:text-sm font-extrabold text-alabaster-100 tracking-tight block text-center mt-2 group-hover:text-mint transition-colors whitespace-nowrap"
+                {:else if node.link}
+                  <a
+                    href={url(node.link)}
+                    class="block w-max flex-shrink-0 rounded-2xl border-2 border-alabaster-200/90 bg-obsidian-800/95 px-6 py-3.5 shadow-xl hover:border-mint transition-colors backdrop-blur-md"
                   >
-                    {node.title}
-                  </span>
-                </div>
-              {:else if node.link}
-                <a
-                  href={url(node.link)}
-                  class="block w-max flex-shrink-0 rounded-2xl border-2 border-alabaster-200/90 bg-obsidian-800/95 px-5 py-3 sm:px-6 sm:py-3.5 shadow-xl hover:border-mint transition-colors backdrop-blur-md"
-                >
-                  <span
-                    class="font-display text-sm sm:text-base font-extrabold text-alabaster-50 block leading-tight whitespace-nowrap"
-                  >
-                    {node.title}
-                  </span>
-                  {#if node.sub}
                     <span
-                      class="font-mono text-xs text-mint block leading-tight mt-0.5 whitespace-nowrap"
+                      class="font-display text-base font-extrabold text-alabaster-50 block leading-tight whitespace-nowrap"
                     >
-                      {node.sub}
+                      {node.title}
                     </span>
-                  {/if}
-                </a>
-              {:else}
-                <div
-                  class="w-max flex-shrink-0 rounded-2xl border-2 border-alabaster-200/90 bg-obsidian-800/95 px-5 py-3 sm:px-6 sm:py-3.5 shadow-xl backdrop-blur-md"
-                >
-                  <span
-                    class="font-display text-sm sm:text-base font-extrabold text-alabaster-50 block leading-tight whitespace-nowrap"
+                    {#if node.sub}
+                      <span
+                        class="font-mono text-xs text-mint block leading-tight mt-0.5 whitespace-nowrap"
+                      >
+                        {node.sub}
+                      </span>
+                    {/if}
+                  </a>
+                {:else}
+                  <div
+                    class="w-max flex-shrink-0 rounded-2xl border-2 border-alabaster-200/90 bg-obsidian-800/95 px-6 py-3.5 shadow-xl backdrop-blur-md"
                   >
-                    {node.title}
-                  </span>
-                  {#if node.sub}
                     <span
-                      class="font-mono text-xs text-alabaster-300 block leading-tight mt-0.5 whitespace-nowrap"
+                      class="font-display text-base font-extrabold text-alabaster-50 block leading-tight whitespace-nowrap"
                     >
-                      {node.sub}
+                      {node.title}
                     </span>
-                  {/if}
-                </div>
-              {/if}
+                    {#if node.sub}
+                      <span
+                        class="font-mono text-xs text-alabaster-300 block leading-tight mt-0.5 whitespace-nowrap"
+                      >
+                        {node.sub}
+                      </span>
+                    {/if}
+                  </div>
+                {/if}
 
-              <!-- 8. CONCEPT LEAF -->
-            {:else}
-              {#if node.link}
-                <a
-                  href={url(node.link)}
-                  class="block w-max flex-shrink-0 rounded-xl sm:rounded-2xl border border-mint/60 bg-obsidian-800/90 px-4 py-2.5 sm:px-5 sm:py-3 shadow-md hover:bg-mint hover:text-obsidian-900 transition-colors backdrop-blur-md"
-                >
-                  <span
-                    class="font-display text-xs sm:text-sm font-bold block leading-tight whitespace-nowrap"
-                    >{node.title}</span
-                  >
-                  {#if node.sub}
-                    <span
-                      class="text-[11px] sm:text-xs text-alabaster-300 block leading-tight mt-0.5 whitespace-nowrap"
-                      >{node.sub}</span
-                    >
-                  {/if}
-                </a>
+                <!-- 8. CONCEPT LEAF -->
               {:else}
-                <div
-                  class="w-max flex-shrink-0 rounded-xl sm:rounded-2xl border border-alabaster-200/80 bg-obsidian-800/90 px-4 py-2.5 sm:px-5 sm:py-3 shadow-md backdrop-blur-md"
-                >
-                  <span
-                    class="font-display text-xs sm:text-sm font-bold text-alabaster-50 block leading-tight whitespace-nowrap"
-                    >{node.title}</span
+                {#if node.link}
+                  <a
+                    href={url(node.link)}
+                    class="block w-max flex-shrink-0 rounded-2xl border border-mint/60 bg-obsidian-800/90 px-5 py-3 shadow-md hover:bg-mint hover:text-obsidian-900 transition-colors backdrop-blur-md"
                   >
-                  {#if node.sub}
                     <span
-                      class="text-[11px] sm:text-xs text-alabaster-300 block leading-tight mt-0.5 whitespace-nowrap"
-                      >{node.sub}</span
+                      class="font-display text-sm font-bold block leading-tight whitespace-nowrap"
+                      >{node.title}</span
                     >
-                  {/if}
-                </div>
+                    {#if node.sub}
+                      <span
+                        class="text-xs text-alabaster-300 block leading-tight mt-0.5 whitespace-nowrap"
+                        >{node.sub}</span
+                      >
+                    {/if}
+                  </a>
+                {:else}
+                  <div
+                    class="w-max flex-shrink-0 rounded-2xl border border-alabaster-200/80 bg-obsidian-800/90 px-5 py-3 shadow-md backdrop-blur-md"
+                  >
+                    <span
+                      class="font-display text-sm font-bold text-alabaster-50 block leading-tight whitespace-nowrap"
+                      >{node.title}</span
+                    >
+                    {#if node.sub}
+                      <span
+                        class="text-xs text-alabaster-300 block leading-tight mt-0.5 whitespace-nowrap"
+                        >{node.sub}</span
+                      >
+                    {/if}
+                  </div>
+                {/if}
               {/if}
-            {/if}
-          </div>
-        {/if}
-      {/each}
-    </div>
+            </div>
+          {/if}
+        {/each}
+      </div>
 
-    <!-- BOTTOM CENTER HEMISPHERE / DOME (Permanently anchored at bottom center as orbital axis) -->
-    <div
-      class="pointer-events-auto absolute inset-x-0 bottom-0 z-30 flex flex-col items-center justify-end"
-    >
+      <!-- BOTTOM CENTER HEMISPHERE / DOME (Anchored at bottom center of 1920x1080 stage) -->
       <div
-        class="relative flex h-40 w-[340px] sm:h-48 sm:w-[480px] flex-col items-center justify-center rounded-t-full border-t-2 border-x-2 border-mint bg-obsidian-800/95 px-8 pt-6 text-center shadow-[0_-20px_60px_rgba(112,255,175,0.22)] backdrop-blur-md"
+        class="pointer-events-auto absolute inset-x-0 bottom-0 z-30 flex flex-col items-center justify-end"
       >
-        <span
-          class="font-mono text-xs font-bold uppercase tracking-widest text-mint mb-1.5"
+        <div
+          class="relative flex h-48 w-[480px] flex-col items-center justify-center rounded-t-full border-t-2 border-x-2 border-mint bg-obsidian-800/95 px-8 pt-6 text-center shadow-[0_-20px_60px_rgba(112,255,175,0.22)] backdrop-blur-md"
         >
-          0{activeStage + 1} / 03
-        </span>
+          <span
+            class="font-mono text-xs font-bold uppercase tracking-widest text-mint mb-1.5"
+          >
+            0{activeStage + 1} / 03
+          </span>
 
-        <!-- Active Stage Title in the Dome -->
-        <h2
-          class="font-display text-3xl sm:text-5xl font-black tracking-tight text-alabaster-50 transition-all duration-300"
-        >
-          {stageMeta[activeStage].title}
-        </h2>
+          <!-- Active Stage Title in the Dome -->
+          <h2
+            class="font-display text-5xl font-black tracking-tight text-alabaster-50 transition-all duration-300"
+          >
+            {stageMeta[activeStage].title}
+          </h2>
+        </div>
       </div>
     </div>
   </div>
