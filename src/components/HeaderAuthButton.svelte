@@ -4,7 +4,6 @@
     openAuthModal,
     openPostJobModal,
     openUpgradeModal,
-    openApplicationHistoryModal,
     getCompanyMonthlyJobStats,
     logout
   } from '../stores/auth';
@@ -108,9 +107,9 @@
           </a>
 
           {#if $currentUser.role !== 'company'}
-            <button
-              type="button"
-              onclick={() => { isDropdownOpen = false; openApplicationHistoryModal(); }}
+            <a
+              href={url(`/profile/@${$currentUser.username}?tab=applications`)}
+              onclick={() => (isDropdownOpen = false)}
               class="flex w-full items-center justify-between rounded-xl px-3.5 py-2.5 text-xs font-semibold text-obsidian-800 hover:bg-mint/25 hover:text-obsidian-900 transition-colors"
               role="menuitem"
             >
@@ -121,7 +120,7 @@
                 <span>Lịch sử ứng tuyển ({$currentUser.appliedJobs?.length || 0})</span>
               </div>
               <span class="font-mono text-xs text-swiss-500 font-bold">→</span>
-            </button>
+            </a>
           {/if}
 
           {#if $currentUser.role === 'company'}

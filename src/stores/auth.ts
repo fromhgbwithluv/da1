@@ -31,7 +31,6 @@ export const authModalTab = atom<'login' | 'register' | 'forgot'>('login');
 export const isPostJobModalOpen = atom<boolean>(false);
 export const editingJob = atom<Job | null>(null);
 export const isUpgradeModalOpen = atom<boolean>(false);
-export const isApplicationHistoryOpen = atom<boolean>(false);
 export const isCloudSyncing = atom<boolean>(false);
 export const isCloudConnected = atom<boolean>(false);
 
@@ -56,19 +55,6 @@ function normalizeJobPostedAt(job: Job): Job {
 
 function normalizeJobsPostedAt(jobs: Job[] | undefined): Job[] {
   return (jobs || []).map(normalizeJobPostedAt);
-}
-
-export function openApplicationHistoryModal() {
-  const user = currentUser.get();
-  if (user?.role === 'company') {
-    showToast('Tài khoản Doanh nghiệp không có lịch sử nộp đơn ứng tuyển!', 'info');
-    return;
-  }
-  isApplicationHistoryOpen.set(true);
-}
-
-export function closeApplicationHistoryModal() {
-  isApplicationHistoryOpen.set(false);
 }
 
 export function openAuthModal(tab: 'login' | 'register' | 'forgot' = 'login') {

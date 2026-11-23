@@ -3,6 +3,7 @@
   import {
     databaseStore,
     currentUser,
+    databaseJobs,
     getUserByUsername,
     openPostJobModal,
     openUpgradeModal,
@@ -18,12 +19,13 @@
     removePortfolioProject,
     exportDatabaseJSON
   } from '../stores/auth';
+  import { openJobDetail } from '../stores/favorites';
   import { showToast } from '../stores/toast';
-  import type { UserProfile } from '../types/user';
+  import type { UserProfile, AppliedJobRecord } from '../types/user';
   import JobCard from './JobCard.svelte';
   import Badge from './Badge.svelte';
   import UniversitySelect from './UniversitySelect.svelte';
-  import { formatDate, isValidVietnamesePhone } from '../utils/formatters';
+  import { formatDate, formatDateTime, isValidVietnamesePhone } from '../utils/formatters';
   import { url } from '../utils/url';
 
   let rawUsername = $state('');
@@ -31,8 +33,8 @@
   let isLoaded = $state(false);
 
   // Owner tab & settings form state
-  let activeTab = $state<'overview' | 'settings'>('overview');
-  let requestedSettingsTab = $state(false);
+  let activeTab = $state<'overview' | 'applications' | 'settings'>('overview');
+  let requestedTab = $state<'applications' | 'settings' | null>(null);
 
   let editFullName = $state('');
   let editPhone = $state('');
@@ -54,6 +56,16 @@
 
   let ownerCVs = $derived(getUserCVs($currentUser));
   let publicCVs = $derived(getUserCVs(profileUser));
+  let ownerApplications = $derived($currentUser?.appliedJobs || []);
+
+  function handleViewAppliedJob(record: AppliedJobRecord) {
+    const job = $databaseJobs.find((j) => j.id === record.jobId);
+    if (job) {
+      openJobDetail(job);
+    } else {
+      showToast('Tin tuyển dụng này hiện không còn trên hệ thống.', 'info');
+    }
+  }
 
   onMount(() => {
     // Extract username from URL path: e.g. /profile/@an.nguyen or /profile/an.nguyen
@@ -62,12 +74,20 @@
     const lastPart = parts[parts.length - 1] || '';
 
     const urlParams = new URLSearchParams(window.location.search);
+    const tabParam = urlParams.get('tab');
     if (
-      urlParams.get('tab') === 'settings' ||
+      tabParam === 'settings' ||
       window.location.hash === '#settings' ||
       window.location.hash === '#cai-dat'
     ) {
-      requestedSettingsTab = true;
+      requestedTab = 'settings';
+    } else if (
+      tabParam === 'applications' ||
+      tabParam === 'history' ||
+      window.location.hash === '#applications' ||
+      window.location.hash === '#lich-su-ung-tuyen'
+    ) {
+      requestedTab = 'applications';
     }
 
     if (lastPart && lastPart !== 'profile') {
@@ -104,13 +124,18 @@
     Boolean($currentUser && profileUser && $currentUser.id === profileUser.id)
   );
 
-  // Enforce ownership for settings tab & handle ?tab=settings deep link
+  // Enforce ownership for owner-only tabs & handle ?tab=... deep links
   $effect(() => {
     if (!isOwner) {
       activeTab = 'overview';
-    } else if (requestedSettingsTab) {
+    } else if (requestedTab === 'settings') {
       activeTab = 'settings';
-      requestedSettingsTab = false;
+      requestedTab = null;
+    } else if (requestedTab === 'applications') {
+      activeTab = profileUser?.role !== 'company' ? 'applications' : 'overview';
+      requestedTab = null;
+    } else if (activeTab === 'applications' && profileUser?.role === 'company') {
+      activeTab = 'overview';
     }
   });
 
@@ -133,17 +158,24 @@
     }
   });
 
-  function setTab(tab: 'overview' | 'settings') {
+  function setTab(tab: 'overview' | 'applications' | 'settings') {
     activeTab = tab;
     if (typeof window !== 'undefined') {
       const nextUrl = new URL(window.location.href);
       if (tab === 'settings') {
         nextUrl.searchParams.set('tab', 'settings');
+      } else if (tab === 'applications') {
+        nextUrl.searchParams.set('tab', 'applications');
       } else {
         nextUrl.searchParams.delete('tab');
-        if (nextUrl.hash === '#settings' || nextUrl.hash === '#cai-dat') {
-          nextUrl.hash = '';
-        }
+      }
+      if (
+        nextUrl.hash === '#settings' ||
+        nextUrl.hash === '#cai-dat' ||
+        nextUrl.hash === '#applications' ||
+        nextUrl.hash === '#lich-su-ung-tuyen'
+      ) {
+        nextUrl.hash = '';
       }
       window.history.replaceState({}, '', nextUrl.toString());
     }
@@ -340,7 +372,7 @@
         <!-- Owner-Only Segmented Pill Tab Switcher -->
         {#if isOwner}
           <div
-            class="relative z-10 mt-6 inline-flex flex-wrap items-center gap-1 rounded-full border border-obsidian-900/10 bg-alabaster-50 p-1 shadow-xs"
+            class="relative z-10 mt-6 inline-flex flex-wrap items-center gap-1 rounded-2xl sm:rounded-full border border-obsidian-900/10 bg-alabaster-50 p-1 shadow-xs"
             role="tablist"
             aria-label="Quản lý hồ sơ"
           >
@@ -356,6 +388,32 @@
             >
               Hồ sơ công khai
             </button>
+
+            {#if profileUser.role !== 'company'}
+              <button
+                type="button"
+                role="tab"
+                aria-selected={activeTab === 'applications'}
+                onclick={() => setTab('applications')}
+                class="inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs transition-all duration-150
+                {activeTab === 'applications'
+                  ? 'bg-obsidian-900 text-mint font-bold shadow-xs'
+                  : 'text-obsidian-700 hover:text-obsidian-900 hover:bg-alabaster-100 font-semibold'}"
+              >
+                <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                </svg>
+                <span>Lịch sử ứng tuyển</span>
+                <span
+                  class="inline-flex items-center justify-center rounded-full px-1.5 py-0.5 font-mono text-[10px] font-bold leading-none
+                  {activeTab === 'applications'
+                    ? 'bg-mint text-obsidian-900'
+                    : 'bg-alabaster-200 text-obsidian-800'}"
+                >
+                  {ownerApplications.length}
+                </span>
+              </button>
+            {/if}
 
             <button
               type="button"
@@ -848,6 +906,163 @@
               </div>
             {/if}
           </div>
+        {:else if activeTab === 'applications' && isOwner && $currentUser && $currentUser.role !== 'company'}
+          <!-- ================= OWNER APPLICATION HISTORY TAB ================= -->
+          <div class="space-y-5">
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-obsidian-900/10 pb-3.5">
+              <div class="flex items-center gap-2.5">
+                <span class="h-2 w-2 rounded-full bg-mint-500 shrink-0"></span>
+                <div>
+                  <h3 class="font-display text-base sm:text-lg font-extrabold text-obsidian-900">
+                    Lịch sử các công ty đã ứng tuyển
+                  </h3>
+                  <p class="text-xs text-swiss-500 mt-0.5">
+                    Theo dõi mã hồ sơ, thời gian gửi và xem lại tin tuyển dụng đã ứng tuyển
+                  </p>
+                </div>
+              </div>
+
+              <span class="inline-flex items-center rounded-full bg-obsidian-900 px-3 py-1 font-mono text-[11px] font-bold text-mint shrink-0">
+                {ownerApplications.length} hồ sơ đã gửi
+              </span>
+            </div>
+
+            {#if ownerApplications.length === 0}
+              <div class="rounded-2xl border border-dashed border-obsidian-900/20 bg-alabaster-100/50 p-8 sm:p-10 text-center space-y-3">
+                <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl border border-obsidian-900/15 bg-alabaster-50 text-obsidian-900">
+                  <svg class="h-5 w-5 text-mint-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                  </svg>
+                </div>
+                <h4 class="font-display text-sm sm:text-base font-extrabold text-obsidian-900">
+                  Chưa có lịch sử ứng tuyển
+                </h4>
+                <p class="text-xs text-swiss-500 max-w-md mx-auto leading-relaxed">
+                  Bạn chưa nộp hồ sơ vào công ty nào. Hãy dạo quanh danh mục việc làm, ghim các vị trí yêu thích và gửi hồ sơ nhé!
+                </p>
+                <div class="pt-1">
+                  <a
+                    href={url('/jobs')}
+                    class="inline-flex items-center gap-2 rounded-full bg-obsidian-900 px-5 py-2.5 font-display text-xs font-bold text-mint hover:bg-obsidian-800 hover:shadow-mint-glow transition-all"
+                  >
+                    <span>Khám phá việc làm ngay</span>
+                    <span>→</span>
+                  </a>
+                </div>
+              </div>
+            {:else}
+              <div class="space-y-4">
+                {#each ownerApplications as record (record.id)}
+                  <div class="rounded-2xl border border-obsidian-900/15 bg-alabaster-50 p-4 sm:p-5 space-y-3.5 transition-all duration-200 hover:border-obsidian-900 shadow-xs">
+                    <!-- Top Bar: Company & Status -->
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-obsidian-900/10 pb-3">
+                      <div class="flex flex-wrap items-center gap-2 min-w-0">
+                        <span class="font-display text-sm sm:text-base font-extrabold text-obsidian-900">
+                          {record.company}
+                        </span>
+                        {#if record.companyUsername}
+                          <a
+                            href={url(`/profile/${record.companyUsername}`)}
+                            class="font-mono text-[11px] font-semibold text-swiss-500 hover:text-obsidian-900 hover:underline"
+                          >
+                            ({record.companyUsername})
+                          </a>
+                        {/if}
+                      </div>
+
+                      <Badge variant="emerald" size="xs" dot>Đã nộp hồ sơ</Badge>
+                    </div>
+
+                    <!-- Job Title, Salary & Location -->
+                    <div class="space-y-2">
+                      <button
+                        type="button"
+                        onclick={() => handleViewAppliedJob(record)}
+                        class="text-left font-display text-base sm:text-lg font-extrabold text-obsidian-900 hover:text-mint-700 transition-colors leading-snug"
+                      >
+                        {record.jobTitle}
+                      </button>
+
+                      <div class="flex flex-wrap items-center gap-2 text-xs text-obsidian-700">
+                        <span class="inline-flex items-center rounded-full bg-mint/35 border border-mint-500/30 px-2.5 py-0.5 font-mono text-[11px] font-bold text-obsidian-900">
+                          {record.salary}
+                        </span>
+                        <span class="inline-flex items-center gap-1 text-xs text-obsidian-700 min-w-0">
+                          <svg class="h-3.5 w-3.5 text-mint-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                          </svg>
+                          <span class="truncate">{record.location}</span>
+                        </span>
+                      </div>
+                    </div>
+
+                    <!-- Metadata Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 rounded-xl border border-obsidian-900/10 bg-alabaster-100/70 p-3.5 text-xs">
+                      <div>
+                        <span class="font-mono text-[10px] font-bold uppercase tracking-wider text-swiss-500 block mb-0.5">
+                          Mã hồ sơ
+                        </span>
+                        <span class="font-mono font-extrabold text-obsidian-900">
+                          {record.applicationCode}
+                        </span>
+                      </div>
+                      <div>
+                        <span class="font-mono text-[10px] font-bold uppercase tracking-wider text-swiss-500 block mb-0.5">
+                          Thời gian nộp
+                        </span>
+                        <span class="font-mono font-bold text-obsidian-900">
+                          {formatDateTime(record.appliedAt)}
+                        </span>
+                      </div>
+                      {#if record.cvName}
+                        <div class="sm:col-span-2 lg:col-span-1">
+                          <span class="font-mono text-[10px] font-bold uppercase tracking-wider text-swiss-500 block mb-0.5">
+                            Hồ sơ / CV đính kèm
+                          </span>
+                          <span class="font-semibold text-obsidian-900 truncate block" title={record.cvName}>
+                            {record.cvName}
+                          </span>
+                        </div>
+                      {/if}
+                    </div>
+
+                    <!-- Bottom Actions -->
+                    <div class="pt-2 border-t border-obsidian-900/10 flex flex-wrap items-center justify-between gap-2.5">
+                      <span class="inline-flex items-center rounded-full bg-alabaster-100 border border-obsidian-900/10 px-3 py-1 font-mono text-[11px] font-semibold text-obsidian-600">
+                        Gói nộp: {record.paymentMethod === 'qr_support' ? 'Sinh viên ủng hộ dự án (15k)' : 'Miễn phí 100%'}
+                      </span>
+
+                      <button
+                        type="button"
+                        onclick={() => handleViewAppliedJob(record)}
+                        class="inline-flex items-center gap-1.5 rounded-full border border-obsidian-900/15 bg-alabaster-100/80 px-4 py-1.5 font-display text-xs font-bold text-obsidian-900 hover:border-obsidian-900 hover:bg-obsidian-900 hover:text-mint transition-all cursor-pointer"
+                      >
+                        <span>Xem lại tin tuyển dụng</span>
+                        <span>→</span>
+                      </button>
+                    </div>
+                  </div>
+                {/each}
+              </div>
+            {/if}
+
+            <!-- Trust Strip -->
+            <div class="rounded-2xl border border-obsidian-900/10 bg-alabaster-100/60 px-4 py-3 flex flex-wrap items-center justify-between gap-2 text-xs text-obsidian-600">
+              <div class="flex items-center gap-2">
+                <span class="h-2 w-2 rounded-full bg-mint-500 shrink-0"></span>
+                <span class="font-mono text-[11px] font-semibold uppercase tracking-wide text-obsidian-700">
+                  TopSiVi • Bảo vệ quyền lợi ứng viên 100%
+                </span>
+              </div>
+              <a
+                href={url('/jobs')}
+                class="font-display text-xs font-bold text-obsidian-900 underline decoration-mint decoration-2 underline-offset-4 hover:text-obsidian-700"
+              >
+                Tìm thêm việc làm →
+              </a>
+            </div>
+          </div>
         {:else}
           <!-- ================= PUBLIC PROFILE OVERVIEW ================= -->
           <!-- Bio / About Section -->
@@ -974,56 +1189,6 @@
                   </p>
                 {/if}
               </div>
-
-              <!-- APPLIED JOBS HISTORY -->
-              {#if isOwner || (profileUser.appliedJobs && profileUser.appliedJobs.length > 0)}
-                <div class="space-y-3 pt-2 border-t border-obsidian-900/10">
-                  <div class="flex items-center justify-between border-b border-obsidian-900/10 pb-2">
-                    <h3 class="font-display text-sm sm:text-base font-extrabold text-obsidian-900">
-                      Lịch sử công ty đã ứng tuyển ({profileUser.appliedJobs?.length || 0})
-                    </h3>
-                  </div>
-
-                  {#if profileUser.appliedJobs && profileUser.appliedJobs.length > 0}
-                    <div class="space-y-3">
-                      {#each profileUser.appliedJobs as app (app.id)}
-                        <div class="rounded-2xl border border-obsidian-900/15 bg-alabaster-50 p-4 space-y-2 text-xs hover:border-obsidian-900 transition-colors shadow-xs">
-                          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-obsidian-900/10 pb-2">
-                            <div class="flex items-center gap-2">
-                              <span class="font-display font-extrabold text-obsidian-900 text-sm">{app.company}</span>
-                              {#if app.companyUsername}
-                                <a href={url(`/profile/${app.companyUsername}`)} class="font-mono text-[11px] text-swiss-500 hover:text-obsidian-900 hover:underline">
-                                  ({app.companyUsername})
-                                </a>
-                              {/if}
-                            </div>
-                            <Badge variant="emerald" size="xs" dot>ĐÃ NỘP HỒ SƠ</Badge>
-                          </div>
-
-                          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-xs">
-                            <span class="font-bold text-obsidian-900">{app.jobTitle}</span>
-                            <span class="font-mono text-swiss-500">Mã: <strong class="text-obsidian-900">{app.applicationCode}</strong></span>
-                          </div>
-
-                          <div class="flex flex-wrap items-center justify-between gap-2 pt-1 font-mono text-[11px] text-swiss-500">
-                            <span>Lương: <strong class="text-obsidian-900">{app.salary}</strong> • {app.location}</span>
-                            <span>Ngày nộp: {formatDate(app.appliedAt)}</span>
-                          </div>
-                          {#if app.cvName}
-                            <div class="pt-1 font-mono text-[11px] text-obsidian-700">
-                              CV: <strong class="text-obsidian-900">{app.cvName}</strong>
-                            </div>
-                          {/if}
-                        </div>
-                      {/each}
-                    </div>
-                  {:else}
-                    <p class="text-xs text-swiss-500 italic">
-                      Chưa nộp hồ sơ vào công ty nào.
-                    </p>
-                  {/if}
-                </div>
-              {/if}
             </div>
           {/if}
 

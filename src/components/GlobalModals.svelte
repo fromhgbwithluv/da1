@@ -5,7 +5,6 @@
   import AuthModal from './AuthModal.svelte';
   import PostJobModal from './PostJobModal.svelte';
   import UpgradePlanModal from './UpgradePlanModal.svelte';
-  import ApplicationHistoryModal from './ApplicationHistoryModal.svelte';
   import BookingModal from './BookingModal.svelte';
   import Toast from './Toast.svelte';
 </script>
@@ -17,6 +16,5 @@
 <AuthModal />
 <PostJobModal />
 <UpgradePlanModal />
-<ApplicationHistoryModal />
 <BookingModal />
 <Toast />
