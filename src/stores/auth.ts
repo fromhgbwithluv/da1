@@ -1,11 +1,11 @@
 import { persistentAtom } from '@nanostores/persistent';
-import { atom, computed } from 'nanostores';
+import { atom, computed, onMount } from 'nanostores';
 import type { AppDatabase, UserProfile, UserRole, CVAttachment, PortfolioProject } from '../types/user';
 import type { Job, JobCategory } from '../types/job';
 import initialDb from '../data/database.json';
 import { showToast } from './toast';
 import { detectProvinceFromLocation, detectWardFromLocation, normalizeVietnamese } from '../data/provinces';
-import { isValidVietnamesePhone } from '../utils/formatters';
+import { isValidVietnamesePhone, isValidTimestamp, resolveJobPostedAt } from '../utils/formatters';
 import {
   isSupabaseConfigured,
   fetchCloudDatabase,
@@ -34,6 +34,29 @@ export const isUpgradeModalOpen = atom<boolean>(false);
 export const isApplicationHistoryOpen = atom<boolean>(false);
 export const isCloudSyncing = atom<boolean>(false);
 export const isCloudConnected = atom<boolean>(false);
+
+// Shared reactive clock (updates every 60s on client) so relative timestamps refresh cleanly
+export const nowTimestamp = atom<number>(Date.now());
+onMount(nowTimestamp, () => {
+  if (typeof window === 'undefined') return;
+  nowTimestamp.set(Date.now());
+  const timer = window.setInterval(() => {
+    nowTimestamp.set(Date.now());
+  }, 60_000);
+  return () => window.clearInterval(timer);
+});
+
+function normalizeJobPostedAt(job: Job): Job {
+  const resolved = resolveJobPostedAt(job);
+  if (resolved && job.postedAt !== resolved) {
+    return { ...job, postedAt: resolved };
+  }
+  return job;
+}
+
+function normalizeJobsPostedAt(jobs: Job[] | undefined): Job[] {
+  return (jobs || []).map(normalizeJobPostedAt);
+}
 
 export function openApplicationHistoryModal() {
   const user = currentUser.get();
@@ -180,6 +203,7 @@ export const databaseJobs = computed(databaseStore, (db) => {
 
     return {
       ...job,
+      postedAt: resolveJobPostedAt(job) || job.postedAt,
       provinceCode: resolvedProvCode,
       provinceName: resolvedProvName,
       wardCode: resolvedWardCode,
@@ -757,8 +781,9 @@ export function postNewJob(jobData: {
   }
 
   const db = databaseStore.get();
-  const id = 'job-' + Date.now();
-  const now = new Date().toISOString();
+  const createdAtMs = Date.now();
+  const id = 'job-' + createdAtMs;
+  const now = new Date(createdAtMs).toISOString();
 
   const categories = (jobData.categories && jobData.categories.length > 0)
     ? jobData.categories
@@ -826,7 +851,7 @@ export function postNewJob(jobData: {
     summary: jobData.summary,
     markdownContent: jobData.markdownContent,
     deadline: jobData.deadline || '30/12/2026',
-    postedAt: 'Vừa xong',
+    postedAt: now,
     updatedAt: now,
     verified: true,
     tags: jobData.tags && jobData.tags.length > 0 ? jobData.tags : [primaryCategory, user.industry || 'Tuyển dụng'],
@@ -885,6 +910,7 @@ export function updateJob(jobId: string, jobData: Partial<Job>): Job | null {
     categories,
     categoryLabel,
     targetGroup,
+    postedAt: resolveJobPostedAt(existingJob) || existingJob.postedAt,
     updatedAt: new Date().toISOString(),
   };
 
@@ -1001,7 +1027,7 @@ function mergeDatabases(localDb: AppDatabase, remoteDb: AppDatabase): AppDatabas
     updatedAt: new Date().toISOString(),
     activeUserId: localActiveUserId.get(),
     users: Array.from(userMap.values()),
-    jobs: Array.from(jobMap.values()),
+    jobs: normalizeJobsPostedAt(Array.from(jobMap.values())),
   };
 }
 
@@ -1026,6 +1052,9 @@ export async function initCloudDatabase() {
 
     if (cloudDb && Array.isArray(cloudDb.users)) {
       if (hasCloudData) {
+        const cloudHadLegacyPostedAt = (cloudDb.jobs || []).some(
+          (j) => !isValidTimestamp(j?.postedAt) && Boolean(resolveJobPostedAt(j))
+        );
         // Cloud đã có dữ liệu: Gộp an toàn với dữ liệu Local
         const mergedDb = mergeDatabases(localDb, cloudDb);
         isInternalSyncUpdate = true;
@@ -1034,8 +1063,12 @@ export async function initCloudDatabase() {
         lastSyncedJobsSnapshot = JSON.stringify(mergedDb.jobs || []);
         isInternalSyncUpdate = false;
 
-        // Nếu máy local có dữ liệu mới mà Cloud chưa có, cập nhật ngược lên Cloud
-        if (mergedDb.users.length > (cloudDb.users?.length || 0) || mergedDb.jobs.length > (cloudDb.jobs?.length || 0)) {
+        // Nếu máy local có dữ liệu mới hoặc cloud có legacy postedAt cần chuẩn hóa, cập nhật ngược lên Cloud
+        if (
+          cloudHadLegacyPostedAt ||
+          mergedDb.users.length > (cloudDb.users?.length || 0) ||
+          mergedDb.jobs.length > (cloudDb.jobs?.length || 0)
+        ) {
           await pushCloudDatabase(mergedDb);
         }
       } else if (hasLocalData) {
@@ -1065,12 +1098,14 @@ export async function initCloudDatabase() {
       if (remoteDb && Array.isArray(remoteDb.users)) {
         isInternalSyncUpdate = true;
         const mySessionId = localActiveUserId.get();
+        const normalizedJobs = normalizeJobsPostedAt(remoteDb.jobs);
         databaseStore.set({
           ...remoteDb,
+          jobs: normalizedJobs,
           activeUserId: mySessionId,
         });
         lastSyncedUsersSnapshot = JSON.stringify(remoteDb.users || []);
-        lastSyncedJobsSnapshot = JSON.stringify(remoteDb.jobs || []);
+        lastSyncedJobsSnapshot = JSON.stringify(normalizedJobs);
         isInternalSyncUpdate = false;
       }
     });
@@ -1106,12 +1141,14 @@ export async function forceSyncFromCloud() {
     if (cloudDb && Array.isArray(cloudDb.users)) {
       isInternalSyncUpdate = true;
       const mySessionId = localActiveUserId.get();
+      const normalizedJobs = normalizeJobsPostedAt(cloudDb.jobs);
       databaseStore.set({
         ...cloudDb,
+        jobs: normalizedJobs,
         activeUserId: mySessionId,
       });
       lastSyncedUsersSnapshot = JSON.stringify(cloudDb.users || []);
-      lastSyncedJobsSnapshot = JSON.stringify(cloudDb.jobs || []);
+      lastSyncedJobsSnapshot = JSON.stringify(normalizedJobs);
       isInternalSyncUpdate = false;
       showToast('Đã tải dữ liệu mới nhất từ máy chủ Cloud!', 'success');
     } else {

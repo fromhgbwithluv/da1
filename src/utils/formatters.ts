@@ -47,6 +47,85 @@ export function formatDateTime(input: Date | string | null | undefined): string 
 }
 
 /**
+ * Validate whether a string represents a parseable date/timestamp (rejects plain numbers and localized labels)
+ */
+export function isValidTimestamp(value: string | null | undefined): boolean {
+  if (!value || typeof value !== 'string') return false;
+  const trimmed = value.trim();
+  if (!trimmed || /^\d+$/.test(trimmed)) return false;
+  return !Number.isNaN(Date.parse(trimmed));
+}
+
+/**
+ * Resolve the canonical ISO 8601 postedAt timestamp for a job, recovering legacy records from job-<epochMs> ID or updatedAt
+ */
+export function resolveJobPostedAt(
+  job: { id?: string; postedAt?: string; updatedAt?: string } | null | undefined
+): string | null {
+  if (!job) return null;
+  if (isValidTimestamp(job.postedAt)) {
+    return job.postedAt!.trim();
+  }
+  if (typeof job.id === 'string') {
+    const match = job.id.match(/^job-(\d{10,})$/);
+    if (match) {
+      const ms = Number(match[1]);
+      if (Number.isFinite(ms) && ms > 946684800000 && !Number.isNaN(new Date(ms).getTime())) {
+        return new Date(ms).toISOString();
+      }
+    }
+  }
+  if (isValidTimestamp(job.updatedAt)) {
+    return new Date(job.updatedAt!.trim()).toISOString();
+  }
+  return null;
+}
+
+/**
+ * Format a timestamp into Vietnamese relative time (e.g. "Vừa xong", "5 phút trước", "2 ngày trước")
+ */
+export function formatRelativeTime(
+  input: Date | string | null | undefined,
+  now: Date = new Date()
+): string {
+  if (!input) return '';
+  const date = input instanceof Date ? input : new Date(input);
+  if (Number.isNaN(date.getTime())) return String(input);
+
+  const diffMs = now.getTime() - date.getTime();
+  if (diffMs < 60_000) return 'Vừa xong';
+
+  const diffMins = Math.floor(diffMs / 60_000);
+  if (diffMins < 60) return `${diffMins} phút trước`;
+
+  const diffHours = Math.floor(diffMins / 60);
+  if (diffHours < 24) return `${diffHours} giờ trước`;
+
+  const diffDays = Math.floor(diffHours / 24);
+  if (diffDays < 30) return `${diffDays} ngày trước`;
+
+  if (diffDays < 365) {
+    const diffMonths = Math.max(1, Math.min(11, Math.floor(diffDays / 30)));
+    return `${diffMonths} tháng trước`;
+  }
+
+  const diffYears = Math.floor(diffDays / 365);
+  return `${diffYears} năm trước`;
+}
+
+/**
+ * Format a job's posting time into a Vietnamese relative-time label
+ */
+export function formatJobPostedAt(
+  job: { id?: string; postedAt?: string; updatedAt?: string } | null | undefined,
+  now: Date = new Date()
+): string {
+  const resolved = resolveJobPostedAt(job);
+  if (!resolved) return job?.postedAt || 'Vừa xong';
+  return formatRelativeTime(resolved, now);
+}
+
+/**
  * Get human-readable student tier category label
  */
 export function getCategoryLabel(category: string): string {

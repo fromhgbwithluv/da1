@@ -30,7 +30,7 @@ export interface Job {
   requirements?: string[];
   benefits?: string[];
   tags: string[];
-  postedAt: string;
+  postedAt: string; // ISO 8601 timestamp string (legacy 'Vừa xong' records normalized via resolveJobPostedAt)
   updatedAt?: string;
   deadline: string;
   verified: boolean;

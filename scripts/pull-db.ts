@@ -1,4 +1,5 @@
 import { DEFAULT_SUPABASE_URL, DEFAULT_SUPABASE_ANON_KEY } from '../src/lib/supabase.ts';
+import { resolveJobPostedAt } from '../src/utils/formatters.ts';
 
 const TABLE_NAME = 'topsivi_database';
 const RECORD_ID = 'default';
@@ -21,6 +22,12 @@ async function pullDb() {
     const rows = await res.json();
     if (rows && rows[0] && rows[0].data) {
       const db = rows[0].data;
+      if (Array.isArray(db.jobs)) {
+        db.jobs = db.jobs.map((job: { id?: string; postedAt?: string; updatedAt?: string }) => {
+          const resolved = resolveJobPostedAt(job);
+          return resolved && job.postedAt !== resolved ? { ...job, postedAt: resolved } : job;
+        });
+      }
       const jsonPath = new URL('../src/data/database.json', import.meta.url).pathname;
       await Deno.writeTextFile(jsonPath, JSON.stringify(db, null, 2) + '\n');
       console.log(`[Sync] Successfully pulled cloud database (${db.jobs?.length || 0} jobs, ${db.users?.length || 0} users) into src/data/database.json`);

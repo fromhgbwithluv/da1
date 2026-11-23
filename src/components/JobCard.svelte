@@ -1,8 +1,8 @@
 <script lang="ts">
   import type { Job } from '../types/job';
   import { favoriteJobs, toggleFavorite, openJobDetail, openCheckout } from '../stores/favorites';
-  import { currentUser, openPostJobModal, deleteJob } from '../stores/auth';
-  import { getCategoryLabel } from '../utils/formatters';
+  import { currentUser, nowTimestamp, openPostJobModal, deleteJob } from '../stores/auth';
+  import { getCategoryLabel, formatJobPostedAt, resolveJobPostedAt, formatDateTime } from '../utils/formatters';
   import { shareJob } from '../utils/share';
   import { url } from '../utils/url';
 
@@ -34,6 +34,10 @@
     job.imageUrl?.trim() ||
       'https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=800&q=80'
   );
+
+  let resolvedPostedAt = $derived(resolveJobPostedAt(job));
+  let postedLabel = $derived(formatJobPostedAt(job, new Date($nowTimestamp)));
+  let postedDateTime = $derived(resolvedPostedAt ? formatDateTime(resolvedPostedAt) : '');
 
   function handleDeleteJob() {
     if (confirm(`Bạn có chắc chắn muốn xóa tin tuyển dụng "${job.title}" không?`)) {
@@ -162,7 +166,12 @@
           <span class="font-bold text-obsidian-800 truncate">{job.company}</span>
         {/if}
         <span class="text-swiss-400 shrink-0">•</span>
-        <span class="text-[11px] text-swiss-500 shrink-0">{job.postedAt}</span>
+        <span
+          class="text-[11px] text-swiss-500 shrink-0"
+          title={postedDateTime ? `Đăng lúc ${postedDateTime}` : undefined}
+        >
+          {postedLabel}
+        </span>
       </div>
 
       {#if job.verified}
