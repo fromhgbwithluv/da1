@@ -4,6 +4,7 @@ import { url } from '../utils/url';
 
 interface Leader {
   name: string;
+  badgeRole: string;
   role: string;
   initials: string;
   avatar: string | null;
@@ -14,43 +15,48 @@ interface Leader {
 const leaders: Leader[] = [
   {
     name: 'Hoàng Gia Bảo',
-    role: 'Founder & Chief Executive Officer (CEO)',
+    badgeRole: 'DEVELOPER',
+    role: 'Developer',
     initials: 'HGB',
     avatar: '/images/founders/hoang-gia-bao.jpg',
-    bio: 'Khởi xướng tầm nhìn TopSiVi với sứ mệnh bảo vệ quyền lợi sinh viên Việt Nam, định hướng chiến lược phát triển nền tảng và kết nối hệ sinh thái nhà trường - doanh nghiệp.',
-    tags: ['Chiến lược', 'Quản trị', 'Tầm nhìn'],
+    bio: 'Phụ trách lập trình giao diện và tính năng cốt lõi trên nền tảng TopSiVi, tối ưu trải nghiệm người dùng và quy trình tìm việc – ứng tuyển cho sinh viên.',
+    tags: ['Developer', 'Frontend', 'UI/UX'],
   },
   {
     name: 'Triệu Sỹ Kha',
-    role: 'Co-Founder & Head of Product (CPO)',
+    badgeRole: 'DEVELOPER',
+    role: 'Developer',
     initials: 'TSK',
     avatar: '/images/founders/trieu-sy-kha.jpg',
-    bio: 'Chịu trách nhiệm kiến tạo trải nghiệm người dùng, thiết kế hệ thống phân tầng sinh viên 3 nhóm và chuẩn hóa quy trình xác thực việc làm an toàn.',
-    tags: ['Sản phẩm', 'UI/UX', 'Phân tầng SV'],
+    bio: 'Phụ trách xây dựng logic hệ thống, đồng bộ dữ liệu đám mây và đảm bảo nền tảng TopSiVi vận hành ổn định, nhanh chóng và an toàn.',
+    tags: ['Developer', 'System', 'Database'],
   },
   {
     name: 'Phạm Thanh Lộc',
-    role: 'Co-Founder & Head of Engineering (CTO)',
+    badgeRole: 'LEADER',
+    role: 'Team Leader',
     initials: 'PTL',
     avatar: '/images/founders/pham-thanh-loc.jpg',
-    bio: 'Kiến trúc sư hệ thống kỹ thuật, chịu trách nhiệm hạ tầng công nghệ, tối ưu hóa tốc độ tải trang và an toàn bảo mật dữ liệu ứng viên.',
-    tags: ['Kỹ thuật', 'Hạ tầng', 'Bảo mật'],
+    bio: 'Dẫn dắt đội ngũ phát triển, điều phối tiến độ và định hướng sản phẩm TopSiVi theo đúng sứ mệnh minh bạch, bảo vệ quyền lợi ứng viên sinh viên.',
+    tags: ['Leader', 'Điều phối', 'Định hướng'],
   },
   {
     name: 'Nguyễn Khắc Gia Kiên',
-    role: 'Co-Founder & Head of Operations (COO)',
+    badgeRole: 'CONTENT',
+    role: 'Content',
     initials: 'NGK',
     avatar: '/images/founders/nguyen-khac-gia-kien.jpg',
-    bio: 'Điều hành mạng lưới hỗ trợ sinh viên và doanh nghiệp, quản lý quy trình kiểm duyệt tin tuyển dụng nghiêm ngặt và hỗ trợ giải quyết sự cố 24/7.',
-    tags: ['Vận hành', 'Kiểm duyệt', 'CSKH 24/7'],
+    bio: 'Phụ trách chuẩn hóa thông tin tuyển dụng, CV, Portfolio và lên lộ trình ôn tập cho từng sinh viên.',
+    tags: ['Content', 'CV & Portfolio', 'Lộ trình'],
   },
   {
     name: 'Nguyễn Gia Minh',
-    role: 'Co-Founder & Head of Partnerships (Growth)',
+    badgeRole: 'CONTENT',
+    role: 'Content',
     initials: 'NGM',
     avatar: null,
-    bio: 'Phụ trách phát triển mạng lưới liên kết với hơn 327+ trường Đại học, Cao đẳng trên cả nước và thu hút các đối tác doanh nghiệp uy tín hàng đầu.',
-    tags: ['Hợp tác', 'Mạng lưới 327+ ĐH', 'Mở rộng'],
+    bio: 'Phụ trách sáng tạo nội dung truyền thông trên các kênh mạng xã hội, kết nối cộng đồng sinh viên và lan tỏa giá trị của TopSiVi tới các trường ĐH/CĐ.',
+    tags: ['Content', 'Truyền thông', 'Cộng đồng'],
   },
 ];
 ---
@@ -139,10 +145,10 @@ const leaders: Leader[] = [
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="mb-12 max-w-2xl">
         <span class="font-mono text-xs font-bold uppercase tracking-wider text-obsidian-600 block mb-1">
-          Đội ngũ sáng lập
+          Đội ngũ phát triển
         </span>
         <h2 class="font-display text-2xl font-extrabold tracking-tight text-obsidian-900 sm:text-3xl">
-          5 Leader cốt cán kiến tạo TopSiVi
+          5 thành viên cốt cán kiến tạo TopSiVi
         </h2>
         <p class="mt-2 text-xs sm:text-sm text-obsidian-700 leading-relaxed">
           Kết hợp giữa tư duy sản phẩm công nghệ và khát vọng mang lại môi trường khởi đầu sự nghiệp lành mạnh cho sinh viên Việt Nam.
@@ -179,7 +185,7 @@ const leaders: Leader[] = [
                 </div>
 
                 <span class="font-mono text-xs font-bold text-obsidian-600 bg-mint/30 px-2.5 py-1 rounded-full">
-                  0{index + 1} • FOUNDER
+                  0{index + 1} • {leader.badgeRole}
                 </span>
               </div>
 
