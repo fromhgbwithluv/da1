@@ -965,7 +965,7 @@
                 >admin@wherejourneybegins.web.id</strong
               >
               hoặc hotline
-              <strong class="font-semibold text-obsidian-900">1900 6868</strong>
+              <strong class="font-semibold text-obsidian-900">1800 6767</strong>
               để được hỗ trợ cấp lại mật khẩu.
             </p>
             <div class="pt-2">
