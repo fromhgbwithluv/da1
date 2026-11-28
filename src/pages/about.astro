@@ -1,11 +1,22 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { url } from '../utils/url';
 
-const leaders = [
+interface Leader {
+  name: string;
+  role: string;
+  initials: string;
+  avatar: string | null;
+  bio: string;
+  tags: string[];
+}
+
+const leaders: Leader[] = [
   {
     name: 'Hoàng Gia Bảo',
     role: 'Founder & Chief Executive Officer (CEO)',
     initials: 'HGB',
+    avatar: '/images/founders/hoang-gia-bao.jpg',
     bio: 'Khởi xướng tầm nhìn TopSiVi với sứ mệnh bảo vệ quyền lợi sinh viên Việt Nam, định hướng chiến lược phát triển nền tảng và kết nối hệ sinh thái nhà trường - doanh nghiệp.',
     tags: ['Chiến lược', 'Quản trị', 'Tầm nhìn'],
   },
@@ -13,6 +24,7 @@ const leaders = [
     name: 'Triệu Sỹ Kha',
     role: 'Co-Founder & Head of Product (CPO)',
     initials: 'TSK',
+    avatar: '/images/founders/trieu-sy-kha.jpg',
     bio: 'Chịu trách nhiệm kiến tạo trải nghiệm người dùng, thiết kế hệ thống phân tầng sinh viên 3 nhóm và chuẩn hóa quy trình xác thực việc làm an toàn.',
     tags: ['Sản phẩm', 'UI/UX', 'Phân tầng SV'],
   },
@@ -20,6 +32,7 @@ const leaders = [
     name: 'Phạm Thanh Lộc',
     role: 'Co-Founder & Head of Engineering (CTO)',
     initials: 'PTL',
+    avatar: '/images/founders/pham-thanh-loc.jpg',
     bio: 'Kiến trúc sư hệ thống kỹ thuật, chịu trách nhiệm hạ tầng công nghệ, tối ưu hóa tốc độ tải trang và an toàn bảo mật dữ liệu ứng viên.',
     tags: ['Kỹ thuật', 'Hạ tầng', 'Bảo mật'],
   },
@@ -27,6 +40,7 @@ const leaders = [
     name: 'Nguyễn Khắc Gia Kiên',
     role: 'Co-Founder & Head of Operations (COO)',
     initials: 'NGK',
+    avatar: '/images/founders/nguyen-khac-gia-kien.jpg',
     bio: 'Điều hành mạng lưới hỗ trợ sinh viên và doanh nghiệp, quản lý quy trình kiểm duyệt tin tuyển dụng nghiêm ngặt và hỗ trợ giải quyết sự cố 24/7.',
     tags: ['Vận hành', 'Kiểm duyệt', 'CSKH 24/7'],
   },
@@ -34,6 +48,7 @@ const leaders = [
     name: 'Nguyễn Gia Minh',
     role: 'Co-Founder & Head of Partnerships (Growth)',
     initials: 'NGM',
+    avatar: null,
     bio: 'Phụ trách phát triển mạng lưới liên kết với hơn 327+ trường Đại học, Cao đẳng trên cả nước và thu hút các đối tác doanh nghiệp uy tín hàng đầu.',
     tags: ['Hợp tác', 'Mạng lưới 327+ ĐH', 'Mở rộng'],
   },
@@ -139,8 +154,27 @@ const leaders = [
           <div class="group rounded-3xl border border-obsidian-900/15 bg-alabaster-100/60 p-6 shadow-swiss-card hover:border-obsidian-900 hover:bg-alabaster-50 transition-all flex flex-col justify-between">
             <div>
               <div class="flex items-start justify-between mb-4">
-                <div class="relative flex h-16 w-16 items-center justify-center rounded-2xl bg-obsidian-900 text-mint font-display font-extrabold text-lg border-2 border-obsidian-900 group-hover:scale-105 transition-transform">
-                  {leader.initials}
+                <div class="relative h-20 w-20 shrink-0 group-hover:scale-105 transition-transform">
+                  {leader.avatar ? (
+                    <img
+                      src={url(leader.avatar)}
+                      alt={leader.name}
+                      loading="lazy"
+                      class="h-full w-full rounded-2xl object-cover object-top border-2 border-obsidian-900 bg-alabaster-50 shadow-xs"
+                    />
+                  ) : (
+                    <div
+                      class="flex h-full w-full flex-col items-center justify-center rounded-2xl bg-alabaster-200/80 text-obsidian-800 border-2 border-dashed border-obsidian-900/35"
+                      title={`${leader.name} (Chưa cập nhật ảnh)`}
+                    >
+                      <svg class="h-7 w-7 text-obsidian-700/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
+                      <span class="font-mono text-[10px] font-bold tracking-wider text-obsidian-900 mt-0.5">
+                        {leader.initials}
+                      </span>
+                    </div>
+                  )}
                   <span class="absolute -bottom-1 -right-1 h-3.5 w-3.5 rounded-full bg-mint border-2 border-alabaster-50"></span>
                 </div>
 
